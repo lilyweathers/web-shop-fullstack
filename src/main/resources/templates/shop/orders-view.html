@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Logged in</b></br>
+<p th:text="${login}"></p>
+<a href="/cart">Cart</a></br>
+<a href="/category">Categories</a></br>
+<a href="/search">Search</a></br>
+<a href="/orders">Orders</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Orders:</b></br>
+<div th:each="order : ${orders}">
+    <span th:text="${order.getName()}"></span>
+    <form action="/order" method="post">
+        <input type="hidden" name="id" th:value="${order.getId()}">
+        <input type="submit" value="View">
+    </form>
+</div>
+</body>
+</html>

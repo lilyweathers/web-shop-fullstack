@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Register new account</b>
+<form th:action="@{/register-user}" method="post" th:object="${customer}">
+    Name: <input type="text" th:field="*{name}"></br>
+    Email: <input type="email" th:field="*{email}"></br>
+    Password: <input type="password" th:field="*{password}"></br>
+    <input type="submit" value="Register">
+</form>
+<p th:text="${regcheck}"></p>
+<a href="/login">Login</a></br>
+<a href="/">Back</a></br>
+</body>
+</html>

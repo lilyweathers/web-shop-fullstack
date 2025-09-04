@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Logged in as Admin</b></br>
+<p th:text="${login}"></p>
+<a href="/admin-pending">Back</a></br>
+<a href="/logout-admin">Logout</a></br></br>
+<b>Confirm order:</b>
+<div th:each="item : ${items}">
+    <span th:text="${item.getCount()}"></span>
+    <span th:text="${item.getProduct()}"></span>
+    <span th:text="${item.getCategory()}"></span>
+    <span th:text="${item.getPrice()}"></span>
+    </form>
+</div>
+<p th:text="${total}"></p>
+<form action="/admin-pending-confirm" method="post">
+    <input type="hidden" name="id" th:value="${id}">
+    <input type="submit" value="Confirm">
+</form>
+<form action="/admin-pending-cancel" method="post">
+    <input type="hidden" name="id" th:value="${id}">
+    <input type="submit" value="Cancel">
+</form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Logged in</b></br>
+<p th:text="${login}"></p>
+<a href="/cart">Cart</a></br>
+<a href="/category">Categories</a></br>
+<a href="/search">Search</a></br>
+<a href="/orders">Orders</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Categories:</b></br>
+<a href="/category">All</a></br>
+<div th:each="category : ${categories}">
+  <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+</div>
+<p th:text="${message}"></p>
+<b>Products:</b></br>
+<div th:each="item : ${products}">
+  <span th:text="${item.getName()}"></span>
+  <span th:text="${item.getCategory()}"></span>
+  <span th:text="${item.getPrice()}"></span>
+  <span>SEK</span>
+  <form action="/add-item-category" method="post">
+    Quantity: <input type="number" name="count" value="1">
+    <input type="hidden" name="selected" th:value="${category}">
+    <input type="hidden" name="id" th:value="${item.getId()}">
+    <input type="submit" value="Buy">
+  </form>
+  <form action="/product" method="post">
+    <input type="hidden" name="id" th:value="${item.getId()}">
+    <input type="submit" value="View">
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Logged in as Admin</b></br>
+<p th:text="${login}"></p>
+<a href="/admin-add">Add Products</a></br>
+<a href="/admin-view">View Products</a></br>
+<a href="/admin-pending">Confirm Orders</a></br>
+<a href="/admin-process">Process Orders</a></br>
+<a href="/admin-dispatch">View Completed Orders</a></br>
+<a href="/admin-cancel">View Canceled Orders</a></br>
+<a href="/logout-admin">Logout</a></br></br>
+<b>Expedited orders:</b>
+<div th:each="order : ${orders}">
+    <span th:text="${order.getName()}"></span>
+    <form action="/admin-dispatch-order" method="post">
+        <input type="hidden" name="id" th:value="${order.getId()}">
+        <input type="submit" value="View">
+    </form>
+</div>
+<p th:text="${message}"></p>
+</body>
+</html>

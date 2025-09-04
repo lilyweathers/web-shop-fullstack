@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<b>Logged in</b></br>
+<p th:text="${login}"></p>
+<a href="/cart">Cart</a></br>
+<a href="/category">Categories</a></br>
+<a href="/search">Search</a></br>
+<a href="/orders">Orders</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Cart:</b></br>
+<div th:each="item : ${items}">
+    <span th:text="${item.getCount()}"></span>
+    <span th:text="${item.getProduct().getName()}"></span>
+    <span th:text="${item.getProduct().getCategory()}"></span>
+    <span th:text="${item.getProduct().getPrice()}"></span>
+    <form action="/update-cart" method="post">
+        <input type="hidden" name="name" th:value="${item.getProduct().getName()}">
+        Quantity: <input type="number" name="count" th:value="${item.getCount()}">
+        <input type="submit" value="Update">
+    </form>
+</div>
+<p th:text="${total}"></p>
+<div th:if="${emptycart} == false">
+    <form action="/clear-cart" method="get">
+        <input type="submit" value="Empty">
+    </form>
+    <form action="/checkout" method="post">
+        <input type="submit" value="Checkout">
+    </form>
+</div>
+<p th:text="${order}"></p>
+</body>
+</html>

@@ -1,0 +1,18 @@
+body {
+    text-align: center;
+    color: white;
+    background-image: url("/images/bg.jpg");
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+h1 {
+    text-align: center;
+}
+
+a {
+    color: white;
+}
+
+a:visited {
+    color: white;
+}
