@@ -25,7 +25,7 @@ nav {
 }
 
 a {
-    color: white !important;
+    color: white;
     text-decoration: none !important;
 }
 
@@ -36,6 +36,7 @@ a:visited {
 a:hover {
     background-color: white;
     color:  #ff99da;
+    text-shadow: 1px 1px white;
 }
 
 .dropdown {
@@ -53,15 +54,21 @@ a:hover {
 }
 
 .dropdown-content a {
-  color: black;
+  color: white;
   text-decoration: none;
   display: block;
   text-align: left;
 }
 
-.dropdown-content a:hover {background-color: white;}
+.dropdown-content a:hover, .dropbtn:hover{
+    background-color: white;
+    color:  #ff99da !important;
+    text-shadow: 1px 1px white;
+}
 
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
 main {
     margin-top: 120px;
@@ -96,7 +103,8 @@ p {
 }
 
 footer {
-    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -105,4 +113,11 @@ footer {
     text-shadow: 1px 1px black;
     background-color: #ff99da;
     width: 100%;
+}
+
+footer p {
+    font-size: large;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
