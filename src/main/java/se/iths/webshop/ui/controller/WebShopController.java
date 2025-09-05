@@ -1,12 +1,18 @@
 package se.iths.webshop.ui.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.Valid;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.CustomerOrder;
 import se.iths.webshop.business.entity.Employee;
@@ -107,6 +113,7 @@ public class WebShopController {
     public String searchView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("products", webShopService.getProducts());
             return "shop/search";
         }
@@ -118,6 +125,7 @@ public class WebShopController {
     public String search(Model model, @RequestParam String text) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("products", webShopService.searchProductsByName(text));
             model.addAttribute("text", text);
             return "shop/search";
@@ -130,6 +138,7 @@ public class WebShopController {
     public String productView(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("product", webShopService.getProduct(id));
             return "shop/product-view";
         }
@@ -261,6 +270,7 @@ public class WebShopController {
     public String cartView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
@@ -274,6 +284,7 @@ public class WebShopController {
     public String orders(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("orders", webShopService.getUserOrders());
             return "shop/orders-view";
         }
@@ -286,6 +297,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("id", id);
             model.addAttribute("name", order.getName());
             model.addAttribute("items", order.getItems());

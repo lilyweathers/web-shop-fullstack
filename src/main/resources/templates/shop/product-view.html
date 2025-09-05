@@ -12,13 +12,21 @@
     <header>
         <h1>Fabric Store</h1>
         <nav>
-            <a th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <a href="/category">Categories</a>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
+			<a th:text="${login}"></a>
+			<a href="/cart">Cart</a>
+			<div class="dropdown">
+					<a href="#" class="dropbtn">Categories</a>
+					<div class="dropdown-content">
+						<a href="/category">All</a>
+						<div th:each="category : ${categories}">
+							<a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+						</div>
+					</div>
+			</div>
+			<a href="/search">Search</a>
+			<a href="/orders">Orders</a>
+			<a href="/logout">Logout</a>
+		</nav>
     </header>
     <main>
         <div th:object="${product}">
@@ -28,7 +36,7 @@
         <span th:text="${product.getPrice()}"></span>
         <span>SEK</span><br />
         <form action="/product-add" method="post">
-            Quantity: <input type="number" name="count" value="1">
+            Quantity <input type="number" name="count" value="1">
             <input type="hidden" name="id" th:value="${product.getId()}"></br>
             <input type="submit" value="Buy">
         </form>

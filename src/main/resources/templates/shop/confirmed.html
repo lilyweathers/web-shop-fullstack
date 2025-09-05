@@ -18,7 +18,7 @@
         </nav>
     </header>
     <main>
-        <h2>Ordered items:</h2>
+        <h2>Ordered items</h2>
         <div th:each="item : ${items}">
             <span th:text="${item.getCount()}"></span>
             <span th:text="${item.getProduct()}"></span>

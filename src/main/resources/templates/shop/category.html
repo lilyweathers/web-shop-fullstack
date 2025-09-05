@@ -14,30 +14,33 @@
 		<nav>
 			<a th:text="${login}"></a>
 			<a href="/cart">Cart</a>
-			<a href="/category">Categories</a>
+			<div class="dropdown">
+					<a href="#" class="dropbtn">Categories</a>
+					<div class="dropdown-content">
+						<a href="/category">All</a>
+						<div th:each="category : ${categories}">
+							<a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+						</div>
+					</div>
+			</div>
 			<a href="/search">Search</a>
 			<a href="/orders">Orders</a>
 			<a href="/logout">Logout</a>
 		</nav>
 	</header>
 	<main>
-		<h2>Categories:</h2>
-		<a href="/category">All</a></br>
-		<div th:each="category : ${categories}">
-			<a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
-		</div>
 		<p th:text="${message}"></p>
-		<h2>Products:</h2>
+		<h2>Products</h2>
 		<div th:if="${#lists.isEmpty(products)}">
-            <p>No products found</p>
-        </div>
+			<p>No products found</p>
+		</div>
 		<div th:each="item : ${products}">
 			<span th:text="${item.getName()}"></span>
 			<span th:text="${item.getCategory()}"></span>
 			<span th:text="${item.getPrice()}"></span>
 			<span>SEK</span>
 			<form action="/add-item-category" method="post">
-				Quantity: <input type="number" name="count" value="1">
+				Quantity <input type="number" name="count" value="1">
 				<input type="hidden" name="selected" th:value="${category}">
 				<input type="hidden" name="id" th:value="${item.getId()}">
 				<input type="submit" value="Buy">

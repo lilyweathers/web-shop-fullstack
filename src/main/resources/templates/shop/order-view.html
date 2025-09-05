@@ -12,13 +12,21 @@
     <header>
         <h1>Fabric Store</h1>
         <nav>
-            <a th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <a href="/category">Categories</a>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
+			<a th:text="${login}"></a>
+			<a href="/cart">Cart</a>
+			<div class="dropdown">
+					<a href="#" class="dropbtn">Categories</a>
+					<div class="dropdown-content">
+						<a href="/category">All</a>
+						<div th:each="category : ${categories}">
+							<a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+						</div>
+					</div>
+			</div>
+			<a href="/search">Search</a>
+			<a href="/orders">Orders</a>
+			<a href="/logout">Logout</a>
+		</nav>
     </header>
     <main>
         <p th:text="${name}"></p>

@@ -20,7 +20,8 @@ nav {
     font-family:'Arial Narrow Bold', sans-serif;
     display: block;
     font-size: larger;
-    margin-bottom: 25px;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 a {
@@ -32,8 +33,38 @@ a:visited {
     color: white;
 }
 
+a:hover {
+    background-color: white;
+    color:  #ff99da;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ff99da;
+  min-width: 95px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: white;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
 main {
-    margin-top: 200px;
+    margin-top: 120px;
 }
 
 main a {
@@ -48,6 +79,11 @@ section {
 article {
     margin-left: 20%;
     margin-right: 20%;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 h2 {
