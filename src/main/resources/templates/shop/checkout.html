@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Store</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Logged in</b></br>
-<p th:text="${login}"></p>
-<a href="/cart">Back</a></br>
-<a href="/logout">Logout</a></br></br>
-<b>Confirm order:</b></br>
-<div th:each="item : ${items}">
-    <span th:text="${item.getCount()}"></span>
-    <span th:text="${item.getProduct().getName()}"></span>
-    <span th:text="${item.getProduct().getCategory()}"></span>
-    <span th:text="${item.getProduct().getPrice()}"></span>
-    </form>
-</div>
-<p th:text="${total}"></p>
-<form action="/place-order" method="post">
-    <input type="submit" value="Confirm">
-</form>
+    <header>
+        <h1>Fabric Store</h1>
+        <nav>
+            <a th:text="${login}"></a>
+            <a href="/cart">Back</a></br>
+            <a href="/logout">Logout</a></br></br>
+        </nav>
+    </header>
+    <main>
+        <h2>Confirm order:</h2>
+        <div th:each="item : ${items}">
+            <span th:text="${item.getCount()}"></span>
+            <span th:text="${item.getProduct().getName()}"></span>
+            <span th:text="${item.getProduct().getCategory()}"></span>
+            <span th:text="${item.getProduct().getPrice()}"></span>
+            </form>
+        </div>
+        <p th:text="${total}"></p>
+        <form action="/place-order" method="post">
+            <input type="submit" value="Confirm">
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
 </body>
+
 </html>

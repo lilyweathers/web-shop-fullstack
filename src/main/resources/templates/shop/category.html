@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/style.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fabric Store</title>
+	<link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Logged in</b></br>
-<p th:text="${login}"></p>
-<a href="/cart">Cart</a></br>
-<a href="/category">Categories</a></br>
-<a href="/search">Search</a></br>
-<a href="/orders">Orders</a></br>
-<a href="/logout">Logout</a></br></br>
-<b>Categories:</b></br>
-<a href="/category">All</a></br>
-<div th:each="category : ${categories}">
-  <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
-</div>
-<p th:text="${message}"></p>
-<b>Products:</b></br>
-<div th:each="item : ${products}">
-  <span th:text="${item.getName()}"></span>
-  <span th:text="${item.getCategory()}"></span>
-  <span th:text="${item.getPrice()}"></span>
-  <span>SEK</span>
-  <form action="/add-item-category" method="post">
-    Quantity: <input type="number" name="count" value="1">
-    <input type="hidden" name="selected" th:value="${category}">
-    <input type="hidden" name="id" th:value="${item.getId()}">
-    <input type="submit" value="Buy">
-  </form>
-  <form action="/product" method="post">
-    <input type="hidden" name="id" th:value="${item.getId()}">
-    <input type="submit" value="View">
-  </form>
-</div>
+	<header>
+		<h1>Fabric Store</h1>
+		<nav>
+			<a th:text="${login}"></a>
+			<a href="/cart">Cart</a>
+			<a href="/category">Categories</a>
+			<a href="/search">Search</a>
+			<a href="/orders">Orders</a>
+			<a href="/logout">Logout</a>
+		</nav>
+	</header>
+	<main>
+		<h2>Categories:</h2>
+		<a href="/category">All</a></br>
+		<div th:each="category : ${categories}">
+			<a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+		</div>
+		<p th:text="${message}"></p>
+		<h2>Products:</h2>
+		<div th:if="${#lists.isEmpty(products)}">
+            <p>No products found</p>
+        </div>
+		<div th:each="item : ${products}">
+			<span th:text="${item.getName()}"></span>
+			<span th:text="${item.getCategory()}"></span>
+			<span th:text="${item.getPrice()}"></span>
+			<span>SEK</span>
+			<form action="/add-item-category" method="post">
+				Quantity: <input type="number" name="count" value="1">
+				<input type="hidden" name="selected" th:value="${category}">
+				<input type="hidden" name="id" th:value="${item.getId()}">
+				<input type="submit" value="Buy">
+			</form>
+			<form action="/product" method="post">
+				<input type="hidden" name="id" th:value="${item.getId()}">
+				<input type="submit" value="View">
+			</form>
+		</div>
+	</main>
+	<footer>
+		<p>&copy; 2025 Lily Sainte-Claire</p>
+	</footer>
 </body>
+
 </html>

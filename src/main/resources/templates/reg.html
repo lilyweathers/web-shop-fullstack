@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Web Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Store - Register</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Register new account</b>
-<form th:action="@{/register-user}" method="post" th:object="${customer}">
-    Name: <input type="text" th:field="*{name}"></br>
-    Email: <input type="email" th:field="*{email}"></br>
-    Password: <input type="password" th:field="*{password}"></br>
-    <input type="submit" value="Register">
-</form>
-<p th:text="${regcheck}"></p>
-<a href="/login">Login</a></br>
-<a href="/">Back</a></br>
+    <header>
+        <h1>Fabric Store</h1>
+    </header>
+    <main>
+        <h2>Register new account</h2>
+        <form th:action="@{/register-user}" method="post" th:object="${customer}">
+            <input type="text" th:field="*{name}" placeholder="Name"></br>
+            <input type="email" th:field="*{email}" placeholder="Email"></br>
+            <input type="password" th:field="*{password}" placeholder="Password"></br>
+            <input type="submit" value="Register">
+        </form>
+        <p th:text="${regcheck}"></p>
+        <a href="/login">Login</a></br>
+        <a href="/">Back</a></br>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
 </body>
+
 </html>

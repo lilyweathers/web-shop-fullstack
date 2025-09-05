@@ -5,12 +5,25 @@ body {
     font-family:Georgia, 'Times New Roman', Times, serif
 }
 
+main a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
 h1 {
     text-align: center;
 }
 
+nav {
+    font-family:'Arial Narrow Bold', sans-serif;
+    display: block;
+    font-size: larger;
+    margin-bottom: 25px;
+}
+
 a {
-    color: white;
+    color: white !important;
+    text-decoration: none !important;
 }
 
 a:visited {
