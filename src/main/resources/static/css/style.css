@@ -5,13 +5,15 @@ body {
     font-family:Georgia, 'Times New Roman', Times, serif
 }
 
-main a {
-    color: white !important;
-    text-decoration: none !important;
-}
-
-h1 {
+header {
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
     text-align: center;
+    text-shadow: 1px 1px black;
+    background-color: #ff99da;
+    width: 100%;
 }
 
 nav {
@@ -28,4 +30,43 @@ a {
 
 a:visited {
     color: white;
+}
+
+main {
+    margin-top: 200px;
+}
+
+main a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+section {
+
+}
+
+article {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+h2 {
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+p {
+    font-size: large;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+footer {
+    margin: auto;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    align-items: flex-end;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: 1px 1px black;
+    background-color: #ff99da;
+    width: 100%;
 }
