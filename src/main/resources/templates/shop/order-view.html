@@ -12,7 +12,7 @@
     <header>
         <h1>Fabric Store</h1>
         <nav>
-			<a th:text="${login}"></a>
+			<a href="/profile" th:text="${login}"></a>
 			<a href="/cart">Cart</a>
 			<div class="dropdown">
 					<a href="#" class="dropbtn">Categories</a>
@@ -34,16 +34,16 @@
             <span th:text="${item.getName()}"></span>
         </div>
         <p th:text="${total}"></p>
-        <div th:if="${confirm} == false and ${process} == false and ${cancel} == false">
+        <div class="order-status" th:if="${confirm} == false and ${process} == false and ${cancel} == false">
             Order has been placed.
         </div>
-        <div th:if="${confirm} == true">
+        <div class="order-status" th:if="${confirm} == true">
             Order has been confirmed.
         </div>
-        <div th:if="${process} == true">
+        <div class="order-status" th:if="${process} == true">
             Order has been sent.
         </div>
-        <div th:if="${cancel} == true">
+        <div class="order-status" th:if="${cancel} == true">
             Order has been canceled.
         </div></br>
         <div th:if="${cancel} == false and ${process} == false">

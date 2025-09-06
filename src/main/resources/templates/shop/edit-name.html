@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Store</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Fabric Store</h1>
+        <nav>
+            <a th:text="${login}"></a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Update Name</h2>
+        <form action="/edit-name" method="post">
+            <input type="text" name="newName" placeholder="Name"></br>
+            <input type="submit" value="Submit">
+        </form>
+        <a href="/profile">Back</a></br>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
+</body>
+
+</html>

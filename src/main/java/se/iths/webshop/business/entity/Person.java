@@ -1,6 +1,14 @@
 package se.iths.webshop.business.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -43,8 +51,9 @@ public abstract class Person {
         return id;
     }
 
-    public void setEmail(String email) {
+    public Person setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public void setPassword(String password) {

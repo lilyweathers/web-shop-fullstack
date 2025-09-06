@@ -1,18 +1,24 @@
 package se.iths.webshop.business.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
-import se.iths.webshop.business.entity.*;
+
+import se.iths.webshop.business.entity.Customer;
+import se.iths.webshop.business.entity.CustomerOrder;
+import se.iths.webshop.business.entity.Employee;
+import se.iths.webshop.business.entity.OrderLine;
+import se.iths.webshop.business.entity.Person;
+import se.iths.webshop.business.entity.Product;
 import se.iths.webshop.business.model.Cart;
 import se.iths.webshop.business.model.CartItem;
 import se.iths.webshop.data.repository.OrderRepository;
 import se.iths.webshop.data.repository.PersonRepository;
 import se.iths.webshop.data.repository.ProductRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @SessionScope
@@ -108,6 +114,33 @@ public class WebShopService {
                 return "Account created!";
 
         } else return "Account already exists!";
+    }
+
+    public String updateName(String email, String newName) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+        if (!optionalPerson.isEmpty()) {
+                personRepository.findByEmail(email).get().setName(newName);
+                return "Name updated!";
+
+        } else return "Could not update name!";
+    }
+
+    public String updateEmail(String email, String newEmail) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(newEmail);
+        if (optionalPerson.isEmpty()) {
+                personRepository.findByEmail(email).get().setEmail(newEmail);
+                return "E-mail updated!";
+
+        } else return "E-mail already in use!";
+    }
+
+    public String updatePass(String email, String newPass) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+        if (!optionalPerson.isEmpty()) {
+                personRepository.findByEmail(email).get().setPassword(newPass);
+                return "Password updated!";
+
+        } else return "Could not update name!";
     }
 
     public String loginUser(String email, String password) {

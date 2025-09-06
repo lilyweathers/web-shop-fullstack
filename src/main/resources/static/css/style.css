@@ -1,8 +1,8 @@
 body {
     text-align: center;
-    color: white;
+    color: #ff99da;
     background-image: url("/images/bg.jpg");
-    font-family:Georgia, 'Times New Roman', Times, serif
+    font-family: Georgia, 'Times New Roman', Times, serif
 }
 
 header {
@@ -12,57 +12,60 @@ header {
     left: 0;
     text-align: center;
     text-shadow: 1px 1px black;
-    background-color: #ff99da;
+    background-color: white;
+    background-image: url("/images/bg-weave-white.png");
+    background-position-y: -12px;
     width: 100%;
 }
 
 nav {
-    font-family:'Arial Narrow Bold', sans-serif;
+    font-family: 'Arial Narrow Bold', sans-serif;
     display: block;
     font-size: larger;
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 a {
-    color: white;
+    color: #ff99da;
     text-decoration: none !important;
 }
 
 a:visited {
-    color: white;
+    color: #ff99da;
 }
 
 a:hover {
-    background-color: white;
-    color:  #ff99da;
+    background-color: #ff99da;
+    color: white;
     text-shadow: 1px 1px white;
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #ff99da;
-  min-width: 95px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: rgb(236, 236, 236);
+    min-width: 95px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .dropdown-content a {
-  color: white;
-  text-decoration: none;
-  display: block;
-  text-align: left;
+    color: ff99da;
+    text-decoration: none;
+    display: block;
+    text-align: left;
 }
 
-.dropdown-content a:hover, .dropbtn:hover{
-    background-color: white;
-    color:  #ff99da !important;
+.dropdown-content a:hover,
+.dropbtn:hover {
+    background-color: #ff99da;
+    color: white !important;
     text-shadow: 1px 1px white;
 }
 
@@ -72,6 +75,7 @@ a:hover {
 
 main {
     margin-top: 120px;
+    color: white;
 }
 
 main a {
@@ -80,7 +84,7 @@ main a {
 }
 
 section {
-
+    color: white;
 }
 
 article {
@@ -89,17 +93,46 @@ article {
 }
 
 h1 {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
 h2 {
+    color: white;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
 p {
+    color: white;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+span {
+    color: white;
+    font-size: large;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+form {
+    color: white;
+    font-size: large;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+.order-status {
+    color: white;
+    font-size: large;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+.profile-list {
+    text-align: left;
+    margin-left: 40%
+}
+
+.input-invisible {
+    display: none;
 }
 
 footer {
@@ -111,7 +144,8 @@ footer {
     align-items: flex-end;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-shadow: 1px 1px black;
-    background-color: #ff99da;
+    background-color: #eae7e5;
+    background-position-y: -5px;
     width: 100%;
 }
 

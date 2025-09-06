@@ -330,6 +330,102 @@ public class WebShopController {
         return "login";
     }
 
+    @GetMapping("/profile")
+    public String profileView(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "shop/profile";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/edit-profile")
+    public String profileProfile(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "shop/edit-profile";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/edit-name")
+    public String editName(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "shop/edit-name";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/edit-name")
+    public String editName(Model model, @RequestParam String newName) {
+        if (newName.length() <= 2 && newName.length() <= 30) {
+            model.addAttribute("edit-profile", "Name must be between 2 and 30 characters");
+        } else {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            webShopService.updateName(webShopService.getUser().getEmail(), newName);
+            model.addAttribute("edit-profile", "Name Updated");
+        }
+        return "shop/edit-name";
+    }
+
+    @GetMapping("/edit-mail")
+    public String editMail(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "shop/edit-mail";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/edit-mail")
+    public String editMail(Model model, @RequestParam String newEmail, BindingResult br) {
+        if (br.hasErrors()) {
+            model.addAttribute("edit-profile", "Must be a valid e-mail");
+        } else {
+            String check =  webShopService.updateEmail(webShopService.getUser().getEmail(), newEmail);
+            model.addAttribute("edit-profile", check);
+        }
+        return "shop/edit-mail";
+    }
+
+    @GetMapping("/edit-pass")
+    public String editPass(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "shop/edit-pass";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/edit-pass")
+    public String editPass(Model model, @RequestParam String newPass, BindingResult br) {
+        if (br.hasErrors()) {
+            model.addAttribute("edit-profile", "Password must be between 5 and 20 characters");
+        } else {
+            String check =  webShopService.updatePass(webShopService.getUser().getEmail(), newPass);
+            model.addAttribute("edit-profile", check);
+        }
+        return "shop/edit-pass";
+    }
+
     @GetMapping("/logout")
     public String logoutUser(Model model) {
         String logout = webShopService.logoutUser();
