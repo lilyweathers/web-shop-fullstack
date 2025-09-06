@@ -8,10 +8,10 @@
 <body>
 <b>Register new admin account</b>
 <form th:action="@{/register-admin}" method="post" th:object="${employee}">
-    Name: <input type="text" th:field="*{name}"></br>
-    Email: <input type="email" th:field="*{email}"></br>
+    Name: <input class="input" type="text" th:field="*{name}"></br>
+    Email: <input class="input" type="email" th:field="*{email}"></br>
     Password: <input type="password" th:field="*{password}"></br>
-    <input type="submit" value="Register">
+    <input class="btn" type="submit" value="Register">
 </form>
 <p th:text="${regcheck}"></p>
 <a href="/login-admin">Login</a></br>

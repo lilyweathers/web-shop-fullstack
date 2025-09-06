@@ -32,10 +32,10 @@
         <h2>Update Name</h2>
         <p>[(${login})]</p>
         <form th:action="@{/edit-name}" method="post" th:object="${customer}">
-            <input type="text" th:field="*{name}" placeholder="Enter new name"></br>
+            <input class="input" type="text" th:field="*{name}" placeholder="Enter new name"></br>
             <input class="hidden" type="email" th:value="${email}" th:name="email">
             <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
-            <input type="password" th:name="oldPassword" placeholder="Enter your password"></br>
+            <input class="input" type="password" th:name="oldPassword" placeholder="Enter your password"></br>
             <input class="btn-update" type="submit" value="Update">
         </form>
         <p th:text="${edit}"></p>

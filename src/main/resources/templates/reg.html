@@ -20,10 +20,10 @@
     <main>
         <h2>Register new account</h2>
         <form th:action="@{/register-user}" method="post" th:object="${customer}">
-            <input type="text" th:field="*{name}" placeholder="Name"></br>
-            <input type="email" th:field="*{email}" placeholder="Email"></br>
+            <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
+            <input class="input" type="email" th:field="*{email}" placeholder="Email"></br>
             <input type="password" th:field="*{password}" placeholder="Password"></br>
-            <input type="submit" value="Register">
+            <input class="btn" type="submit" value="Register">
         </form>
         <p th:text="${regcheck}"></p>
         <a href="/login">Login</a></br>

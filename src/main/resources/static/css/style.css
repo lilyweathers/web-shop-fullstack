@@ -138,21 +138,33 @@ form {
     font-size: medium;
 }
 
-.btn-update {
+.btn-update, .btn {
     background-color: transparent;
     color: #ffffff !important;
     margin-top: 5px;
-    border-radius: 5px;
-    padding: 5px;
-    border: 1px solid transparent;
+    padding: 0px;
+    border: none;
     font-size: medium;
 }
-.btn-update:hover {
+.btn-update:hover, .btn:hover {
     background-color: #ff99da;
 }
 
 .hidden {
     display: none;
+}
+
+.input {
+    border-radius: 5px;
+    max-width: 250px;
+    height: 30px;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    border: none;
+}
+
+.input:focus {
+    outline: 3px solid #ff99da !important;
 }
 
 footer {

@@ -30,12 +30,12 @@
     </header>
     <main>
         <h2>Update E-mail</h2>
-        <p>Email: [(${email})]</p>
+        <p>[(${email})]</p>
         <form th:action="@{/edit-email}" method="post" th:object="${customer}">
             <input class="hidden" type="name" th:value="${login}" th:name="name">
-            <input type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
+            <input class="input" type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
             <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
-            <input type="password" th:name="oldPassword" placeholder="Enter your password"></br>
+            <input class="input" type="password" th:name="oldPassword" placeholder="Enter your password"></br>
             <input class="btn-update" type="submit" value="Update">
         </form>
         <p th:text="${edit}"></p>
