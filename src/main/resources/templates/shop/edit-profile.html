@@ -12,6 +12,7 @@
     <header>
         <h1>Fabric Store</h1>
         <nav>
+            <a href="/home">Home</a>
             <a href="/profile" th:text="${login}"></a>
             <a href="/cart">Cart</a>
             <div class="dropdown">
@@ -19,7 +20,7 @@
                 <div class="dropdown-content">
                     <a href="/category">All</a>
                     <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
                     </div>
                 </div>
             </div>
@@ -29,7 +30,7 @@
         </nav>
     </header>
     <main>
-        <h2>Update Profile</h2>
+        <h2 class="h2-top">Update Profile</h2>
         <div class="profile-list">
             <a href="/edit-name">Name: [(${login})]</a>
             <a href="/edit-email">E-mail: [(${email})]</a>

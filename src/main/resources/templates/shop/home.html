@@ -28,38 +28,15 @@
 			<a href="/orders">Orders</a>
 			<a href="/logout">Logout</a>
 		</nav>
+		<p th:text="${message}"></p>
 	</header>
 	<main>
-		<p th:text="${message}"></p>
 		<section>
-			<article class="article-category">
-				<h2 class="h2-top">Products</h2>
-				<div th:if="${#lists.isEmpty(products)}">
-					<p>No products found</p>
-				</div>
-				<div th:each="item : ${products}">
-					<span th:text="${item.getName()}"></span>
-					<span th:text="${item.getCategory()}"></span>
-					<span th:text="${item.getPrice()}"></span>
-					<span>SEK</span>
-					<form action="/add-item-category" method="post">
-						Quantity <input type="number" name="count" value="1">
-						<input type="hidden" name="selected" th:value="${category}">
-						<input type="hidden" name="id" th:value="${item.getId()}">
-						<input type="submit" value="Buy">
-					</form>
-					<form action="/product" method="post">
-						<input type="hidden" name="id" th:value="${item.getId()}">
-						<input type="submit" value="View">
-					</form>
-				</div>
+			<article>
+				<h2 class="h2-top">Your trusted source for fabrics and threads</h2>
 			</article>
-			<article class="article-category"><img class="img-index" src="/images/folded_fabrics.jpeg">
-				<h2>Your everyday companion for weaving ideas into reality</h2>
-			</article>
-			<article class="article-category">
-				<div id="article-index">
-					<p class="article-text">
+			<article><img class=".img-home" src="/images/thread_spools.jpg">
+				<div id="article-home"><p class="article-text">
 						Step into a world of colour, texture, and endless possibility! Our store is filled with
 						carefully
 						chosen woven
@@ -88,9 +65,13 @@
 						unfold—one stitch at a time.
 						<br><br>
 						Welcome, and happy creating!
+					</p>
 				</div>
 			</article>
-			<article><img class="img-index" src="/images/pillows.jpg">
+			<article>
+				<h2>Fabrics that inspire, threads that connect</h2>
+				<img class="img-index" src="/images/fabric_stacks.jpg">
+			</article>
 		</section>
 	</main>
 	<footer>

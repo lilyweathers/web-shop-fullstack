@@ -13,8 +13,8 @@ CREATE TABLE product (
 	PRIMARY KEY (id)
 );
 
-INSERT INTO product (category, description, name, price) VALUES ('Phone', 'The latest iPhone model', 'iPhone 14', 12000.0);
-INSERT INTO product (category, description, name, price) VALUES ('Laptop', 'The fastest MacBook Pro', 'MacBook Pro', 24000.0);
-INSERT INTO product (category, description, name, price) VALUES ('TV', 'New OLED TV from Sony', 'SONY 50" 4K TV', 17000.0);
-INSERT INTO product (category, description, name, price) VALUES ('Phone', 'The latest Samsung phone', 'Samsung Galaxy 22', 11000.0);
+INSERT INTO product (category, description, name, price) VALUES ('Linen', 'White linen fabric', 'White fabric', 300.0);
+INSERT INTO product (category, description, name, price) VALUES ('Knit', 'Soft grey knitted fabric', 'Grey fabric', 250.0);
+INSERT INTO product (category, description, name, price) VALUES ('Wool', 'Warm beige wool fabric', 'Beige fabric', 200.0);
+INSERT INTO product (category, description, name, price) VALUES ('Silk', 'Smooth black silk fabric', 'Black fabric', 400.0);
 

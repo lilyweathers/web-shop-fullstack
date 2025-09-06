@@ -18,14 +18,23 @@
         </nav>
     </header>
     <main>
-        <h2>Login</h2>
-        <form action="/login" method="post">
-            <input class="input" type="email" name="email" placeholder="Email"></br>
-            <input class="input" type="password" name="password" placeholder="Password"></br>
-            <input class="btn" type="submit" value="Login">
-        </form>
-        <p th:text="${login}"></p>
-        <a href="/">Back</a></br>
+        <section>
+            <article>
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <form action="/login" method="post">
+                        <input class="input" type="email" name="email" placeholder="Email"></br>
+                        <input class="input" type="password" name="password" placeholder="Password"></br>
+                        <input class="btn" type="submit" value="Login">
+                    </form>
+                    <p th:text="${login}"></p>
+                    <a href="/">Back</a></br>
+                </div>
+            </article>
+        </section>
+        <article>
+            <img class="img-login" src="/images/stacked_fabrics.jpg">
+        </article>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

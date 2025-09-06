@@ -94,7 +94,7 @@ public class WebShopController {
             return "login";
         }
         model.addAttribute("categories", webShopService.getCategories());
-        return "shop/category";
+        return "shop/home";
     }
 
     @PostMapping("/login-admin")
@@ -106,6 +106,18 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             return "admin/admin-products";
         }
+        return "login";
+    }
+
+    @GetMapping("/home")
+    public String home(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("products", webShopService.getProducts());
+            return "shop/home";
+        }
+        model.addAttribute("login", "Please log in first");
         return "login";
     }
 
