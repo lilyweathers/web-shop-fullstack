@@ -12,7 +12,7 @@
     <header>
         <h1>Fabric Store</h1>
         <nav>
-            <a th:text="${login}"></a>
+            <a href="/profile" th:text="${login}"></a>
             <a href="/cart">Cart</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Categories</a>
@@ -30,11 +30,16 @@
     </header>
     <main>
         <h2>Update E-mail</h2>
-        <form action="/edit-mail" method="post">
-            <input type="email" name="newEmail" placeholder="E-mail"></br>
-            <input type="submit" value="Submit">
+        <p>Email: [(${email})]</p>
+        <form th:action="@{/edit-email}" method="post" th:object="${customer}">
+            <input class="hidden" type="name" th:value="${login}" th:name="name">
+            <input type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
+            <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
+            <input type="password" th:name="oldPassword" placeholder="Enter your password"></br>
+            <input class="btn-update" type="submit" value="Update">
         </form>
-        <a href="/profile">Back</a></br>
+        <p th:text="${edit}"></p>
+        <a href="/profile">Back</a>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

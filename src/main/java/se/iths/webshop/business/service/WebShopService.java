@@ -110,37 +110,63 @@ public class WebShopService {
     public String registerUser(Customer customer) {
         Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
         if (optionalPerson.isEmpty()) {
-                user = personRepository.save(customer);
-                return "Account created!";
+            user = personRepository.save(customer);
+            return "Account created!";
 
         } else return "Account already exists!";
     }
 
-    public String updateName(String email, String newName) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+    public String updateUser(Customer customer) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
         if (!optionalPerson.isEmpty()) {
-                personRepository.findByEmail(email).get().setName(newName);
+            optionalPerson.get().setName(customer.getName());
+            optionalPerson.get().setEmail(customer.getEmail());
+            optionalPerson.get().setPassword(customer.getPassword());
+            user = personRepository.save(optionalPerson.get());
+            return "Account updated!";
+
+        } else return "Failed to update";
+    }
+    public String updateName(Customer customer, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setName(customer.getName());
+                user = personRepository.save(optionalPerson.get());
                 return "Name updated!";
+            } else {
+                return "Wrong password!";
+            }
 
-        } else return "Could not update name!";
+        } else return "Failed to update";
     }
 
-    public String updateEmail(String email, String newEmail) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(newEmail);
-        if (optionalPerson.isEmpty()) {
-                personRepository.findByEmail(email).get().setEmail(newEmail);
-                return "E-mail updated!";
-
-        } else return "E-mail already in use!";
-    }
-
-    public String updatePass(String email, String newPass) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+    public String updateEmail(Customer customer, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-                personRepository.findByEmail(email).get().setPassword(newPass);
-                return "Password updated!";
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setEmail(customer.getEmail());
+                user = personRepository.save(optionalPerson.get());
+                return "E-mail updated!";
+            } else {
+                return "Wrong password!";
+            }
 
-        } else return "Could not update name!";
+        } else return "Failed to update";
+    }
+
+    public String updatePassword(Customer customer, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setPassword(customer.getPassword());
+                user = personRepository.save(optionalPerson.get());
+                return "Password updated!";
+            } else {
+                return "Wrong password!";
+            }
+
+        } else return "Failed to update";
     }
 
     public String loginUser(String email, String password) {

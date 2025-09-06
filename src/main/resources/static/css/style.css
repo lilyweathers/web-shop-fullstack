@@ -128,10 +128,30 @@ form {
 
 .profile-list {
     text-align: left;
-    margin-left: 40%
+    margin-left: 40%;
+    display: flex !important;
+    flex-direction: column;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+.profile-list span {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: medium;
 }
 
-.input-invisible {
+.btn-update {
+    background-color: transparent;
+    color: #ffffff !important;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid transparent;
+    font-size: medium;
+}
+.btn-update:hover {
+    background-color: #ff99da;
+}
+
+.hidden {
     display: none;
 }
 
