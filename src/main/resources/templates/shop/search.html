@@ -14,53 +14,101 @@
         <h1>Fabric Store</h1>
         <nav>
             <a href="/home">Home</a>
-			<a href="/profile" th:text="${login}"></a>
-			<a href="/cart">Cart</a>
-			<div class="dropdown">
-					<a href="#" class="dropbtn">Categories</a>
-					<div class="dropdown-content">
-						<a href="/category">All</a>
-						<div th:each="category : ${categories}">
-							<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
-						</div>
-					</div>
-			</div>
-			<a href="/search">Search</a>
-			<a href="/orders">Orders</a>
-			<a href="/logout">Logout</a>
-		</nav>
+            <a href="/profile" th:text="${login}"></a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </nav>
     </header>
     <main>
-        <h2 class="h2-top">Search products</h2>
-        <form action="/search" method="post">
-            <input type="text" name="text" th:value="${text}">
-            <input type="submit" value="Search">
-        </form>
-        <p th:text="${message}"></p>
-        <div th:if="${#lists.isEmpty(products)} and ${not #strings.isEmpty(text)}">
-            <p>No products found</p>
-        </div>
-        <div th:if="${#lists.isEmpty(products)} and ${#strings.isEmpty(text)}">
-        </div>
-        <div th:if="${not #lists.isEmpty(products)} and ${not #strings.isEmpty(text)}">
-            <h2>Results</h2>
-            <div th:each="item : ${products}">
-                <span th:text="${item.getName()}"></span>
-                <span th:text="${item.getCategory()}"></span>
-                <span th:text="${item.getPrice()}"></span>
-                <span>SEK</span>
-                <form action="/add-item" method="post">
-                    Quantity <input type="number" name="count" value="1">
-                    <input type="hidden" name="id" th:value="${item.getId()}">
-                    <input type="hidden" name="searched" th:value="${text}">
-                    <input type="submit" value="Buy">
-                </form>
-                <form action="/product" method="post">
-                    <input type="hidden" name="id" th:value="${item.getId()}">
-                    <input type="submit" value="View">
-                </form>
+        <article>
+            <h2 class="h2-top">Search products</h2>
+            <form action="/search" method="post">
+                <div>
+                    <input type="radio" id="contactChoice1" name="searchBy" value="name" checked />
+                    <label for="contactChoice1">Name</label>
+                    <input type="radio" id="contactChoice2" name="searchBy" value="category" />
+                    <label for="contactChoice2">Category</label>
+                </div>
+                <input type="text" name="text" th:value="${text}">
+                <input type="submit" value="Search">
+            </form>
+            <p th:text="${message}"></p>
+            <div th:if="${#lists.isEmpty(products)} and ${not #strings.isEmpty(text)}">
+                <p>No products found</p>
             </div>
-        </div> 
+            <div th:if="${#lists.isEmpty(products)} and ${#strings.isEmpty(text)}">
+            </div>
+            <div th:if="${not #lists.isEmpty(products)} and ${not #strings.isEmpty(text)}">
+                <h2>Results</h2>
+                <div class="products-grid">
+                    <div th:each="item : ${products}">
+                        <span th:text="${item.getName()}"></span>
+                        <span th:text="${item.getCategory()}"></span>
+                        <span th:text="${item.getPrice()}"></span>
+                        <span>SEK</span>
+                        <form action="/add-item" method="post">
+                            Qty <input class="quantity" type="number" name="count" value="1">
+                            <input type="hidden" name="id" th:value="${item.getId()}">
+                            <input type="hidden" name="searched" th:value="${text}">
+                            <input type="submit" value="Buy">
+                        </form>
+                        <form action="/product" method="post">
+                            <input type="hidden" name="id" th:value="${item.getId()}">
+                            <input type="submit" value="View">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="article-category"><img class="img-index" src="/images/folded_fabrics.jpeg">
+            <h2>Your everyday companion for weaving ideas into reality</h2>
+        </article>
+        <article class="article-category">
+            <div id="article-index">
+                <p class="article-text">
+                    Step into a world of colour, texture, and endless possibility! Our store is filled with
+                    carefully
+                    chosen woven
+                    fabrics and vibrant threads, perfect for anyone who loves to create. Whether you’re a seasoned
+                    maker
+                    or just
+                    beginning your sewing journey, you’ll find materials here that spark your imagination and bring
+                    your
+                    projects
+                    to life.
+                    <br><br>
+                    Every fabric we offer is selected for its quality and feel, and every spool of thread is chosen
+                    to
+                    make stitching
+                    smoother, brighter, and more enjoyable. From soft cottons to richly textured weaves, our
+                    collection
+                    is designed to
+                    inspire and support you through every step of your creative process.
+                    <br><br>
+                    Whether you’re designing a new outfit, piecing together a quilt, or adding handmade touches to
+                    your
+                    home, we’re here
+                    to provide the tools and inspiration you need. Explore our shelves, find your favourites, and
+                    let
+                    your creativity
+                    unfold—one stitch at a time.
+                    <br><br>
+                    Welcome, and happy creating!
+            </div>
+        </article>
+        <article><img class="img-index" src="/images/pillows.jpg">
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

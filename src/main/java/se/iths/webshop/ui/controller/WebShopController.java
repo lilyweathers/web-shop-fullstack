@@ -134,11 +134,15 @@ public class WebShopController {
     }
 
     @PostMapping("/search")
-    public String search(Model model, @RequestParam String text) {
+    public String search(Model model, @RequestParam String text, @RequestParam(value = "searchBy", required = true) String searchBy) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.searchProductsByName(text));
+            if ("name".equals(searchBy)) {
+                model.addAttribute("products", webShopService.searchProductsByName(text));
+            } else if ("category".equals(searchBy)){
+                model.addAttribute("products", webShopService.searchProductsByCategory(text));
+            }
             model.addAttribute("text", text);
             return "shop/search";
         }
