@@ -13,48 +13,56 @@
         <h1>Fabric Store</h1>
         <nav>
             <a href="/home">Home</a>
-			<a href="/profile" th:text="${login}"></a>
-			<a href="/cart">Cart</a>
-			<div class="dropdown">
-					<a href="#" class="dropbtn">Categories</a>
-					<div class="dropdown-content">
-						<a href="/category">All</a>
-						<div th:each="category : ${categories}">
-							<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
-						</div>
-					</div>
-			</div>
-			<a href="/search">Search</a>
-			<a href="/orders">Orders</a>
-			<a href="/logout">Logout</a>
-		</nav>
+            <a href="/profile" th:text="${login}"></a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </nav>
     </header>
     <main>
-        <h2 class="h2-top">Cart</h2>
-        <div th:if="${#lists.isEmpty(items)}">
-            <p>Cart is empty</p>
-        </div>
-        <div th:each="item : ${items}">
-            <span th:text="${item.getCount()}"></span>
-            <span th:text="${item.getProduct().getName()}"></span>
-            <span th:text="${item.getProduct().getCategory()}"></span>
-            <span th:text="${item.getProduct().getPrice()}"></span>
-            <form action="/update-cart" method="post">
-                <input type="hidden" name="name" th:value="${item.getProduct().getName()}">
-                Qty <input class="quantity" type="number" name="count" th:value="${item.getCount()}">
-                <input type="submit" value="Update">
-            </form>
-        </div>
-        <p th:text="${total}"></p>
-        <div th:if="${emptycart} == false">
-            <form action="/clear-cart" method="get">
-                <input type="submit" value="Empty">
-            </form>
-            <form action="/checkout" method="post">
-                <input type="submit" value="Checkout">
-            </form>
-        </div>
-        <p th:text="${order}"></p>
+        <section>
+            <article>
+                <h2 class="h2-top">Cart</h2>
+                <div th:if="${#lists.isEmpty(items)}">
+                    <p>Cart is empty</p>
+                </div>
+                <div th:each="item : ${items}">
+                    <span th:text="${item.getCount()}"></span>
+                    <span th:text="${item.getProduct().getName()}"></span>
+                    <span th:text="${item.getProduct().getCategory()}"></span>
+                    <span th:text="${item.getProduct().getPrice()}"></span>
+                    <form action="/update-cart" method="post">
+                        <input type="hidden" name="name" th:value="${item.getProduct().getName()}">
+                        Qty <input class="quantity" type="number" name="count" th:value="${item.getCount()}">
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+                <p th:text="${total}"></p>
+                <div th:if="${emptycart} == false">
+                    <form action="/clear-cart" method="get">
+                        <input type="submit" value="Empty">
+                    </form>
+                    <form action="/checkout" method="post">
+                        <input type="submit" value="Checkout">
+                    </form>
+                </div>
+                <p th:text="${order}"></p>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

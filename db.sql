@@ -21,4 +21,5 @@ INSERT INTO product (category, description, name, price) VALUES ('Fur', 'Leopard
 INSERT INTO product (category, description, name, price) VALUES ('Silk', 'Soft gold silk fabric', 'Gold silk', 250.0);
 INSERT INTO product (category, description, name, price) VALUES ('Cloth', 'terry cloth fabric', 'Terry cloth', 200.0);
 INSERT INTO product (category, description, name, price) VALUES ('Cloth', 'Vivid pink cloth fabric', 'Pink cloth', 400.0);
+INSERT INTO product (category, description, name, price) VALUES ('Cloth', 'Dark blue cloth fabric', 'Blue cloth', 250.0);
 

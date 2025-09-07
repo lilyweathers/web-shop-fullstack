@@ -13,46 +13,54 @@
         <h1>Fabric Store</h1>
         <nav>
             <a href="/home">Home</a>
-			<a href="/profile" th:text="${login}"></a>
-			<a href="/cart">Cart</a>
-			<div class="dropdown">
-					<a href="#" class="dropbtn">Categories</a>
-					<div class="dropdown-content">
-						<a href="/category">All</a>
-						<div th:each="category : ${categories}">
-							<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
-						</div>
-					</div>
-			</div>
-			<a href="/search">Search</a>
-			<a href="/orders">Orders</a>
-			<a href="/logout">Logout</a>
-		</nav>
+            <a href="/profile" th:text="${login}"></a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </nav>
     </header>
     <main>
-        <p th:text="${name}"></p>
-        <div th:each="item : ${items}">
-            <span th:text="${item.getName()}"></span>
-        </div>
-        <p th:text="${total}"></p>
-        <div class="order-status" th:if="${confirm} == false and ${process} == false and ${cancel} == false">
-            Order has been placed.
-        </div>
-        <div class="order-status" th:if="${confirm} == true">
-            Order has been confirmed.
-        </div>
-        <div class="order-status" th:if="${process} == true">
-            Order has been sent.
-        </div>
-        <div class="order-status" th:if="${cancel} == true">
-            Order has been canceled.
-        </div></br>
-        <div th:if="${cancel} == false and ${process} == false">
-            <form action="/order-cancel" method="post">
-                <input type="hidden" name="id" th:value="${id}">
-                <input type="submit" value="Cancel">
-            </form>
-        </div>
+        <section>
+            <article>
+                <p th:text="${name}"></p>
+                <div th:each="item : ${items}">
+                    <span th:text="${item.getName()}"></span>
+                </div>
+                <p th:text="${total}"></p>
+                <div class="order-status" th:if="${confirm} == false and ${process} == false and ${cancel} == false">
+                    Order has been placed.
+                </div>
+                <div class="order-status" th:if="${confirm} == true">
+                    Order has been confirmed.
+                </div>
+                <div class="order-status" th:if="${process} == true">
+                    Order has been sent.
+                </div>
+                <div class="order-status" th:if="${cancel} == true">
+                    Order has been canceled.
+                </div></br>
+                <div th:if="${cancel} == false and ${process} == false">
+                    <form action="/order-cancel" method="post">
+                        <input type="hidden" name="id" th:value="${id}">
+                        <input type="submit" value="Cancel">
+                    </form>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

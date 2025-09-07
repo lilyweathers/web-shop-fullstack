@@ -20,7 +20,8 @@
                 <div class="dropdown-content">
                     <a href="/category">All</a>
                     <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
                     </div>
                 </div>
             </div>
@@ -30,14 +31,21 @@
         </nav>
     </header>
     <main>
-        <h2 class="h2-top">Update Profile</h2>
-        <div class="profile-list">
-            <a href="/edit-name">Name: [(${login})]</a>
-            <a href="/edit-email">E-mail: [(${email})]</a>
-            <a href="/edit-password">Password: ********</a>
-            </br>
-            <a href="/profile">Back</a>
-        </div>
+        <section>
+            <article>
+                <h2 class="h2-top">Update Profile</h2>
+                <div class="profile-list">
+                    <a href="/edit-name">Name: [(${login})]</a>
+                    <a href="/edit-email">E-mail: [(${email})]</a>
+                    <a href="/edit-password">Password: ********</a>
+                    </br>
+                    <a href="/profile">Back</a>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

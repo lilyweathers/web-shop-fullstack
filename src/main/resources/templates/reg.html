@@ -14,20 +14,28 @@
         <nav>
             <a href="/login">Login</a>
             <a href="/register-user">Register</a>
-            <a href="/admin">Admin</a></main>
         </nav>
     </header>
     <main>
-        <h2>Register new account</h2>
-        <form th:action="@{/register-user}" method="post" th:object="${customer}">
-            <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
-            <input class="input" type="email" th:field="*{email}" placeholder="Email"></br>
-            <input class="input" type="password" th:field="*{password}" placeholder="Password"></br>
-            <input class="btn" type="submit" value="Register">
-        </form>
-        <p th:text="${regcheck}"></p>
-        <a href="/login">Login</a></br>
-        <a href="/">Back</a></br>
+        <section>
+            <article>
+                <div class="login-container">
+                    <h2>Register new account</h2>
+                    <form th:action="@{/register-user}" method="post" th:object="${customer}">
+                        <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
+                        <input class="input" type="email" th:field="*{email}" placeholder="Email"></br>
+                        <input class="input" type="password" th:field="*{password}" placeholder="Password"></br>
+                        <input class="btn" type="submit" value="Register">
+                    </form>
+                    <p th:text="${regcheck}"></p>
+                    <a href="/login">Login</a></br>
+                    <a href="/">Back</a></br>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

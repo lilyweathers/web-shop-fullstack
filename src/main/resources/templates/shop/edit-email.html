@@ -20,7 +20,8 @@
                 <div class="dropdown-content">
                     <a href="/category">All</a>
                     <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
                     </div>
                 </div>
             </div>
@@ -30,17 +31,24 @@
         </nav>
     </header>
     <main>
-        <h2 class="h2-top">Update E-mail</h2>
-        <p>[(${email})]</p>
-        <form th:action="@{/edit-email}" method="post" th:object="${customer}">
-            <input class="hidden" type="name" th:value="${login}" th:name="name">
-            <input class="input" type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
-            <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
-            <input class="input" type="password" th:name="oldPassword" placeholder="Enter your password"></br>
-            <input class="btn-update" type="submit" value="Update">
-        </form>
-        <p th:text="${edit}"></p>
-        <a href="/profile">Back</a>
+        <section>
+            <article class="article-profile">
+                <h2 class="h2-top">Update E-mail</h2>
+                <p>[(${email})]</p>
+                <form th:action="@{/edit-email}" method="post" th:object="${customer}">
+                    <input class="hidden" type="name" th:value="${login}" th:name="name">
+                    <input class="input" type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
+                    <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
+                    <input class="input" type="password" th:name="oldPassword" placeholder="Enter your password"></br>
+                    <input class="btn-update" type="submit" value="Update">
+                </form>
+                <p th:text="${edit}"></p>
+                <a href="/profile">Back</a>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>
