@@ -14,23 +14,44 @@
         <nav>
             <a href="/home">Home</a>
             <a href="/profile" th:text="${login}"></a>
-            <a href="/cart">Back</a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
             <a href="/logout">Logout</a>
         </nav>
     </header>
     <main>
-        <h2>Confirm order</h2>
-        <div th:each="item : ${items}">
-            <span th:text="${item.getCount()}"></span>
-            <span th:text="${item.getProduct().getName()}"></span>
-            <span th:text="${item.getProduct().getCategory()}"></span>
-            <span th:text="${item.getProduct().getPrice()}"></span>
-            </form>
-        </div>
-        <p th:text="${total}"></p>
-        <form action="/place-order" method="post">
-            <input type="submit" value="Confirm">
-        </form>
+        <section>
+            <article class="confirmed-order">
+                <h2 class="h2-top">Confirm order</h2>
+                <div th:each="item : ${items}">
+                    <span th:text="${item.getCount()}"></span>
+                    <span th:text="${item.getProduct().getName()}"></span>
+                    <span th:text="${item.getProduct().getCategory()}"></span>
+                    <span th:text="${item.getProduct().getPrice()}"></span>
+                    </form>
+                </div>
+                <div>
+                    <p th:text="${total}"></p>
+                    <form action="/place-order" method="post">
+                        <input class="btn" type="submit" value="Confirm">
+                    </form>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

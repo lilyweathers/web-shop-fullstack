@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Web Shop Login</title>
-  <link rel="stylesheet" href="/css/style.css" />
+    <meta charset="UTF-8">
+    <h1>Fabric Store Admin</h1>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Login Admin</b>
-<form action="/login-admin" method="post">
-  Email: <input class="input" type="email" name="email"></br>
-  Password: <input class="input" type="password" name="password"></br>
-  <input class="btn" type="submit" value="Login">
-</form>
-<p th:text="${login}"></p>
-<a href="/admin">Back</a></br>
+    <header>
+        <h1>Fabric Store Admin</h1>
+        <nav>
+            <a href="/login-admin">Login</a>
+            <a href="/register-admin">Register</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <article>
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <form action="/login-admin" method="post">
+                        <input class="input" type="email" name="email" placeholder="Email"></br>
+                        <input class="input" type="password" name="password" placeholder="Password"></br>
+                        <input class="btn" type="submit" value="Login">
+                    </form>
+                    <p th:text="${login}"></p>
+                    <a href="/admin">Back</a></br>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
 </body>
+
 </html>

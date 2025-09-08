@@ -270,6 +270,10 @@ form {
     cursor: pointer;
 }
 
+.confirmed-order {
+    margin-bottom: 20px;
+}
+
 .hidden {
     display: none;
 }

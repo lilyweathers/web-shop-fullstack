@@ -1,42 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Web Shop</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Logged in as Admin</b></br>
-<p th:text="${login}"></p>
-<a href="/admin-add">Add Products</a></br>
-<a href="/admin-view">View Products</a></br>
-<a href="/admin-pending">Confirm Orders</a></br>
-<a href="/admin-process">Process Orders</a></br>
-<a href="/admin-dispatch">View Completed Orders</a></br>
-<a href="/admin-cancel">View Canceled Orders</a></br>
-<a href="/logout-admin">Logout</a></br></br>
-<b>Remove Product</b></br>
-<form action="/remove" method="post">
-    Product ID: <input type="text" name="id"></br>
-    <input type="hidden" name="text" th:value="${text}">
-    <input type="submit" value="Remove"></form></br>
-<b>Search products:</b></br>
-<form action="/admin-search" method="post">
-    <input type="text" name="text" th:value="${text}">
-    <input type="submit" value="Search">
-</form>
-<p th:text="${remove}"></p></br>
-<b>Products:</b></br>
-<div th:each="item : ${products}">
-    <span th:text="${item.getName()}"></span>
-    <span th:text="${item.getCategory()}"></span>
-    <span th:text="${item.getPrice()}"></span>
-    ID: <span th:text="${item.getId()}"></span>
-    <form action="/remove" method="post">
-        <input type="hidden" name="id" th:value="${item.getId()}">
-        <input type="hidden" name="text" th:value="${text}">
-        <input type="submit" value="Remove">
-    </form>
-</div>
+    <header>
+        <h1>Fabric Store Admin</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/admin-profile" th:text="${login}"></a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/admin-add">Add Products</a>
+                    <a href="/admin-view">View Products</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Orders</a>
+                <div class="dropdown-content">
+                    <a href="/admin-pending">Confirm Orders</a>
+                    <a href="/admin-process">Process Orders</a>
+                    <a href="/admin-dispatch">Completed Orders</a>
+                    <a href="/admin-cancel">Canceled Orders</a>
+                </div>
+            </div>
+            <a href="/logout-admin">Logout</a></br>
+        </nav>
+        <p th:text="${message}"></p>
+    </header>
+    <main>
+        <section>
+            <article>
+                <h2 class="h2-top">Remove Product</h2>
+                <form action="/remove" method="post">
+                    Product ID: <input type="text" name="id"></br>
+                    <input type="hidden" name="text" th:value="${text}">
+                    <input type="submit" value="Remove">
+                </form></br>
+                <h2>Search products:</h2>
+                <form action="/admin-search" method="post">
+                    <input type="text" name="text" th:value="${text}">
+                    <input type="submit" value="Search">
+                </form>
+                <p th:text="${remove}"></p></br>
+                <h2>Products:</h2>
+                <div th:each="item : ${products}">
+                    <span th:text="${item.getName()}"></span>
+                    <span th:text="${item.getCategory()}"></span>
+                    <span th:text="${item.getPrice()}"></span>
+                    ID: <span th:text="${item.getId()}"></span>
+                    <form action="/remove" method="post">
+                        <input type="hidden" name="id" th:value="${item.getId()}">
+                        <input type="hidden" name="text" th:value="${text}">
+                        <input type="submit" value="Remove">
+                    </form>
+                </div>
+                <p th:text="${message}"></p>
+            </article>
+            <article class="article-category">
+                <h2 class="h2-top">Products</h2>
+                <div th:if="${#lists.isEmpty(products)}">
+                    <p>No products found</p>
+                </div>
+                <div class="products-grid">
+                    <div th:each="item : ${products}">
+                        <span th:text="${item.getName()}"></span>
+                        <span th:text="${item.getCategory()}"></span>
+                        <span th:text="${item.getPrice()}"></span>
+                        <span>SEK</span>
+                        <form action="/add-item-category" method="post">
+                            Qty <input class="quantity" type="number" name="count" value="1">
+                            <input type="hidden" name="selected" th:value="${category}">
+                            <input type="hidden" name="id" th:value="${item.getId()}">
+                            <input class="btn" type="submit" value="Buy">
+                        </form>
+                        <form action="/product" method="post">
+                            <input type="hidden" name="id" th:value="${item.getId()}">
+                            <input class="btn" type="submit" value="View">
+                        </form>
+                    </div>
+                </div>
+            </article>
+            <article class="article-category"><img class="img-index" src="/images/folded_fabrics.jpeg">
+                <h2>Your everyday companion for weaving ideas into reality</h2>
+            </article>
+            <article class="article-category">
+                <div id="article-index">
+                    <p class="article-text">
+                        Step into a world of colour, texture, and endless possibility! Our store is filled with
+                        carefully
+                        chosen woven
+                        fabrics and vibrant threads, perfect for anyone who loves to create. Whether you’re a seasoned
+                        maker
+                        or just
+                        beginning your sewing journey, you’ll find materials here that spark your imagination and bring
+                        your
+                        projects
+                        to life.
+                        <br><br>
+                        Every fabric we offer is selected for its quality and feel, and every spool of thread is chosen
+                        to
+                        make stitching
+                        smoother, brighter, and more enjoyable. From soft cottons to richly textured weaves, our
+                        collection
+                        is designed to
+                        inspire and support you through every step of your creative process.
+                        <br><br>
+                        Whether you’re designing a new outfit, piecing together a quilt, or adding handmade touches to
+                        your
+                        home, we’re here
+                        to provide the tools and inspiration you need. Explore our shelves, find your favourites, and
+                        let
+                        your creativity
+                        unfold—one stitch at a time.
+                        <br><br>
+                        Welcome, and happy creating!
+                </div>
+            </article>
+            <article><img class="img-index" src="/images/pillows.jpg">
+        </section>
+    </main>
 </body>
+
 </html>

@@ -116,6 +116,59 @@ public class WebShopService {
         } else return "Account already exists!";
     }
 
+        public String adminUpdateUser(Employee employee) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(employee.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            optionalPerson.get().setName(employee.getName());
+            optionalPerson.get().setEmail(employee.getEmail());
+            optionalPerson.get().setPassword(employee.getPassword());
+            user = personRepository.save(optionalPerson.get());
+            return "Account updated!";
+
+        } else return "Failed to update";
+    }
+    public String adminUpdateName(Employee employee, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setName(employee.getName());
+                user = personRepository.save(optionalPerson.get());
+                return "Name updated!";
+            } else {
+                return "Wrong password!";
+            }
+
+        } else return "Failed to update";
+    }
+
+    public String adminUpdateEmail(Employee employee, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setEmail(employee.getEmail());
+                user = personRepository.save(optionalPerson.get());
+                return "E-mail updated!";
+            } else {
+                return "Wrong password!";
+            }
+
+        } else return "Failed to update";
+    }
+
+    public String adminUpdatePassword(Employee employee, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
+        if (!optionalPerson.isEmpty()) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                optionalPerson.get().setPassword(employee.getPassword());
+                user = personRepository.save(optionalPerson.get());
+                return "Password updated!";
+            } else {
+                return "Wrong password!";
+            }
+
+        } else return "Failed to update";
+    }
+
     public String updateUser(Customer customer) {
         Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
         if (!optionalPerson.isEmpty()) {

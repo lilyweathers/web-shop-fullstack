@@ -31,10 +31,10 @@
 		</nav>
 	</header>
 	<main>
-		<p th:text="${message}"></p>
 		<section>
 			<article class="article-category">
 				<h2 class="h2-top">Products</h2>
+				<p th:text="${message}"></p>
 				<div th:if="${#lists.isEmpty(products)}">
 					<p>No products found</p>
 				</div>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Store</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Fabric Store Admin</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/admin-profile" th:text="${login}"></a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/admin-add">Add Products</a>
+                    <a href="/admin-view">View Products</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Orders</a>
+                <div class="dropdown-content">
+                    <a href="/admin-pending">Confirm Orders</a>
+                    <a href="/admin-process">Process Orders</a>
+                    <a href="/admin-dispatch">Completed Orders</a>
+                    <a href="/admin-cancel">Canceled Orders</a>
+                </div>
+            </div>
+            <a href="/logout-admin">Logout</a></br>
+        </nav>
+        <p th:text="${message}"></p>
+    </header>
+    <main>
+        <section>
+            <article>
+                <h2 class="h2-top">Update Profile</h2>
+                <div class="profile-list">
+                    <a href="/admin-edit-name">Name: [(${login})]</a>
+                    <a href="/admin-edit-email">E-mail: [(${email})]</a>
+                    <a href="/admin-edit-password">Password: ********</a>
+                    </br>
+                    <a href="/admin-profile">Back</a>
+                </div>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
+</body>
+
+</html>

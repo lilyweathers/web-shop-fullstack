@@ -505,6 +505,151 @@ public class WebShopController {
         return "admin/admin";
     }
 
+        @GetMapping("/admin-profile")
+    public String adminProfileView(Model model) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            return "admin/admin-profile";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+    }
+
+    @GetMapping("/admin-edit-profile")
+    public String adminEditProfile(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            model.addAttribute("edit-profile", "");
+            return "admin/admin-edit-profile";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+    }
+
+    @PostMapping("/admin-edit-profile")
+    public String adminUpdateProfile(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", employee.getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+        }
+        if (br.hasErrors()) {
+            model.addAttribute("regcheck", "Name must be between 2 and 30 characters, password must be between 5 and 20 characters");
+        } else {
+            String check =  webShopService.adminUpdateUser(employee);
+            model.addAttribute("edit-profile", check);
+            return "admin/admin-edit-profile";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+    }
+
+    @GetMapping("/admin-edit-name")
+    public String adminEditName(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            model.addAttribute("edit", "");
+            return "admin/admin-edit-name";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+    }
+
+    @PostMapping("/admin-edit-name")
+    public String adminUpdateName(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br, @RequestParam(value = "oldPassword", required = true) String password) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", employee.getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            if (br.hasErrors()) {
+                model.addAttribute("edit", "Name must be between 2 and 30 characters");
+                return "admin/admin-edit-name";
+            } else {
+                String check =  webShopService.adminUpdateName(employee, password);
+                model.addAttribute("edit", check);
+                return "admin/admin-edit-name";
+            }
+        } else {
+            model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+        }
+    }
+
+    @GetMapping("/admin-edit-email")
+    public String adminEditEmail(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            model.addAttribute("edit", "");
+            return "admin/admin-edit-email";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin/admin-login";
+    }
+
+    @PostMapping("/admin-edit-email")
+    public String adminUpdateEmail(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br, @RequestParam(value = "oldPassword", required = true) String password) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", employee.getEmail());
+            if (br.hasErrors()) {
+                model.addAttribute("edit", "Must be a valid e-mail address");
+            } else {
+                String check =  webShopService.adminUpdateEmail(employee, password);
+                model.addAttribute("edit", check);
+                return "admin/admin-edit-email";
+            }
+        } else {
+            model.addAttribute("login", "Please log in first");
+        }
+        return "admin/admin-login";
+    }
+
+        @GetMapping("/admin-edit-password")
+    public String adminEditPassword(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            model.addAttribute("edit", "");
+            return "admin/admin-edit-password";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "admin-login";
+    }
+
+    @PostMapping("/admin-edit-password")
+    public String adminUpdatePassword(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br, @RequestParam(value = "repeatedPassword", required = true) String repeatedPassword , @RequestParam(value = "oldPassword", required = true) String password) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("email", webShopService.getUser().getEmail());
+            if (br.hasErrors()) {
+                model.addAttribute("edit", "Password must be between 5 and 20 characters");
+                return "admin/admin-edit-password";
+            } else {
+                if (employee.getPassword().equals(repeatedPassword)) {
+                    String check =  webShopService.adminUpdatePassword(employee, password);
+                    model.addAttribute("edit", check);
+                } else {
+                    model.addAttribute("edit", "Please repeat the new password");
+                }
+                return "admin/admin-edit-password";
+            }
+        } else {
+            model.addAttribute("login", "Please log in first");
+        }
+        return "admin/admin-login";
+    }
+
     @GetMapping("admin-add")
     public String adminViewAdd(Model model) {
         if (webShopService.getUser() instanceof Employee) {
