@@ -1,7 +1,7 @@
 body {
     text-align: center;
     color: #ff99da;
-    background-color: #ff7cb2;
+    background-color: #f791bb;
     font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0px;
 }
@@ -194,7 +194,7 @@ section {
 }
 
 .login-container {
-    background-color: #ff7cb2;
+    background-color: inherit;
 }
 
 h1 {

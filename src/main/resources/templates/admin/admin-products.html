@@ -49,42 +49,20 @@
                 </form>
                 <p th:text="${remove}"></p></br>
                 <h2>Products:</h2>
-                <div th:each="item : ${products}">
-                    <span th:text="${item.getName()}"></span>
-                    <span th:text="${item.getCategory()}"></span>
-                    <span th:text="${item.getPrice()}"></span>
-                    ID: <span th:text="${item.getId()}"></span>
-                    <form action="/remove" method="post">
-                        <input type="hidden" name="id" th:value="${item.getId()}">
-                        <input type="hidden" name="text" th:value="${text}">
-                        <input type="submit" value="Remove">
-                    </form>
-                </div>
-                <p th:text="${message}"></p>
-            </article>
-            <article class="article-category">
-                <h2 class="h2-top">Products</h2>
-                <div th:if="${#lists.isEmpty(products)}">
-                    <p>No products found</p>
-                </div>
                 <div class="products-grid">
                     <div th:each="item : ${products}">
                         <span th:text="${item.getName()}"></span>
                         <span th:text="${item.getCategory()}"></span>
                         <span th:text="${item.getPrice()}"></span>
-                        <span>SEK</span>
-                        <form action="/add-item-category" method="post">
-                            Qty <input class="quantity" type="number" name="count" value="1">
-                            <input type="hidden" name="selected" th:value="${category}">
+                        ID: <span th:text="${item.getId()}"></span>
+                        <form action="/remove" method="post">
                             <input type="hidden" name="id" th:value="${item.getId()}">
-                            <input class="btn" type="submit" value="Buy">
-                        </form>
-                        <form action="/product" method="post">
-                            <input type="hidden" name="id" th:value="${item.getId()}">
-                            <input class="btn" type="submit" value="View">
+                            <input type="hidden" name="text" th:value="${text}">
+                            <input type="submit" value="Remove">
                         </form>
                     </div>
                 </div>
+                <p th:text="${message}"></p>
             </article>
             <article class="article-category"><img class="img-index" src="/images/folded_fabrics.jpeg">
                 <h2>Your everyday companion for weaving ideas into reality</h2>
