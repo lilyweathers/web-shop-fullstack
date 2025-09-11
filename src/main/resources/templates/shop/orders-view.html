@@ -32,17 +32,19 @@
     </header>
     <main>
         <section>
-            <article>
+            <article class="article-order">
                 <h2 class="h2-top">Orders</h2>
                 <div th:if="${#lists.isEmpty(orders)}">
                     <p>No orders found</p>
                 </div>
+                <div class="grid-order">
                 <div th:each="order : ${orders}">
                     <span th:text="${order.getName()}"></span>
                     <form action="/order" method="post">
                         <input type="hidden" name="id" th:value="${order.getId()}">
-                        <input type="submit" value="View">
+                        <input class="btn" type="submit" value="View">
                     </form>
+                </div>
                 </div>
             </article>
             <article>

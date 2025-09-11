@@ -9,40 +9,48 @@
 </head>
 
 <body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/home">Home</a>
+	<header>
+		<h1>Fabric Store</h1>
+		<nav>
+			<a href="/home">Home</a>
 			<a href="/profile" th:text="${login}"></a>
 			<a href="/cart">Cart</a>
 			<div class="dropdown">
-					<a href="#" class="dropbtn">Categories</a>
-					<div class="dropdown-content">
-						<a href="/category">All</a>
-						<div th:each="category : ${categories}">
-							<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link" th:text="${category}"></span></a>
-						</div>
+				<a href="#" class="dropbtn">Categories</a>
+				<div class="dropdown-content">
+					<a href="/category">All</a>
+					<div th:each="category : ${categories}">
+						<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+								th:text="${category}"></span></a>
 					</div>
+				</div>
 			</div>
 			<a href="/search">Search</a>
 			<a href="/orders">Orders</a>
 			<a href="/logout">Logout</a>
 		</nav>
-    </header>
+	</header>
     <main>
-        <div th:object="${product}">
-        <b><span th:text="${product.getName()}"></span></b><br />
-        <span th:text="${product.getCategory()}"></span></br></br>
-        <span th:text="${product.getDescription()}"></span></br></br>
-        <span th:text="${product.getPrice()}"></span>
-        <span>SEK</span><br />
-        <form action="/product-add" method="post">
-            Quantity <input type="number" name="count" value="1">
-            <input type="hidden" name="id" th:value="${product.getId()}"></br>
-            <input type="submit" value="Buy">
-        </form>
-    </div>
-    <p th:text="${message}"></p>
+        <section>
+            <article>
+                <div th:object="${product}">
+                    <h2 class="h2-top"><span th:text="${product.getName()}"></span></h2>
+                    <span th:text="${product.getCategory()}"></span></br></br>
+                    <span th:text="${product.getDescription()}"></span></br></br>
+                    <span th:text="${product.getPrice()}"></span>
+                    <span>SEK</span><br />
+                    <form action="/product-add" method="post">
+                        Qty <input class="quantity" type="number" name="count" value="1">
+                        <input type="hidden" name="id" th:value="${product.getId()}">
+                        <input class="btn" type="submit" value="Buy">
+                    </form>
+                </div>
+                <p th:text="${message}"></p>
+            </article>
+            <article>
+                <img class="img-orders" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 Lily Sainte-Claire</p>

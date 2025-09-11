@@ -38,7 +38,7 @@
 				<div th:if="${#lists.isEmpty(products)}">
 					<p>No products found</p>
 				</div>
-				<div class="products-grid">
+				<div class="grid-product">
 					<div th:each="item : ${products}">
 						<span th:text="${item.getName()}"></span>
 						<span th:text="${item.getCategory()}"></span>

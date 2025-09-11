@@ -165,6 +165,7 @@ public class WebShopController {
     public String productAdd(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("product", webShopService.getProduct(id));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop/product-view";

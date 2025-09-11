@@ -90,7 +90,7 @@ section {
     color: white;
 }
 
-.products-grid {
+.grid-product, .grid-order {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-flow: row;
@@ -189,7 +189,7 @@ section {
     z-index: 900;
 }
 
-.article-profile {
+.article-profile, .article-order {
     margin-bottom: 25px;
 }
 

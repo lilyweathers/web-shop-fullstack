@@ -1,28 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Web Shop</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-<b>Logged in as Admin</b></br>
-<p th:text="${login}"></p>
-<a href="/admin-add">Add Products</a></br>
-<a href="/admin-view">View Products</a></br>
-<a href="/admin-pending">Confirm Orders</a></br>
-<a href="/admin-process">Process Orders</a></br>
-<a href="/admin-dispatch">View Completed Orders</a></br>
-<a href="/admin-cancel">View Canceled Orders</a></br>
-<a href="/logout-admin">Logout</a></br></br>
-<b>Add Product</b>
-<form th:action="@{/admin-add}" method="post" th:object="${product}">
-    Name: <input type="text" th:field="*{name}"></br>
-    Category: <input type="text" th:field="*{category}"></br>
-    Price: <input type="text" th:field="*{price}"></br>
-    Description: <input type="text" th:field="*{description}"></br>
-    <input type="submit" value="Add">
-</form>
-<p th:text="${addResult}"></p></br>
+    <header>
+        <h1>Fabric Store Admin</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/admin-profile" th:text="${login}"></a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/admin-add">Add Products</a>
+                    <a href="/admin-view">View Products</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Orders</a>
+                <div class="dropdown-content">
+                    <a href="/admin-pending">Confirm Orders</a>
+                    <a href="/admin-process">Process Orders</a>
+                    <a href="/admin-dispatch">Completed Orders</a>
+                    <a href="/admin-cancel">Canceled Orders</a>
+                </div>
+            </div>
+            <a href="/logout-admin">Logout</a></br>
+        </nav>
+        <p th:text="${message}"></p>
+    </header>
+    <main>
+        <section>
+            <article>
+                <h2 class="h2-top">Add Product</b>
+                <form th:action="@{/admin-add}" method="post" th:object="${product}">
+                    Name: <input type="text" th:field="*{name}"></br>
+                    Category: <input type="text" th:field="*{category}"></br>
+                    Price: <input type="text" th:field="*{price}"></br>
+                    Description: <input type="text" th:field="*{description}"></br>
+                    <input type="submit" value="Add">
+                </form>
+                <p th:text="${addResult}"></p></br>
+            </article>
+            <article>
+                <img class="img-login" src="/images/stacked_fabrics.jpg">
+            </article>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lily Sainte-Claire</p>
+    </footer>
 </body>
+
 </html>

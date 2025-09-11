@@ -45,11 +45,11 @@
                 <h2>Search products:</h2>
                 <form action="/admin-search" method="post">
                     <input type="text" name="text" th:value="${text}">
-                    <input type="submit" value="Search">
+                    <input class="btn" type="submit" value="Search">
                 </form>
                 <p th:text="${remove}"></p></br>
                 <h2>Products:</h2>
-                <div class="products-grid">
+                <div class="grid-product">
                     <div th:each="item : ${products}">
                         <span th:text="${item.getName()}"></span>
                         <span th:text="${item.getCategory()}"></span>
@@ -58,7 +58,7 @@
                         <form action="/remove" method="post">
                             <input type="hidden" name="id" th:value="${item.getId()}">
                             <input type="hidden" name="text" th:value="${text}">
-                            <input type="submit" value="Remove">
+                            <input class="btn" type="submit" value="Remove">
                         </form>
                     </div>
                 </div>
