@@ -9,33 +9,33 @@
 </head>
 
 <body>
-	<header>
-		<h1>Fabric Store</h1>
-		<nav>
-			<a href="/home">Home</a>
-			<a href="/profile" th:text="${login}"></a>
-			<a href="/cart">Cart</a>
-			<div class="dropdown">
-				<a href="#" class="dropbtn">Categories</a>
-				<div class="dropdown-content">
-					<a href="/category">All</a>
-					<div th:each="category : ${categories}">
-						<a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
-								th:text="${category}"></span></a>
-					</div>
-				</div>
-			</div>
-			<a href="/search">Search</a>
-			<a href="/orders">Orders</a>
-			<a href="/logout">Logout</a>
-		</nav>
-	</header>
+    <header>
+        <h1>Fabric Store</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/profile" th:text="${login}"></a>
+            <a href="/cart">Cart</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Categories</a>
+                <div class="dropdown-content">
+                    <a href="/category">All</a>
+                    <div th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
+                                th:text="${category}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <a href="/search">Search</a>
+            <a href="/orders">Orders</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
     <main>
         <section>
             <article>
                 <div th:object="${product}">
-                    <img class="product-image" src="/images/${product.img}">
                     <h2 class="h2-top"><span th:text="${product.getName()}"></span></h2>
+                    <span><img class="product-image" th:src="${product.getImg()}"></span></br>
                     <span th:text="${product.getCategory()}"></span></br></br>
                     <span th:text="${product.getDescription()}"></span></br></br>
                     <span th:text="${product.getPrice()}"></span>

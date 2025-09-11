@@ -1,7 +1,7 @@
 body {
     text-align: center;
-    color: #ff99da;
-    background-color: #f791bb;
+    color: #a67a7a;
+    background-color: #d7d3c8;
     font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0px;
 }
@@ -18,7 +18,7 @@ header {
     background-position-y: -12px;
     width: 100%;
     z-index: 999;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 nav {
@@ -30,16 +30,16 @@ nav {
 }
 
 a {
-    color: #ff99da;
+    color: #a67a7a;
     text-decoration: none !important;
 }
 
 a:visited {
-    color: #ff99da;
+    color: #a67a7a;
 }
 
 a:hover {
-    background-color: #ff99da;
+    background-color: #a67a7a;
     color: white;
     text-shadow: 1px 1px white;
 }
@@ -59,7 +59,7 @@ a:hover {
 }
 
 .dropdown-content a, .dropdown-link {
-    color: #ff99da;
+    color: #a67a7a;
     text-decoration: none;
     display: block;
     text-align: left;
@@ -67,7 +67,7 @@ a:hover {
 
 .dropdown-content a:hover,
 .dropbtn:hover {
-    background-color: #ff99da;
+    background-color: #a67a7a;
     color: white !important;
     text-shadow: 1px 1px white;
 }
@@ -78,16 +78,16 @@ a:hover {
 
 main {
     margin-top: 104px;
-    color: white;
+    color: #a67a7a;
 }
 
 main a {
-    color: white !important;
+    color: #a67a7a !important;
     text-decoration: none !important;
 }
 
 section {
-    color: white;
+    color: #a67a7a;
 }
 
 .grid-product, .grid-order {
@@ -120,6 +120,11 @@ section {
     border: none;
 }
 
+.article-landing {
+    z-index: 900;
+    color: rgb(236, 236, 236);
+}
+
 .article-text {
     z-index: 900;
 }
@@ -129,7 +134,7 @@ section {
     width: 100vw;
     height: 30vh;
     object-fit: cover;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 .img-home {
@@ -138,7 +143,7 @@ section {
     height: auto !important;
     max-height: 50vh;
     object-fit: cover;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 .img-index2 {
@@ -146,7 +151,7 @@ section {
     width: 100vw;
     height: 50vh;
     object-fit: cover;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 .img-login {
@@ -154,7 +159,7 @@ section {
     width: 100%;
     height: 80vh;
     object-fit: cover;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 .img-orders {
@@ -162,7 +167,7 @@ section {
     width: 100%;
     height: 90vh;
     object-fit: cover;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 
@@ -203,7 +208,7 @@ h1 {
 }
 
 h2 {
-    color: white;
+    color: #a67a7a;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
@@ -217,25 +222,25 @@ h2 {
 }
 
 p {
-    color: white;
+    color: #a67a7a;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
 span {
-    color: white;
+    color: #a67a7a;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
 form {
-    color: white;
+    color: #a67a7a;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
 .order-status {
-    color: white;
+    color: #a67a7a;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
@@ -257,7 +262,7 @@ form {
 .btn-update,
 .btn {
     background-color: transparent;
-    color: #ffffff !important;
+    color: #a67a7a !important;
     margin-top: 5px;
     padding: 0px;
     border: none;
@@ -266,7 +271,7 @@ form {
 
 .btn-update:hover,
 .btn:hover {
-    background-color: #ff99da;
+    background-color: #a67a7a;
     cursor: pointer;
 }
 
@@ -288,7 +293,12 @@ form {
 }
 
 .input:focus {
-    outline: 3px solid #ff99da !important;
+    outline: 3px solid #a67a7a !important;
+}
+
+.product-image {
+    width: 80vw;
+    border: 2px solid black;
 }
 
 footer {
@@ -303,7 +313,7 @@ footer {
     background-color: #eae7e5;
     background-position-y: -5px;
     width: 100%;
-    outline: 3px solid #ab7d9b !important;
+    outline: 3px solid #a67a7a !important;
 }
 
 footer p {
