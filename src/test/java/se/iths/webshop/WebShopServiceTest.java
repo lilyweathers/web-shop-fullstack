@@ -1,7 +1,18 @@
 package se.iths.webshop;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.Employee;
 import se.iths.webshop.business.entity.Person;
@@ -13,14 +24,6 @@ import se.iths.webshop.data.repository.ProductRepository;
 import se.iths.webshop.data.repository.implementation.OrderRepositoryImplementation;
 import se.iths.webshop.data.repository.implementation.PersonRepositoryImplementation;
 import se.iths.webshop.data.repository.implementation.ProductRepositoryImplementation;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 public class WebShopServiceTest {
 
@@ -71,7 +74,7 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldAddProduct() {
-        String message = webShopService.addProduct(new Product("iPhone", "Phone", 11000.0, "The latest iPhone model" ));
+        String message = webShopService.addProduct(new Product("iPhone", "Phone", 11000.0, "The latest iPhone model" ,""));
 
         assertEquals("iPhone added!", message);
         verify(productRepository, times(1)).save(any(Product.class));
@@ -80,7 +83,7 @@ public class WebShopServiceTest {
     @Test
     public void shouldFindProduct() {
 
-        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell");
+        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell","");
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         Product assertProduct = webShopService.getProduct(1L);
@@ -91,7 +94,7 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldRemoveProduct() {
-        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell");
+        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell","");
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         String message = webShopService.removeProduct(1L);
@@ -103,8 +106,8 @@ public class WebShopServiceTest {
     @Test
     public void shouldReturnSearchedProductsList() {
         List<Product> list = new ArrayList<>();
-        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell"));
-        list.add(new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy"));
+        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell",""));
+        list.add(new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy",""));
         when(productRepository.findAll()).thenReturn(list);
 
         List<Product> assertedList = webShopService.searchProductsByName("IPHONE");
@@ -116,8 +119,8 @@ public class WebShopServiceTest {
     @Test
     public void shouldReturnProductsByCategory() {
         List<Product> list = new ArrayList<>();
-        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell"));
-        list.add(new Product("MacBook", "Laptop", 9000.0, "The latest MacBook"));
+        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell",""));
+        list.add(new Product("MacBook", "Laptop", 9000.0, "The latest MacBook",""));
         when(productRepository.findAll()).thenReturn(list);
 
         List<Product> assertedList = webShopService.searchProductsByCategory("LAPTOP");

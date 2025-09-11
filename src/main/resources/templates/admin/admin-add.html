@@ -38,10 +38,11 @@
             <article>
                 <h2 class="h2-top">Add Product</b>
                 <form th:action="@{/admin-add}" method="post" th:object="${product}">
-                    Name: <input type="text" th:field="*{name}"></br>
-                    Category: <input type="text" th:field="*{category}"></br>
-                    Price: <input type="text" th:field="*{price}"></br>
-                    Description: <input type="text" th:field="*{description}"></br>
+                    Name: <input class="input" type="text" th:field="*{name}"></br>
+                    Category: <input class="input" type="text" th:field="*{category}"></br>
+                    Price: <input class="input" type="text" th:field="*{price}"></br>
+                    Description: <input class="input" type="text" th:field="*{description}"></br>
+                    Image: <input class="input" type="text" th:field="*{img}"></br>
                     <input type="submit" value="Add">
                 </form>
                 <p th:text="${addResult}"></p></br>

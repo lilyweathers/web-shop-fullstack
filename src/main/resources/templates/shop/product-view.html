@@ -34,6 +34,7 @@
         <section>
             <article>
                 <div th:object="${product}">
+                    <img class="product-image" src="/images/${product.img}">
                     <h2 class="h2-top"><span th:text="${product.getName()}"></span></h2>
                     <span th:text="${product.getCategory()}"></span></br></br>
                     <span th:text="${product.getDescription()}"></span></br></br>

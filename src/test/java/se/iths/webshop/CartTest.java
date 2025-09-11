@@ -1,20 +1,20 @@
 package se.iths.webshop;
 
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import se.iths.webshop.business.model.CartItem;
-import se.iths.webshop.business.entity.Product;
-import se.iths.webshop.business.model.Cart;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+
+import se.iths.webshop.business.entity.Product;
+import se.iths.webshop.business.model.Cart;
+import se.iths.webshop.business.model.CartItem;
 
 public class CartTest {
 
     private List<Product> products = List.of(
-            new Product("iPhone", "Phone", 11000.0, "The latest iPhone model" ),
-            new Product("MacBook", "Laptop", 24000.0, "The latest MacBook")
+            new Product("iPhone", "Phone", 11000.0, "The latest iPhone model",""),
+            new Product("MacBook", "Laptop", 24000.0, "The latest MacBook","")
     );
 
     private List<CartItem> mockingRepository = List.of(
@@ -26,7 +26,7 @@ public class CartTest {
     @Order(1)
     @Test
     public void shouldAddProduct() {
-        Product product = new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy");
+        Product product = new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy", "");
 
         cart.addProduct(product, 2);
 

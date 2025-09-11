@@ -1,11 +1,16 @@
 package se.iths.webshop.business.entity;
 
-import jakarta.persistence.*;
+import java.util.Objects;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Objects;
 
 @Entity
 @Table(name = "product")
@@ -28,14 +33,17 @@ public class Product {
     private Double price;
     @Column(name = "description")
     private String description;
+     @Column(name = "img")
+    private String img;
 
     public Product() {}
 
-    public Product(String name, String category, Double price, String description) {
+    public Product(String name, String category, Double price, String description, String img) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.description = description;
+        this.img = img;
     }
 
     public String getDescription() {
@@ -79,7 +87,15 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
-    @Override
+
+        public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+    
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,13 +1,20 @@
 package se.iths.webshop.ui.controller.rest;
 
-import jakarta.validation.Valid;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
 import se.iths.webshop.business.entity.Product;
 import se.iths.webshop.business.service.WebShopService;
-
-import java.util.List;
 
 @RestController
 public class WebShopRestController {
@@ -20,8 +27,8 @@ public class WebShopRestController {
         return ResponseEntity.accepted().body(webShopService.createProduct(product));
     }
     @PostMapping("/rs/product/create/name/{name}/category/{category}/price/{price}/description/{description}")
-    public ResponseEntity<Product> createProduct(@Valid @PathVariable String name, @PathVariable String category, @PathVariable double price, @PathVariable String description) {
-        return ResponseEntity.accepted().body(webShopService.createProduct(new Product(name, category, price, description)));
+    public ResponseEntity<Product> createProduct(@Valid @PathVariable String name, @PathVariable String category, @PathVariable double price, @PathVariable String description, @PathVariable String img) {
+        return ResponseEntity.accepted().body(webShopService.createProduct(new Product(name, category, price, description, img)));
     }
 
 
