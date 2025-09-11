@@ -313,3 +313,7 @@ footer p {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+@media all and (max-width: 600px) and (orientation: portrait) {
+    
+}
