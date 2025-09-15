@@ -33,13 +33,15 @@
     <main>
         <section>
             <article>
-                <h2 class="h2-top">Update Profile</h2>
+                <h2 class="h2-top">Edit Profile</h2>
                 <div class="profile-list">
                     <a href="/edit-name">Name: [(${login})]</a>
                     <a href="/edit-email">E-mail: [(${email})]</a>
                     <a href="/edit-password">Password: ********</a>
                     </br>
-                    <a href="/profile">Back</a>
+                    <form action="/profile">
+                        <button class="btn" type="submit"><p>Back</p></button>
+                    </form>
                 </div>
             </article>
             <article>

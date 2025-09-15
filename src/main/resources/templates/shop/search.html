@@ -41,8 +41,10 @@
                     <input type="radio" id="contactChoice2" name="searchBy" value="category" />
                     <label for="contactChoice2">Category</label>
                 </div>
-                <input type="text" name="text" th:value="${text}">
-                <input type="submit" value="Search">
+                <input class="input" placeholder="Enter text" type="text" name="text" th:value="${text}">
+                <button class="btn" type="submit">
+                    <p>Search</p>
+                </button>
             </form>
             <p th:text="${message}"></p>
             <div th:if="${#lists.isEmpty(products)} and ${not #strings.isEmpty(text)}">

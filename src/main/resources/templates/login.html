@@ -20,14 +20,15 @@
         <section>
             <article>
                 <div class="login-container">
-                    <h2>Login</h2>
+                    <h2>Enter your credentials</h2>
                     <form action="/login" method="post">
                         <input class="input" type="email" name="email" placeholder="Email"></br>
                         <input class="input" type="password" name="password" placeholder="Password"></br>
-                        <input class="btn" type="submit" value="Login">
+                        <button class="btn" type="submit">
+                            <p>Login</p>
+                        </button>
                     </form>
                     <p class="center-text" th:text="${login}"></p>
-                    <a href="/">Back</a></br>
                 </div>
             </article>
             <article>

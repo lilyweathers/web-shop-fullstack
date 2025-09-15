@@ -42,7 +42,7 @@
 					<div class="grid-product-item" th:each="item : ${products}">
 						<form action="/product" method="post">
 							<input type="hidden" name="id" th:value="${item.getId()}">
-							<button class="btn" type="submit" value="View">
+							<button class="btn-image" type="submit" value="View">
 								<img class="product-image-small" th:src="${item.getImg()}">
 							</button>
 						</form>
@@ -54,7 +54,7 @@
 							<input type="hidden" name="selected" th:value="${category}">
 							<input type="hidden" name="id" th:value="${item.getId()}">
 							<button class="btn" type="submit">
-								<p> BUY</p>
+								<p>Buy</p>
 							</button>
 						</form>
 					</div>
