@@ -230,7 +230,7 @@ public class WebShopService {
                 return optionalPerson.get().getName();
             }
         }
-        return "Wrong password or email!";
+        return "Wrong password or e-mail!";
     }
 
     public String loginAdmin(String email, String password) {
@@ -241,7 +241,7 @@ public class WebShopService {
                 return "Admin";
             }
         }
-        return "Wrong password or email!";
+        return "Wrong password or e-mail!";
     }
 
     public String addProductToCart(long id, int count) {
