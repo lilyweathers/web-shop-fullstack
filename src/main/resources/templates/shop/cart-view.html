@@ -35,7 +35,7 @@
             <article>
                 <h2 class="h2-top">Cart</h2>
                 <div th:if="${#lists.isEmpty(items)}">
-                    <p>Cart is empty</p>
+                    <p class="center-text">Cart is empty</p>
                 </div>
                 <div th:each="item : ${items}">
                     <span th:text="${item.getCount()}"></span>
@@ -48,7 +48,7 @@
                         <input class="btn" type="submit" value="Update">
                     </form>
                 </div>
-                <p th:text="${total}"></p>
+                <p class="center-text" th:text="${total}"></p>
                 <div th:if="${emptycart} == false">
                     <form action="/clear-cart" method="get">
                         <input class="btn" type="submit" value="Empty">

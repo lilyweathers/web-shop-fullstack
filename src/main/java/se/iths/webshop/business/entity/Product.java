@@ -88,7 +88,7 @@ public class Product {
         this.description = description;
     }
 
-        public String getImg() {
+    public String getImg() {
         return img;
     }
 

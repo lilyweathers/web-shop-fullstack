@@ -36,14 +36,15 @@
                 <div th:object="${product}">
                     <h2 class="h2-top"><span th:text="${product.getName()}"></span></h2>
                     <span><img class="product-image" th:src="${product.getImg()}"></span></br>
-                    <span th:text="${product.getCategory()}"></span></br></br>
                     <span th:text="${product.getDescription()}"></span></br></br>
                     <span th:text="${product.getPrice()}"></span>
-                    <span>SEK</span><br />
+                    <span>SEK</span></br></br>
                     <form action="/product-add" method="post">
                         Qty <input class="quantity" type="number" name="count" value="1">
                         <input type="hidden" name="id" th:value="${product.getId()}">
-                        <input class="btn" type="submit" value="Buy">
+                        <button class="btn" type="submit">
+                            <p class="btn-text">BUY</p>
+                        </button>
                     </form>
                 </div>
                 <p th:text="${message}"></p>
