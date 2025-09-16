@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <h1>Fabric Store Admin</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Store - Login</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 
@@ -19,14 +20,15 @@
         <section>
             <article>
                 <div class="login-container">
-                    <h2>Login</h2>
+                    <h2>Enter your credentials</h2>
                     <form action="/login-admin" method="post">
                         <input class="input" type="email" name="email" placeholder="Email"></br>
                         <input class="input" type="password" name="password" placeholder="Password"></br>
-                        <input class="btn" type="submit" value="Login">
+                        <button class="btn" type="submit">
+                            <p>Login</p>
+                        </button>
                     </form>
-                    <p th:text="${login}"></p>
-                    <a href="/admin">Back</a></br>
+                    <p class="center-text" th:text="${login}"></p>
                 </div>
             </article>
             <article>

@@ -35,13 +35,13 @@
     <main>
         <section>
             <article class="article-order">
-                <h2 class="h2-top">Canceled orders</b>
+                <h2 class="h2-top">Canceled orders</h2>
                     <div class="grid-order">
                         <div th:each="order : ${orders}">
                             <span th:text="${order.getName()}"></span>
                             <form action="/admin-cancel-order" method="post">
                                 <input type="hidden" name="id" th:value="${order.getId()}">
-                                <input class="btn" type="submit" value="View">
+                                <button class="btn" type="submit"><p>View</p></button>
                             </form>
                         </div>
                     </div>

@@ -214,10 +214,6 @@ section {
     margin-bottom: 25px;
 }
 
-.login-container {
-    background-color: inherit;
-}
-
 h1 {
     margin-top: 20px;
     margin-bottom: 5px;
@@ -233,6 +229,7 @@ h2 {
 }
 
 .login-container {
+    background-color: inherit;
     margin-top: 120px;
     margin-bottom: 25px;
 }
@@ -247,6 +244,10 @@ span {
     color: #a67a7a;
     font-size: large;
     text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+.product-id {
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 form {
@@ -329,6 +330,7 @@ form {
 }
 
 .input {
+    background-color: #fcf8f0;
     border-radius: 5px;
     max-width: 250px;
     height: 30px;

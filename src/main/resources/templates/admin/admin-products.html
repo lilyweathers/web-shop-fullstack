@@ -38,14 +38,14 @@
             <article>
                 <h2 class="h2-top">Remove Product</h2>
                 <form action="/remove" method="post">
-                    Product ID: <input type="text" name="id"></br>
+                    Product ID: <input class="quantity" type="text" name="id"></br>
                     <input type="hidden" name="text" th:value="${text}">
-                    <input type="submit" value="Remove">
+                    <button class="btn" type="submit"><p>Remove</p></button>
                 </form></br>
                 <h2>Search products:</h2>
                 <form action="/admin-search" method="post">
-                    <input type="text" name="text" th:value="${text}">
-                    <input class="btn" type="submit" value="Search">
+                    <input class="input" type="text" name="text" th:value="${text}">
+                    <button class="btn" type="submit"><p>Search</p></button>
                 </form>
                 <p th:text="${remove}"></p></br>
                 <h2>Products:</h2>
@@ -54,11 +54,11 @@
                         <span th:text="${item.getName()}"></span>
                         <span th:text="${item.getCategory()}"></span>
                         <span th:text="${item.getPrice()}"></span>
-                        ID: <span th:text="${item.getId()}"></span>
+                        <span th:text="|ID: ${item.getId()}|"></span>
                         <form action="/remove" method="post">
                             <input type="hidden" name="id" th:value="${item.getId()}">
                             <input type="hidden" name="text" th:value="${text}">
-                            <input class="btn" type="submit" value="Remove">
+                            <button class="btn" type="submit"><p>Remove</button>
                         </form>
                     </div>
                 </div>

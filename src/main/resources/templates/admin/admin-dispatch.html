@@ -41,7 +41,7 @@
                         <span th:text="${order.getName()}"></span>
                         <form action="/admin-dispatch-order" method="post">
                             <input type="hidden" name="id" th:value="${order.getId()}">
-                            <input class="btn" type="submit" value="View">
+                            <button class="btn" type="submit"><p>View</p></button>
                         </form>
                     </div>
                 </div>

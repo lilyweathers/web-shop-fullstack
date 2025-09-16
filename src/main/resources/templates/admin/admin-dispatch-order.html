@@ -41,9 +41,13 @@
                     <span th:text="${item.getProduct()}"></span>
                     <span th:text="${item.getCategory()}"></span>
                     <span th:text="${item.getPrice()}"></span>
-                    </form>
                 </div>
                 <p th:text="${total}"></p>
+                <form action="/admin-dispatch">
+                    <button class="btn" type="submit">
+                        <p>Back</p>
+                    </button>
+                </form>
             </article>
             <article>
                 <img class="img-login" src="/images/stacked_fabrics.jpg">

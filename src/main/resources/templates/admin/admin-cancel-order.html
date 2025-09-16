@@ -35,19 +35,19 @@
     <main>
         <section>
             <article class="article-order">
-                <h2 class="h2-top">Logged in as Admin</h2></br>
-                <p th:text="${login}"></p>
-                <a href="/admin-cancel">Back</a></br>
-                <a href="/logout-admin">Logout</a></br></br>
-                <b>Canceled order</b>
+                <h2 class="h2-top">Canceled order</h2></br>
                 <div th:each="item : ${items}">
                     <span th:text="${item.getCount()}"></span>
                     <span th:text="${item.getProduct()}"></span>
                     <span th:text="${item.getCategory()}"></span>
                     <span th:text="${item.getPrice()}"></span>
-                    </form>
                 </div>
                 <p th:text="${total}"></p>
+                <form action="/admin-cancel">
+                    <button class="btn" type="submit">
+                        <p>Back</p>
+                    </button>
+                </form>
             </article>
             <article>
                 <img class="img-login" src="/images/stacked_fabrics.jpg">

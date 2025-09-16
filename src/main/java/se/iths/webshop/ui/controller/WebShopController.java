@@ -255,16 +255,27 @@ public class WebShopController {
     public String placeOrder(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
-            String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
+            if (order.getItems().size() > 0) {
+                String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
                     + "Order number: " + order.getId() + System.getProperty("line.separator")
                     + order.getOrderItemsAsString() + System.getProperty("line.separator")
                     + System.getProperty("line.separator") + order.getTotalPrice();
-            webShopService.clearCart();
-            //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", order.getItems());
-            model.addAttribute("total", order.getTotalPrice());
-            model.addAttribute("message", "Order has been placed!");
+                webShopService.clearCart();
+                //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
+                model.addAttribute("login", webShopService.getUser().getName());
+                model.addAttribute("items", order.getItems());
+                model.addAttribute("total", order.getTotalPrice());
+                model.addAttribute("categories", webShopService.getCategories());
+                model.addAttribute("message", "Order has been placed!");
+            } else {
+                webShopService.clearCart();
+                //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
+                model.addAttribute("login", webShopService.getUser().getName());
+                model.addAttribute("items", order.getItems());
+                model.addAttribute("total", order.getTotalPrice());
+                model.addAttribute("categories", webShopService.getCategories());
+                model.addAttribute("message", "Your cart is empty");
+            }
             return "shop/confirmed";
         }
         model.addAttribute("login", "Please log in first");
@@ -277,6 +288,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
+            model.addAttribute("categories", webShopService.getCategories());
             return "shop/checkout";
         }
         model.addAttribute("login", "Please log in first");

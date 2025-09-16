@@ -47,11 +47,20 @@
                 <p th:text="${total}"></p>
                 <form action="/admin-process-confirm" method="post">
                     <input type="hidden" name="id" th:value="${id}">
-                    <input class="btn" type="submit" value="Process">
+                    <button class="btn" type="submit">
+                        <p>Process</p>
+                    </button>
                 </form>
                 <form action="/admin-process-cancel" method="post">
                     <input type="hidden" name="id" th:value="${id}">
-                    <input class="btn" type="submit" value="Cancel">
+                    <button class="btn" type="submit">
+                        <p>Cancel</p>
+                    </button>
+                </form>
+                <form action="/admin-process">
+                    <button class="btn" type="submit">
+                        <p>Back</p>
+                    </button>
                 </form>
             </article>
             <article>
