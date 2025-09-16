@@ -45,16 +45,22 @@
                     <form action="/update-cart" method="post">
                         <input type="hidden" name="name" th:value="${item.getProduct().getName()}">
                         Qty <input class="quantity" type="number" name="count" th:value="${item.getCount()}">
-                        <input class="btn" type="submit" value="Update">
+                        <button class="btn" type="submit">
+                            <p>Update</p>
+                        </button>
                     </form>
                 </div>
                 <p class="center-text" th:text="${total}"></p>
                 <div th:if="${emptycart} == false">
                     <form action="/clear-cart" method="get">
-                        <input class="btn" type="submit" value="Empty">
+                        <button class="btn" type="submit">
+                            <p>Empty</p>
+                            </button>
                     </form>
                     <form action="/checkout" method="post">
-                        <input class="btn"type="submit" value="Checkout">
+                        <button class="btn" type="submit">
+                            <p>Checkout</p>
+                        </button>
                     </form>
                 </div>
                 <p th:text="${order}"></p>
