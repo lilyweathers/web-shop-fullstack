@@ -38,13 +38,13 @@
             <article>
                 <h2 class="h2-top">Remove Product</h2>
                 <form action="/remove" method="post">
-                    Product ID: <input class="quantity" type="text" name="id"></br>
+                    <input class="id" type="number" name="id" placeholder="ID">
                     <input type="hidden" name="text" th:value="${text}">
                     <button class="btn" type="submit"><p>Remove</p></button>
                 </form></br>
                 <h2>Search products:</h2>
                 <form action="/admin-search" method="post">
-                    <input class="input" type="text" name="text" th:value="${text}">
+                    <input class="input" type="text" name="text" th:value="${text}" placeholder="Enter text">
                     <button class="btn" type="submit"><p>Search</p></button>
                 </form>
                 <p th:text="${remove}"></p></br>
