@@ -19,7 +19,7 @@
     <main>
         <section>
             <article>
-                <div class="login-container">
+                <div class="register-container">
                     <h2>Register new account</h2>
                     <form th:action="@{/register-user}" method="post" th:object="${customer}">
                         <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
@@ -33,7 +33,7 @@
                 </div>
             </article>
             <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
+                <img class="img-register" src="/images/stacked_fabrics.jpg">
             </article>
         </section>
     </main>

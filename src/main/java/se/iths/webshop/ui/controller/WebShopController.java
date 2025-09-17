@@ -90,7 +90,7 @@ public class WebShopController {
         String login = webShopService.loginUser(email, password);
         model.addAttribute("login", login);
         model.addAttribute("products", webShopService.getProducts());
-        if (login == "Wrong password or e-mail!") {
+        if (login == "Wrong password or e-mail") {
             return "login";
         }
         model.addAttribute("categories", webShopService.getCategories());
@@ -106,7 +106,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             return "admin/admin-products";
         }
-        return "login";
+        return "admin/admin-login";
     }
 
     @GetMapping("/home")

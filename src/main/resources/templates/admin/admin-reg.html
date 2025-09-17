@@ -18,8 +18,8 @@
     <main>
         <section>
             <article>
-                <div class="login-container">
-                    <h2>Register new account</h2>
+                <div class="register-container">
+                    <h2 class="h2-top">Register new account</h2>
                     <form th:action="@{/register-admin}" method="post" th:object="${employee}">
                         <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
                         <input class="input" type="email" th:field="*{email}" placeholder="Email"></br>

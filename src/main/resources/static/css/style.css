@@ -4,7 +4,7 @@ body {
     background-color: #d7d3c8;
     font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0px;
-    overflow-x: hidden;
+
 }
 
 header {
@@ -88,10 +88,22 @@ main {
 main a {
     color: #a67a7a !important;
     text-decoration: none !important;
+    margin: auto;
+    text-align: center;
+    justify-content: center;
 }
 
 section {
     color: #a67a7a;
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+}
+
+article {
+    margin: auto;
+    text-align: center;
+    justify-content: center;
 }
 
 .grid-product,
@@ -146,15 +158,15 @@ section {
 
 .img-index {
     position: relative;
-    width: 100vw;
-    height: 30vh;
+    width: 100%;
+    height: 35vw;
     object-fit: cover;
     outline: 3px solid #a67a7a !important;
 }
 
 .img-home {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: auto !important;
     max-height: 50vh;
     object-fit: cover;
@@ -163,8 +175,8 @@ section {
 
 .img-index2 {
     position: relative;
-    width: 100vw;
-    height: 50vh;
+    width: 100%;
+    height: 42vh;
     object-fit: cover;
     outline: 3px solid #a67a7a !important;
 }
@@ -172,14 +184,22 @@ section {
 .img-login {
     position: relative;
     width: 100%;
-    height: 80vh;
+    height: 76vh;
+    object-fit: cover;
+    outline: 3px solid #a67a7a !important;
+}
+
+.img-register {
+    position: relative;
+    width: 100%;
+    height: 74vh !important; 
     object-fit: cover;
     outline: 3px solid #a67a7a !important;
 }
 
 .img-orders {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 90vh;
     object-fit: cover;
     outline: 3px solid #a67a7a !important;
@@ -226,12 +246,25 @@ h2 {
 
 .h2-top {
     margin-top: 120px;
+    text-align: center;
 }
 
 .login-container {
+    margin: auto;
+    text-align: center;
+    background-color: inherit;
+    margin-bottom: 25px;
+}
+
+.register-container {
     background-color: inherit;
     margin-top: 120px;
     margin-bottom: 25px;
+}
+
+.center-text {
+    text-align: center !important;
+    padding: 0;
 }
 
 p {
@@ -281,7 +314,8 @@ form {
 }
 
 .btn-update,
-.btn, .btn p {
+.btn,
+.btn p {
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: transparent;
     color: #a67a7a !important;
@@ -291,6 +325,7 @@ form {
     padding: 0px;
     border: none;
 }
+
 .btn {
     margin: 0 !important;
 }
@@ -301,6 +336,7 @@ form {
     margin-bottom: -14px;
     background-color: transparent;
 }
+
 .btn-image:hover img {
     margin: auto;
     background-color: #a67a7a;
@@ -314,7 +350,8 @@ form {
 }
 
 .btn-update:hover,
-.btn:hover, .btn:hover p {
+.btn:hover,
+.btn:hover p {
     background-color: #a67a7a;
     border-radius: 5px;
     color: white !important;
