@@ -17,7 +17,7 @@ header {
     background-color: white;
     background-image: url("/images/bg-weave-white.png");
     background-position-y: -12px;
-    width: 100%;
+    width: 100vw;
     z-index: 999;
     outline: 3px solid #a67a7a !important;
 }
@@ -295,13 +295,20 @@ form {
     text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
-.profile-list {
-    text-align: left;
+.profile-list{
+    text-align: left !important;
     margin-left: 40%;
     display: flex !important;
     flex-direction: column;
     text-shadow: 1px 1px rgb(0, 0, 0);
     margin-bottom: 25px;
+}
+
+.profile-list a {
+    text-align: left !important;
+    justify-content: left;
+    align-items: left;
+    margin: 0;
 }
 
 .profile-list a:hover {
