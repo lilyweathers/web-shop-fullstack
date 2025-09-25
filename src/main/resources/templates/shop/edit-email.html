@@ -34,7 +34,7 @@
         <section>
             <article class="article-profile">
                 <h2 class="h2-top">Change your e-mail</h2>
-                <p>[(${email})]</p>
+                <p class="center-text">[(${email})]</p>
                 <form th:action="@{/edit-email}" method="post" th:object="${customer}">
                     <input class="hidden" type="name" th:value="${login}" th:name="name">
                     <input class="input" type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>

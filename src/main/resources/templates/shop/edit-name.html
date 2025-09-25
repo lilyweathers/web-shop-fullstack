@@ -34,7 +34,7 @@
         <section>
             <article class="article-profile">
                 <h2 class="h2-top">Change your name</h2>
-                <p>[(${login})]</p>
+                <p class="center-text">[(${login})]</p>
                 <form th:action="@{/edit-name}" method="post" th:object="${customer}">
                     <input class="input" type="text" th:field="*{name}" placeholder="Enter new name"></br>
                     <input class="hidden" type="email" th:value="${email}" th:name="email">

@@ -37,7 +37,7 @@
                 <div th:each="item : ${items}">
                     <span th:text="${item.getName()}"></span>
                 </div>
-                <p th:text="${total}"></p>
+                <p class="center-text" th:text="${total}"></p>
                 <div class="order-status" th:if="${confirm} == false and ${process} == false and ${cancel} == false">
                     Order has been placed.
                 </div>
