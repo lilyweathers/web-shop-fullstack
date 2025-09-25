@@ -57,20 +57,23 @@
                 <h2>Results</h2>
                 <div class="grid-product">
                     <div th:each="item : ${products}">
-                        <span th:text="${item.getName()}"></span>
-                        <span th:text="${item.getCategory()}"></span>
-                        <span th:text="${item.getPrice()}"></span>
-                        <span>SEK</span>
-                        <form action="/add-item" method="post">
-                            Qty <input class="quantity" type="number" name="count" value="1">
-                            <input type="hidden" name="id" th:value="${item.getId()}">
-                            <input type="hidden" name="searched" th:value="${text}">
-                            <input type="submit" value="Buy">
-                        </form>
                         <form action="/product" method="post">
-                            <input type="hidden" name="id" th:value="${item.getId()}">
-                            <input type="submit" value="View">
-                        </form>
+							<input type="hidden" name="id" th:value="${item.getId()}">
+							<button class="btn-image" type="submit" value="View">
+								<img class="product-image-small" th:src="${item.getImg()}">
+							</button>
+						</form>
+						<span th:text="${item.getName()}"></span></br>
+						<span th:text="${item.getPrice()}"></span>
+						<span>SEK</span>
+						<form class="form-product" action="/add-item-category" method="post">
+							Qty: <input class="quantity" type="number" name="count" value="1">
+							<input type="hidden" name="selected" th:value="${category}">
+							<input type="hidden" name="id" th:value="${item.getId()}">
+							<button class="btn" type="submit">
+								<p>Buy</p>
+							</button>
+						</form>
                     </div>
                 </div>
             </div>

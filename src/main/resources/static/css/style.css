@@ -416,6 +416,10 @@ form {
     margin: 0;
 }
 
+.add-product-div {
+    margin: 0 auto;
+}
+
 footer {
     padding-top: 10px;
     padding-bottom: 10px;
