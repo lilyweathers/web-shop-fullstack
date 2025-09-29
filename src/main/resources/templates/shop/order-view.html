@@ -53,7 +53,7 @@
                 <div th:if="${cancel} == false and ${process} == false">
                     <form action="/order-cancel" method="post">
                         <input type="hidden" name="id" th:value="${id}">
-                        <input class="btn" type="submit" value="Cancel">
+                        <button class="btn" type="submit"><p>Cancel</p></button>
                     </form>
                 </div>
             </article>
