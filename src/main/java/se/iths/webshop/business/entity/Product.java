@@ -96,10 +96,16 @@ public class Product {
         this.img = img;
     }
     
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(category, product.category) && Objects.equals(price, product.price) && Objects.equals(description, product.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

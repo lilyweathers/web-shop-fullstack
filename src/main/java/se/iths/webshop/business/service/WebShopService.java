@@ -279,7 +279,7 @@ public class WebShopService {
         return "Product " + id + " was deleted!";
     }
 
-    public CustomerOrder checkout() {;
+    public CustomerOrder checkout() {
         ArrayList list = new ArrayList<>();
         for (CartItem cartItem : cart.getItems()) {
             Product product = cartItem.getProduct();

@@ -255,7 +255,7 @@ public class WebShopController {
     public String placeOrder(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
-            if (order.getItems().size() > 0) {
+            if (!order.getItems().isEmpty()) {
                 String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
                     + "Order number: " + order.getId() + System.getProperty("line.separator")
                     + order.getOrderItemsAsString() + System.getProperty("line.separator")
