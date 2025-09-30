@@ -18,9 +18,9 @@ import static org.mockito.Mockito.*;
 public class WebShopControllerTest {
 
     @Mock
-    private WebShopService webShopService = mock(WebShopService.class);
+    final private WebShopService webShopService = mock(WebShopService.class);
 
-    private WebShopController webShopController = new WebShopController();
+    final private WebShopController webShopController = new WebShopController();
     @Mock
     Model model;
 
@@ -29,7 +29,7 @@ public class WebShopControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         webShopController.setWebShopService(webShopService);
     }
 
