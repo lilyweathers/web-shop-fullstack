@@ -7,6 +7,10 @@ Assignment for course in Complex Java Programming
 Simple Spring Web Shop with MVC structure using a docker MySQL database, JPA and Thymeleaf with HTML, CSS.
 
 *** 
+### Hosting online
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for free Render and Aiven deployment.
+
 ### Instructions
 
 1. run db.sql

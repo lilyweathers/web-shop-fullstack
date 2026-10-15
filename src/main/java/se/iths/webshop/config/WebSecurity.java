@@ -49,48 +49,48 @@ public class WebSecurity implements WebMvcConfigurer, HandlerInterceptor {
     }
 
     @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                response.setHeader("X-Content-Type-Options", "nosniff");
-                response.setHeader("Referrer-Policy", "same-origin");
-                response.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data: https:; "
-                        + "style-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'; "
-                        + "base-uri 'self'; form-action 'self'");
-                if (!(handler instanceof HandlerMethod) || request.getRequestURI().equals("/error")) return true;
-                String path = request.getRequestURI();
-                boolean safe = Set.of("GET", "HEAD", "OPTIONS").contains(request.getMethod());
-                if (path.equals("/register-admin") && !registrationEnabled) {
-                    response.sendError(404);
-                    return false;
-                }
-                boolean adminOnly = path.startsWith("/admin-") || path.equals("/remove")
-                        || (path.startsWith("/rs/") && !safe);
-                if (adminOnly && !(service.getUser() instanceof Employee)) {
-                    response.sendError(403);
-                    return false;
-                }
-                if (CUSTOMER_PAGES.contains(path) && !(service.getUser() instanceof Customer)) {
-                    response.sendRedirect("/login");
-                    return false;
-                }
-                String expected = csrfToken(request);
-                if (!safe) {
-                    String supplied = request.getParameter("_csrf");
-                    if (supplied == null) supplied = request.getHeader("X-CSRF-Token");
-                    if (supplied == null || !MessageDigest.isEqual(expected.getBytes(StandardCharsets.UTF_8),
-                            supplied.getBytes(StandardCharsets.UTF_8))) {
-                        response.sendError(403);
-                        return false;
-                    }
-                }
-                return true;
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        response.setHeader("X-Content-Type-Options", "nosniff");
+        response.setHeader("Referrer-Policy", "same-origin");
+        response.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data: https:; "
+                + "style-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'; "
+                + "base-uri 'self'; form-action 'self'");
+        if (!(handler instanceof HandlerMethod) || request.getRequestURI().equals("/error")) return true;
+        String path = request.getRequestURI();
+        boolean safe = Set.of("GET", "HEAD", "OPTIONS").contains(request.getMethod());
+        if (path.equals("/register-admin") && !registrationEnabled) {
+            response.sendError(404);
+            return false;
+        }
+        boolean adminOnly = path.startsWith("/admin-") || path.equals("/remove")
+                || (path.startsWith("/rs/") && !safe);
+        if (adminOnly && !(service.getUser() instanceof Employee)) {
+            response.sendError(403);
+            return false;
+        }
+        if (CUSTOMER_PAGES.contains(path) && !(service.getUser() instanceof Customer)) {
+            response.sendRedirect("/login");
+            return false;
+        }
+        String expected = csrfToken(request);
+        if (!safe) {
+            String supplied = request.getParameter("_csrf");
+            if (supplied == null) supplied = request.getHeader("X-CSRF-Token");
+            if (supplied == null || !MessageDigest.isEqual(expected.getBytes(StandardCharsets.UTF_8),
+                    supplied.getBytes(StandardCharsets.UTF_8))) {
+                response.sendError(403);
+                return false;
             }
+        }
+        return true;
+    }
 
-            @Override
-            public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                    Object handler, ModelAndView model) {
-                if (request.getMethod().equals("POST") && Set.of("/login", "/login-admin").contains(request.getRequestURI())
-                        && service.getUser() != null && request.getSession(false) != null) {
-                    request.changeSessionId();
-                }
-            }
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response,
+            Object handler, ModelAndView model) {
+        if (request.getMethod().equals("POST") && Set.of("/login", "/login-admin").contains(request.getRequestURI())
+                && service.getUser() != null && request.getSession(false) != null) {
+            request.changeSessionId();
+        }
+    }
 }
