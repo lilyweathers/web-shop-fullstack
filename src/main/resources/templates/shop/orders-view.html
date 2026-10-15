@@ -17,7 +17,7 @@
 <a href="/orders" aria-current="page">Orders</a>
 <a href="/profile" th:text="${login}">My account</a>
 <a href="/cart">Bag</a>
-<a href="/logout">Log out</a>
+<form class="nav-logout" action="/logout" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -58,6 +58,7 @@
 <div class="order-card-bottom">
 <span th:text="${order.totalPrice}">Total price: 600.0 SEK</span>
 <form action="/order" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${order.id}">
 <button class="button secondary" type="submit" th:aria-label="${'View order ' + order.id}">View order &#8599;</button>
 </form>

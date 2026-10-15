@@ -17,7 +17,7 @@
 <a href="/orders">Orders</a>
 <a href="/profile" th:text="${login}">My account</a>
 <a href="/cart">Bag</a>
-<a href="/logout">Log out</a>
+<form class="nav-logout" action="/logout" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -80,6 +80,7 @@
 <p class="checkout-total" th:text="${total}">Total: 600.0 SEK</p>
 <p class="checkout-submit-note">Select Place order to confirm your selection. Your order number and receipt will appear on the next page.</p>
 <form action="/place-order" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <button class="btn" type="submit">Place order &#8599;</button>
 </form>
 <a class="text-link" href="/cart">Not quite ready? Back to bag</a>

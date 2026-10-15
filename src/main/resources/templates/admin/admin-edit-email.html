@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/style.css?v=10">
 </head>
 <body>
-<header class="admin-header"><h1><a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/admin-view">Products</a><a href="/admin-add">Add fabric</a><a href="/admin-pending">Orders</a><a href="/admin-profile" th:text="${login}">My account</a><a href="/logout-admin">Log out</a></nav></header>
+<header class="admin-header"><h1><a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/admin-view">Products</a><a href="/admin-add">Add fabric</a><a href="/admin-pending">Orders</a><a href="/admin-profile" th:text="${login}">My account</a><form class="nav-logout" action="/logout-admin" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form></nav></header>
 <main>
 <section class="settings-page">
 <a class="text-link" href="/admin-profile" aria-current="page">&#8592; Back to your profile</a>
@@ -35,6 +35,7 @@
 <p class="notice settings-feedback" role="status" aria-live="polite" th:if="${not #strings.isEmpty(edit)}" th:text="${edit}">
 </p>
 <form th:action="@{/admin-edit-email}" method="post" th:object="${employee}" class="settings-form">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="name" th:value="${login}">
 <input type="hidden" name="password" value="abcdefgh">
 <div class="settings-field">

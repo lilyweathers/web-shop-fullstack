@@ -31,7 +31,7 @@ public abstract class Person {
     @Column(name = "email")
     private String email;
     @NotBlank
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 255)
     @Column(name = "password")
     private String password;
 

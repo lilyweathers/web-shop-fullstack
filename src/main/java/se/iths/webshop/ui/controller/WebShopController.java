@@ -228,7 +228,7 @@ public class WebShopController {
         return "login";
     }
 
-    @GetMapping("/clear-cart")
+    @PostMapping("/clear-cart")
     public String deleteCart(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
@@ -318,7 +318,7 @@ public class WebShopController {
     @PostMapping("/order")
     public String orderView(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
-            CustomerOrder order = webShopService.getOrder(id);
+            CustomerOrder order = ownedOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("id", id);
@@ -337,7 +337,8 @@ public class WebShopController {
     @PostMapping("/order-cancel")
     public String orderCancel(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
-            CustomerOrder order = webShopService.getOrder(id);
+            CustomerOrder order = ownedOrder(id);
+            if (order.isProcessed()) throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT);
             webShopService.cancelOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("id", id);
@@ -351,6 +352,16 @@ public class WebShopController {
         }
         model.addAttribute("login", "Please log in first");
         return "login";
+    }
+
+    private CustomerOrder ownedOrder(long id) {
+        CustomerOrder order = webShopService.getOrder(id);
+        if (order == null || order.getCustomer() == null || webShopService.getUser() == null
+                || webShopService.getUser().getId() == null
+                || !webShopService.getUser().getId().equals(order.getCustomer().getId())) {
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
+        return order;
     }
 
     @GetMapping("/profile")
@@ -467,16 +478,18 @@ public class WebShopController {
         return "login";
     }
 
-    @GetMapping("/logout")
-    public String logoutUser(Model model) {
+    @PostMapping("/logout")
+    public String logoutUser(Model model, HttpSession session) {
         String logout = webShopService.logoutUser();
+        session.invalidate();
         model.addAttribute("login", logout);
         return "login";
     }
 
-    @GetMapping("/logout-admin")
-    public String logoutAdmin(Model model) {
+    @PostMapping("/logout-admin")
+    public String logoutAdmin(Model model, HttpSession session) {
         String logout = webShopService.logoutUser();
+        session.invalidate();
         model.addAttribute("login", logout);
         return "admin/admin";
     }

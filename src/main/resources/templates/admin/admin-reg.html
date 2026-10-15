@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/style.css?v=10">
 </head>
 <body>
-<header class="admin-header"><h1><a href="/admin">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/">Visit store</a><a href="/login-admin">Log in</a><a href="/register-admin">Register</a></nav></header>
+<header class="admin-header"><h1><a href="/admin">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/">Visit store</a><a href="/login-admin">Log in</a><a th:if="${adminRegistrationEnabled}" href="/register-admin">Register</a></nav></header>
 <main>
 <div class="auth-layout">
 <img class="auth-photo" src="/images/stacked_fabrics.jpg" alt="Stacks of beautifully textured fabrics">
@@ -16,6 +16,7 @@
 <h2>Join the studio.</h2>
 <p>Your workspace for the collection and the people who love it.</p>
 <form th:action="@{/register-admin}" method="post" th:object="${employee}">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="name">Your name</label>
 <input id="name" th:field="*{name}" autocomplete="name" required minlength="2" maxlength="30" placeholder="Your name">
 <label for="email">Email address</label>

@@ -1273,3 +1273,8 @@ footer {
  .welcome-invitation > div { flex-direction: column; gap: 16px; }
  .welcome-footer { align-items: center; text-align: center; gap: 26px; }
 }
+
+/* Session actions in shared navigation */
+.nav-logout { margin: 0; }
+.nav-logout button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 8px 0; }
+.nav-logout button:hover { color: var(--accent); }

@@ -17,7 +17,7 @@
 <a href="/orders" aria-current="page">Orders</a>
 <a href="/profile" th:text="${login}">My account</a>
 <a href="/cart">Bag</a>
-<a href="/logout">Log out</a>
+<form class="nav-logout" action="/logout" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -75,6 +75,7 @@
 <p>You can cancel this order before it is dispatched.</p>
 </div>
 <form action="/order-cancel" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${id}">
 <button class="button secondary cancel-button" type="submit">Cancel this order</button>
 </form>

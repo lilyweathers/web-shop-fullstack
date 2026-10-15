@@ -26,6 +26,7 @@
 <h2>Make yourself at home.</h2>
 <p>A little inspiration for your next handmade chapter.</p>
 <form th:action="@{/register-user}" method="post" th:object="${customer}">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="name">Your name</label>
 <input id="name" th:field="*{name}" autocomplete="name" required minlength="2" maxlength="30" placeholder="Your name">
 <label for="email">Email address</label>

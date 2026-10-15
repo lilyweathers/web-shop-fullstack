@@ -17,7 +17,7 @@
 <a th:if="${authenticated}" href="/orders">Orders</a>
 <a th:if="${authenticated}" href="/profile" th:text="${login}">My account</a>
 <a th:if="${authenticated}" href="/cart">Bag</a>
-<a th:if="${authenticated}" href="/logout">Log out</a>
+<form class="nav-logout" action="/logout" method="post" th:if="${authenticated}"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 <a th:unless="${authenticated}" href="/login">Log in</a>
 <a th:unless="${authenticated}" class="button secondary" href="/register-user">Create account</a>
 </nav>
@@ -38,6 +38,7 @@
 <span th:text="${#numbers.formatDecimal(product.price, 1, 2)}">
 </span> SEK</p>
 <form action="/product-add" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="quantity">Quantity</label>
 <input id="quantity" class="quantity" type="number" name="count" min="1" value="1" required>
 <input type="hidden" name="id" th:value="${product.id}">

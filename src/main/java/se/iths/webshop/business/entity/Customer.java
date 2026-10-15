@@ -8,7 +8,7 @@ import java.util.List;
 @DiscriminatorValue(value = "CUSTOMER")
 public class Customer extends Person{
     @OneToMany(fetch = FetchType.EAGER)
-    private List<CustomerOrder> orders;
+    private List<CustomerOrder> orders = new java.util.ArrayList<>();
 
     public Customer (){}
 

@@ -23,6 +23,16 @@ import se.iths.webshop.data.repository.ProductRepository;
 @Service
 @SessionScope
 public class WebShopService {
+    @org.springframework.beans.factory.annotation.Value("${app.security.allow-legacy-passwords:true}")
+    private boolean allowLegacyPasswords = true;
+
+    private boolean passwordMatches(String raw, Person person) {
+        if (Passwords.isHash(person.getPassword())) return Passwords.matches(raw, person.getPassword());
+        return allowLegacyPasswords && raw != null && java.security.MessageDigest.isEqual(
+                raw.getBytes(java.nio.charset.StandardCharsets.UTF_8),
+                person.getPassword().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
+
     @Autowired
     PersonRepository personRepository;
 
@@ -96,8 +106,10 @@ public class WebShopService {
     }
 
     public String registerAdmin(Employee employee) {
+        if (!Passwords.validInput(employee.getPassword())) return "Password must be between 5 and 20 characters";
         Optional<Person> optionalPerson = personRepository.findByEmail(employee.getEmail());
         if (optionalPerson.isEmpty()) {
+            employee.setPassword(Passwords.hash(employee.getPassword()));
             user = personRepository.save(employee);
             return "Account created!";
 
@@ -105,8 +117,10 @@ public class WebShopService {
     }
 
     public String registerUser(Customer customer) {
+        if (!Passwords.validInput(customer.getPassword())) return "Password must be between 5 and 20 characters";
         Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
         if (optionalPerson.isEmpty()) {
+            customer.setPassword(Passwords.hash(customer.getPassword()));
             user = personRepository.save(customer);
             return "Account created!";
 
@@ -116,7 +130,7 @@ public class WebShopService {
     public String adminUpdateName(Employee employee, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
+            if (passwordMatches(password, optionalPerson.get())) {
                 optionalPerson.get().setName(employee.getName());
                 user = personRepository.save(optionalPerson.get());
                 return "Name updated!";
@@ -130,7 +144,7 @@ public class WebShopService {
     public String adminUpdateEmail(Employee employee, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
+            if (passwordMatches(password, optionalPerson.get())) {
                 optionalPerson.get().setEmail(employee.getEmail());
                 user = personRepository.save(optionalPerson.get());
                 return "E-mail updated!";
@@ -144,8 +158,9 @@ public class WebShopService {
     public String adminUpdatePassword(Employee employee, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
-                optionalPerson.get().setPassword(employee.getPassword());
+            if (passwordMatches(password, optionalPerson.get())) {
+                if (!Passwords.validInput(employee.getPassword())) return "Password must be between 5 and 20 characters";
+                optionalPerson.get().setPassword(Passwords.hash(employee.getPassword()));
                 user = personRepository.save(optionalPerson.get());
                 return "Password updated!";
             } else {
@@ -158,7 +173,7 @@ public class WebShopService {
     public String updateName(Customer customer, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
+            if (passwordMatches(password, optionalPerson.get())) {
                 optionalPerson.get().setName(customer.getName());
                 user = personRepository.save(optionalPerson.get());
                 return "Name updated!";
@@ -172,7 +187,7 @@ public class WebShopService {
     public String updateEmail(Customer customer, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
+            if (passwordMatches(password, optionalPerson.get())) {
                 optionalPerson.get().setEmail(customer.getEmail());
                 user = personRepository.save(optionalPerson.get());
                 return "E-mail updated!";
@@ -186,8 +201,9 @@ public class WebShopService {
     public String updatePassword(Customer customer, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
-            if (optionalPerson.get().getPassword().equals(password)) {
-                optionalPerson.get().setPassword(customer.getPassword());
+            if (passwordMatches(password, optionalPerson.get())) {
+                if (!Passwords.validInput(customer.getPassword())) return "Password must be between 5 and 20 characters";
+                optionalPerson.get().setPassword(Passwords.hash(customer.getPassword()));
                 user = personRepository.save(optionalPerson.get());
                 return "Password updated!";
             } else {
@@ -197,26 +213,26 @@ public class WebShopService {
         } else return "Failed to update";
     }
 
-    public String loginUser(String email, String password) {
-        Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
-        if (optionalPerson.isPresent()  && optionalPerson.get() instanceof Customer) {
-            if (optionalPerson.get().getPassword().equals(password)) {
-                user = optionalPerson.get();
-                return optionalPerson.get().getName();
-            }
+    private Person authenticate(String email, String password, Class<? extends Person> role) {
+        user = null;
+        Optional<Person> found = personRepository.findByEmail(email);
+        if (found.isEmpty() || !role.isInstance(found.get()) || !passwordMatches(password, found.get())) return null;
+        Person person = found.get();
+        if (!Passwords.isHash(person.getPassword())) {
+            person.setPassword(Passwords.hash(password));
+            person = personRepository.save(person);
         }
-        return "Wrong password or e-mail";
+        user = person;
+        return person;
+    }
+
+    public String loginUser(String email, String password) {
+        Person person = authenticate(email, password, Customer.class);
+        return person == null ? "Wrong password or e-mail" : person.getName();
     }
 
     public String loginAdmin(String email, String password) {
-        Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
-        if (optionalPerson.isPresent() && optionalPerson.get() instanceof Employee) {
-            if (optionalPerson.get().getPassword().equals(password)) {
-                user = optionalPerson.get();
-                return "Admin";
-            }
-        }
-        return "Wrong password or e-mail";
+        return authenticate(email, password, Employee.class) == null ? "Wrong password or e-mail" : "Admin";
     }
 
     public String addProductToCart(long id, int count) {

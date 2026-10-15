@@ -16,7 +16,7 @@
 <a href="/admin-add">Add fabric</a>
 <a href="/admin-pending" aria-current="page">Orders</a>
 <a href="/admin-profile" th:text="${login}">My account</a>
-<a href="/logout-admin">Log out</a>
+<form class="nav-logout" action="/logout-admin" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -61,6 +61,7 @@
 <span th:text="${order.totalPrice}">
 </span>
 <form action="/admin-process-order" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${order.id}">
 <button class="button secondary" type="submit" th:aria-label="${'Review order ' + order.id}">Review order &#8599;</button>
 </form>

@@ -1,0 +1,7 @@
+.git
+.env*
+target
+pom-Laptop.xml
+.vscode
+.idea
+*.pem

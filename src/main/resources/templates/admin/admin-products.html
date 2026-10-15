@@ -16,7 +16,7 @@
 <a href="/admin-add">Add fabric</a>
 <a href="/admin-pending">Orders</a>
 <a href="/admin-profile" th:text="${login}">My account</a>
-<a href="/logout-admin">Log out</a>
+<form class="nav-logout" action="/logout-admin" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -30,6 +30,7 @@
 <a class="button" href="/admin-add">Add a fabric &#8599;</a>
 </div>
 <form class="admin-search" action="/admin-search" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="admin-search">Find a fabric by name</label>
 <div>
 <input id="admin-search" type="search" name="text" th:value="${text}" placeholder="Search the collection...">
@@ -60,6 +61,7 @@
 </span>
 </p>
 <form action="/remove" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${item.id}">
 <input type="hidden" name="text" th:value="${text == null ? '' : text}">
 <button class="button secondary cancel-button" type="submit" th:aria-label="${'Remove ' + item.name}">Remove fabric</button>

@@ -27,6 +27,7 @@
 <p>Your next project is waiting. Let’s make something lovely.</p>
 <p class="notice" th:if="${pendingAddition}">Log in to add your selected fabric to your bag. We will take you back to Browse fabrics afterwards.</p>
 <form action="/login" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="email">Email address</label>
 <input id="email" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
 <label for="password">Password</label>

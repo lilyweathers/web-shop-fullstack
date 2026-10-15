@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/css/style.css?v=10">
 </head>
 <body>
-<header class="admin-header"><h1><a href="/admin">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/">Visit store</a><a href="/login-admin">Log in</a><a href="/register-admin">Register</a></nav></header>
+<header class="admin-header"><h1><a href="/admin">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/">Visit store</a><a href="/login-admin">Log in</a><a th:if="${adminRegistrationEnabled}" href="/register-admin">Register</a></nav></header>
 <main>
 <div class="auth-layout">
 <img class="auth-photo" src="/images/stacked_fabrics.jpg" alt="Stacks of beautifully textured fabrics">
@@ -16,6 +16,7 @@
 <h2>Welcome back, maker.</h2>
 <p>Manage your fabrics, keep orders moving, and make room for new ideas.</p>
 <form action="/login-admin" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <label for="email">Email address</label>
 <input id="email" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
 <label for="password">Password</label>
@@ -25,7 +26,7 @@
 </form>
 <p class="notice" role="status" th:if="${login}" th:text="${login}">
 </p>
-<p>New to the store? <a class="text-link" href="/register-admin">Create an account</a>
+<p>New to the store? <a class="text-link" th:if="${adminRegistrationEnabled}" href="/register-admin">Create an account</a>
 </p>
 </div>
 </div>

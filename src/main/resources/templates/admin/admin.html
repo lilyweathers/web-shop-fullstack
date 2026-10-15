@@ -14,7 +14,7 @@
 <nav aria-label="Admin navigation">
 <a href="/">Visit store</a>
 <a href="/login-admin">Log in</a>
-<a href="/register-admin">Register</a>
+<a th:if="${adminRegistrationEnabled}" href="/register-admin">Register</a>
 </nav>
 </header>
 <main class="storefront">
@@ -27,7 +27,7 @@
 <p>A thoughtful workspace for your fabrics, orders, and all the things that keep the shop moving.</p>
 <div class="hero-links">
 <a class="button" href="/login-admin">Enter the studio &#8599;</a>
-<a class="text-link" href="/register-admin">Create an admin account</a>
+<a class="text-link" th:if="${adminRegistrationEnabled}" href="/register-admin">Create an admin account</a>
 </div>
 </div>
 <img class="hero-image" src="/images/thread_spools.jpg" alt="Colourful sewing threads in the studio">

@@ -16,7 +16,7 @@
 <a href="/admin-add">Add fabric</a>
 <a href="/admin-pending" aria-current="page">Orders</a>
 <a href="/admin-profile" th:text="${login}">My account</a>
-<a href="/logout-admin">Log out</a>
+<form class="nav-logout" action="/logout-admin" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -61,10 +61,12 @@
 <p>Review incoming orders and confirm their next step.</p>
 <div class="admin-order-actions">
 <form action="/admin-pending-confirm" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${id}">
 <button class="btn" type="submit">Confirm order &#8599;</button>
 </form>
 <form action="/admin-pending-cancel" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${id}">
 <button class="button secondary cancel-button" type="submit">Cancel order</button>
 </form>

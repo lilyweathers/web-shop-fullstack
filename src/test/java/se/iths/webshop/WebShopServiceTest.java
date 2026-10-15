@@ -21,9 +21,6 @@ import se.iths.webshop.business.service.WebShopService;
 import se.iths.webshop.data.repository.OrderRepository;
 import se.iths.webshop.data.repository.PersonRepository;
 import se.iths.webshop.data.repository.ProductRepository;
-import se.iths.webshop.data.repository.implementation.OrderRepositoryImplementation;
-import se.iths.webshop.data.repository.implementation.PersonRepositoryImplementation;
-import se.iths.webshop.data.repository.implementation.ProductRepositoryImplementation;
 
 public class WebShopServiceTest {
 
@@ -49,11 +46,11 @@ public class WebShopServiceTest {
     }
 
     @Mock
-    private PersonRepository personRepository = mock(PersonRepositoryImplementation.class);
+    private PersonRepository personRepository = mock(PersonRepository.class);
     @Mock
-    private ProductRepository productRepository = mock(ProductRepositoryImplementation.class);
+    private ProductRepository productRepository = mock(ProductRepository.class);
     @Mock
-    private OrderRepository orderRepository = mock(OrderRepositoryImplementation.class);
+    private OrderRepository orderRepository = mock(OrderRepository.class);
     private WebShopService webShopService = new WebShopService(personRepository, productRepository, orderRepository);
 
 
@@ -75,9 +72,10 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldLoginCustomer() {
+        when(personRepository.save(any(Person.class))).thenAnswer(invocation -> invocation.getArgument(0));
         Customer customer = new Customer("Customer", "test@test.com", "test1");
 
-        when(personRepository.findByEmailAndPassword("test@test.com", "test1")).thenReturn(Optional.of(customer));
+        when(personRepository.findByEmail("test@test.com")).thenReturn(Optional.of(customer));
         webShopService.loginUser("test@test.com", "test1");
 
         assertEquals(customer, webShopService.getUser());
@@ -85,9 +83,10 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldLoginEmployee() {
+        when(personRepository.save(any(Person.class))).thenAnswer(invocation -> invocation.getArgument(0));
         Employee employee = new Employee("Admin", "admin@admin.com", "admin");
 
-        when(personRepository.findByEmailAndPassword("admin@admin.com", "admin")).thenReturn(Optional.of(employee));
+        when(personRepository.findByEmail("admin@admin.com")).thenReturn(Optional.of(employee));
         webShopService.loginAdmin("admin@admin.com", "admin");
 
         assertEquals(employee, webShopService.getUser());

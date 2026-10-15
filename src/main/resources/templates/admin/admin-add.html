@@ -16,7 +16,7 @@
 <a href="/admin-add" aria-current="page">Add fabric</a>
 <a href="/admin-pending">Orders</a>
 <a href="/admin-profile" th:text="${login}">My account</a>
-<a href="/logout-admin">Log out</a>
+<form class="nav-logout" action="/logout-admin" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -35,6 +35,7 @@
 <p class="notice" role="status" th:if="${not #strings.isEmpty(addResult)}" th:text="${addResult}">
 </p>
 <form action="/admin-add" method="post" th:object="${product}" class="settings-form">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <div class="settings-field">
 <label for="name">Fabric name</label>
 <input id="name" type="text" th:field="*{name}" placeholder="e.g. White linen" required>

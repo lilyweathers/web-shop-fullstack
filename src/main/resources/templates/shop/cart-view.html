@@ -17,7 +17,7 @@
 <a href="/orders">Orders</a>
 <a href="/profile" th:text="${login}">My account</a>
 <a href="/cart" aria-current="page">Bag</a>
-<a href="/logout">Log out</a>
+<form class="nav-logout" action="/logout" method="post"><input type="hidden" name="_csrf" th:value="${csrfToken}"><button type="submit">Log out</button></form>
 </nav>
 </header>
 <main>
@@ -51,6 +51,7 @@
 </div>
 <article class="bag-item" th:each="item : ${items}">
 <form action="/product" method="post" class="bag-photo-form">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="id" th:value="${item.product.id}">
 <button type="submit" class="bag-photo-button" th:aria-label="${'View ' + item.product.name}">
 <img th:src="${item.product.img}" th:alt="${item.product.name}">
@@ -63,12 +64,14 @@
 <span th:text="${#numbers.formatDecimal(item.product.price, 1, 2)}">300.00</span> SEK/m&sup2;</p>
 <div class="bag-item-controls">
 <form action="/update-cart" method="post" class="bag-quantity-form">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="name" th:value="${item.product.name}">
 <label>Qty <input class="quantity" type="number" name="count" min="1" th:value="${item.count}" required th:aria-label="${'Quantity for ' + item.product.name}">
 </label>
 <button class="bag-text-button" type="submit">Update</button>
 </form>
 <form action="/update-cart" method="post" class="bag-remove-form">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <input type="hidden" name="name" th:value="${item.product.name}">
 <input type="hidden" name="count" value="0">
 <button class="bag-text-button" type="submit" th:aria-label="${'Remove ' + item.product.name + ' from bag'}">Remove</button>
@@ -80,7 +83,8 @@
 </article>
 <div class="bag-list-footer">
 <p>Changed a quantity? Select Update to save it.</p>
-<form action="/clear-cart" method="get">
+<form action="/clear-cart" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <button class="bag-text-button" type="submit">Empty bag</button>
 </form>
 </div>
@@ -91,6 +95,7 @@
 <div class="bag-summary-total" th:text="${total}">Total: 600.0 SEK</div>
 <p>Take a moment to review your fabrics. You will confirm your order in the next step.</p>
 <form action="/checkout" method="post">
+<input type="hidden" name="_csrf" th:value="${csrfToken}">
 <button class="btn" type="submit">Continue to checkout &#8599;</button>
 </form>
 <a class="text-link" href="/browse">A little more inspiration &#8599;</a>
