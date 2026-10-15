@@ -4,6 +4,8 @@ The application runs on a Render **Free** Docker web service. A separate Aiven
 **Free** MySQL service stores the data. No paid Render database or disk is needed.
 `render.yaml` explicitly selects `plan: free`.
 
+Live demo: https://lily-clairevelle-fabrics.onrender.com
+
 This is a portfolio demo: it has no payment processing or shipping integration.
 Render's free service sleeps after inactivity, and a restart clears login sessions
 and shopping bags. Orders and accounts remain in MySQL. Free-plan availability
@@ -26,6 +28,8 @@ Connect this GitHub repository to Render and create a Blueprint from the branch
 containing these deployment files. The Blueprint defines one Free Docker service.
 Alternatively create a Free web service, select Docker, and enter the variables
 below manually. Use `/health` as the health-check path.
+For a public repository connection, publish changes to GitHub, then select
+**Manual Deploy > Deploy latest commit** in Render.
 
 | Variable | Value |
 | --- | --- |
@@ -89,6 +93,10 @@ Mail delivery is not enabled by checkout. Optional SMTP configuration uses
 `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, and `MAIL_PASSWORD`. An email app password
 previously committed to this repository must be revoked at the email provider;
 deleting it from the current files does not remove it from Git history.
+
+The production profile runs `schema-hosted.sql` before Hibernate updates the
+schema. This creates missing order-link tables with primary keys required by
+Aiven, without removing existing records. Schema failures stop startup.
 
 References: [Render free services](https://render.com/docs/free),
 [Render Docker](https://render.com/docs/docker),
