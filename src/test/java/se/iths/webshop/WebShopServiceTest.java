@@ -27,6 +27,27 @@ import se.iths.webshop.data.repository.implementation.ProductRepositoryImplement
 
 public class WebShopServiceTest {
 
+    @Test
+    public void shouldAddProductToInitializedCart() {
+        Product product = new Product("Fabric", "Cotton", 100.0, "Cotton fabric", "");
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        assertEquals("Fabric added to cart!", webShopService.addProductToCart(1L, 2));
+        assertEquals(200.0, webShopService.getCartTotal());
+        assertEquals("Product already in cart!", webShopService.addProductToCart(1L, 1));
+        assertEquals(1, webShopService.getCartItems().size());
+    }
+
+    @Test
+    public void shouldRejectMissingProductAndInvalidQuantities() {
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertEquals("Product not found!", webShopService.addProductToCart(1L, 1));
+        assertEquals("Quantity must be greater than zero!", webShopService.addProductToCart(1L, 0));
+        assertEquals("Quantity must be greater than zero!", webShopService.addProductToCart(1L, -1));
+        assertEquals(0, webShopService.getCartItems().size());
+    }
+
     @Mock
     private PersonRepository personRepository = mock(PersonRepositoryImplementation.class);
     @Mock
@@ -116,16 +137,4 @@ public class WebShopServiceTest {
         assertEquals("iPhone", assertedList.get(0).getName());
     }
 
-    @Test
-    public void shouldReturnProductsByCategory() {
-        List<Product> list = new ArrayList<>();
-        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell",""));
-        list.add(new Product("MacBook", "Laptop", 9000.0, "The latest MacBook",""));
-        when(productRepository.findAll()).thenReturn(list);
-
-        List<Product> assertedList = webShopService.searchProductsByCategory("LAPTOP");
-
-        assertEquals(1, assertedList.size());
-        assertEquals("Laptop", assertedList.get(0).getCategory());
-    }
 }

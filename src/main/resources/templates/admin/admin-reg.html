@@ -1,44 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Web Shop</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fabric Store Admin · Materials for a life handmade</title>
+<link rel="stylesheet" href="/css/style.css?v=10">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store Admin</h1>
-        <nav>
-            <a href="/login-admin">Login</a>
-            <a href="/register-admin">Register</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article>
-                <div class="register-container">
-                    <h2 class="h2-top">Register new account</h2>
-                    <form th:action="@{/register-admin}" method="post" th:object="${employee}">
-                        <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
-                        <input class="input" type="email" th:field="*{email}" placeholder="Email"></br>
-                        <input class="input" type="password" th:field="*{password}" placeholder="Password"></br>
-                        <button class="btn" type="submit">
-                            <p>Register</p>
-                        </button>
-                    </form>
-                    <p th:text="${regcheck}"></p>
-                </div>
-            </article>
-            <article>
-                <img class="img-register" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header class="admin-header"><h1><a href="/admin">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/">Visit store</a><a href="/login-admin">Log in</a><a href="/register-admin">Register</a></nav></header>
+<main>
+<div class="auth-layout">
+<img class="auth-photo" src="/images/stacked_fabrics.jpg" alt="Stacks of beautifully textured fabrics">
+<div class="auth-panel">
+<span class="eyebrow">Create an admin account</span>
+<h2>Join the studio.</h2>
+<p>Your workspace for the collection and the people who love it.</p>
+<form th:action="@{/register-admin}" method="post" th:object="${employee}">
+<label for="name">Your name</label>
+<input id="name" th:field="*{name}" autocomplete="name" required minlength="2" maxlength="30" placeholder="Your name">
+<label for="email">Email address</label>
+<input id="email" type="email" th:field="*{email}" autocomplete="email" required placeholder="you@example.com">
+<label for="password">Password · 5–20 characters</label>
+<input id="password" type="password" th:field="*{password}" autocomplete="new-password" required minlength="5" maxlength="20" placeholder="Choose a password">
+<button class="btn" type="submit">Create account <span aria-hidden="true">↗</span>
+</button>
+</form>
+<p class="notice" role="status" th:if="${regcheck}" th:text="${regcheck}">
+</p>
+<p>Already part of the community? <a class="text-link" href="/login-admin">Log in</a>
+</p>
+</div>
+</div>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle · Fabric Store</p>
+</footer>
 </body>
-
 </html>

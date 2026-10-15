@@ -21,7 +21,7 @@ public class Cart {
     public Optional<CartItem> findByName(String name) {
         for (CartItem cartItem : items) {
             Product product = cartItem.getProduct();
-            if (product.getName().toLowerCase().equals(name.toLowerCase())) {
+            if (product.getName().equalsIgnoreCase(name)) {
                 return Optional.of(cartItem);
             }
         }
@@ -39,6 +39,9 @@ public class Cart {
     }
 
     public Optional<Product> addProduct(Product product, int count) {
+        if (product == null || count <= 0) {
+            return Optional.empty();
+        }
         Optional<CartItem> orderLine = findByProduct(product);
         if (orderLine.isEmpty()) {
             getItems().add(new CartItem(product, count));
@@ -48,6 +51,9 @@ public class Cart {
     }
 
     public void updateCartItem(String name, int count) {
+        if (count < 0) {
+            return;
+        }
         Optional<CartItem> orderLine = findByName(name);
         if (orderLine.isPresent()) {
             if (count == 0) {

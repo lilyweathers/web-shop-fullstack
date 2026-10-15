@@ -1,44 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store - Login</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fabric Store · Materials for a life handmade</title>
+<link rel="stylesheet" href="/css/style.css?v=2">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/login">Login</a>
-            <a href="/register-user">Register</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article>
-                <div class="login-container">
-                    <h2 class="h2-top">Enter your credentials</h2>
-                    <form action="/login" method="post">
-                        <input class="input" type="email" name="email" placeholder="Email"></br>
-                        <input class="input" type="password" name="password" placeholder="Password"></br>
-                        <button class="btn" type="submit">
-                            <p>Login</p>
-                        </button>
-                    </form>
-                    <p class="center-text" th:text="${login}"></p>
-                </div>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header>
+<h1>
+<a href="/">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a href="/browse">Browse fabrics</a>
+<a href="/#story">Our story</a>
+<a href="/login">Log in</a>
+<a class="button secondary" href="/register-user">Join the making</a>
+</nav>
+</header>
+<main>
+<div class="auth-layout">
+<img class="auth-photo" src="/images/stacked_fabrics.jpg" alt="Stacks of beautifully textured fabrics">
+<div class="auth-panel">
+<span class="eyebrow">Your creative corner</span>
+<h2>Welcome back.</h2>
+<p>Your next project is waiting. Let’s make something lovely.</p>
+<p class="notice" th:if="${pendingAddition}">Log in to add your selected fabric to your bag. We will take you back to Browse fabrics afterwards.</p>
+<form action="/login" method="post">
+<label for="email">Email address</label>
+<input id="email" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
+<label for="password">Password</label>
+<input id="password" type="password" name="password" autocomplete="current-password" required placeholder="Your password">
+<button class="btn" type="submit">Log in <span aria-hidden="true">↗</span>
+</button>
+</form>
+<p class="notice" role="status" th:if="${login}" th:text="${login}">
+</p>
+<p>New to the store? <a class="text-link" href="/register-user">Create an account</a>
+</p>
+</div>
+</div>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle · Fabric Store</p>
+</footer>
 </body>
-
 </html>

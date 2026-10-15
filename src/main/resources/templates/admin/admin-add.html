@@ -1,60 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Web Shop</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add a fabric &middot; Fabric Store Admin</title>
+<link rel="stylesheet" href="/css/style.css?v=10">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store Admin</h1>
-        <nav>
-            <a href="/admin-profile" th:text="${login}"></a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/admin-add">Add Products</a>
-                    <a href="/admin-view">View Products</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Orders</a>
-                <div class="dropdown-content">
-                    <a href="/admin-pending">Confirm Orders</a>
-                    <a href="/admin-process">Process Orders</a>
-                    <a href="/admin-dispatch">Completed Orders</a>
-                    <a href="/admin-cancel">Canceled Orders</a>
-                </div>
-            </div>
-            <a href="/logout-admin">Logout</a></br>
-        </nav>
-        <p th:text="${message}"></p>
-    </header>
-    <main>
-        <section>
-            <article>
-                <h2 class="h2-top">Add Product</b>
-                <div class="add-product-div"><form th:action="@{/admin-add}" method="post" th:object="${product}">
-                    <input class="input" type="text" th:field="*{name}" placeholder="Name"></br>
-                    <input class="input" type="text" th:field="*{category}"  placeholder="Category"></br>
-                    <input class="input" type="text" th:field="*{price}"  placeholder="Price"></br>
-                    <input class="input" type="text" th:field="*{description}"  placeholder="Description"></br>
-                    <input class="input" type="text" th:field="*{img}"  placeholder="Image url"></br>
-                    <input class="btn" type="submit" value="Add">
-                </form>
-                </div>
-                <p th:text="${addResult}"></p></br>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header class="admin-header">
+<h1>
+<a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span>
+</h1>
+<nav aria-label="Admin navigation">
+<a href="/admin-view">Products</a>
+<a href="/admin-add" aria-current="page">Add fabric</a>
+<a href="/admin-pending">Orders</a>
+<a href="/admin-profile" th:text="${login}">My account</a>
+<a href="/logout-admin">Log out</a>
+</nav>
+</header>
+<main>
+<section class="settings-page">
+<a class="text-link" href="/admin-view">&#8592; Back to the collection</a>
+<div class="settings-layout">
+<aside class="settings-sidebar">
+<span class="eyebrow">Grow the collection</span>
+<h2>A new texture. <br>A new beginning.</h2>
+<p>Add the details that help a maker find their next favourite fabric.</p>
+<img src="/images/stacked_fabrics.jpg" alt="A stack of textured fabrics">
+</aside>
+<div class="settings-card">
+<span class="eyebrow">The fabric details</span>
+<h3>Something new to love.</h3>
+<p class="notice" role="status" th:if="${not #strings.isEmpty(addResult)}" th:text="${addResult}">
+</p>
+<form action="/admin-add" method="post" th:object="${product}" class="settings-form">
+<div class="settings-field">
+<label for="name">Fabric name</label>
+<input id="name" type="text" th:field="*{name}" placeholder="e.g. White linen" required>
+</div>
+<div class="settings-field">
+<label for="category">Material / category</label>
+<input id="category" type="text" th:field="*{category}" placeholder="e.g. Linen" required>
+</div>
+<div class="settings-field">
+<label for="price">Price in SEK</label>
+<input id="price" type="number" th:field="*{price}" placeholder="300.00" required min="0" step="0.01">
+</div>
+<div class="settings-field">
+<label for="description">Description</label>
+<input id="description" type="text" th:field="*{description}" placeholder="A little about the texture and feel" >
+</div>
+<div class="settings-field">
+<label for="img">Image path or URL</label>
+<input id="img" type="text" th:field="*{img}" placeholder="/images/linen_texture.jpg" >
+</div>
+<div class="settings-actions">
+<button class="btn" type="submit">Add fabric &#8599;</button>
+<a class="text-link" href="/admin-view">Cancel</a>
+</div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store Admin</p>
+</footer>
 </body>
-
 </html>

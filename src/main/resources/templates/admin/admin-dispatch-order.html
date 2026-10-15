@@ -1,61 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order details &middot; Fabric Store Admin</title>
+<link rel="stylesheet" href="/css/style.css?v=10">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store Admin</h1>
-        <nav>
-            <a href="/admin-profile" th:text="${login}"></a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/admin-add">Add Products</a>
-                    <a href="/admin-view">View Products</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Orders</a>
-                <div class="dropdown-content">
-                    <a href="/admin-pending">Confirm Orders</a>
-                    <a href="/admin-process">Process Orders</a>
-                    <a href="/admin-dispatch">Completed Orders</a>
-                    <a href="/admin-cancel">Canceled Orders</a>
-                </div>
-            </div>
-            <a href="/logout-admin">Logout</a></br>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article class="article-order">
-                <h2 class="h2-top">Expedited order</h2>
-                <div th:each="item : ${items}">
-                    <span th:text="${item.getCount()}"></span>
-                    <span th:text="${item.getProduct()}"></span>
-                    <span th:text="${item.getCategory()}"></span>
-                    <span th:text="${item.getPrice()}"></span>
-                </div>
-                <p th:text="${total}"></p>
-                <form action="/admin-dispatch">
-                    <button class="btn" type="submit">
-                        <p>Back</p>
-                    </button>
-                </form>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header class="admin-header">
+<h1>
+<a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span>
+</h1>
+<nav aria-label="Admin navigation">
+<a href="/admin-view">Products</a>
+<a href="/admin-add">Add fabric</a>
+<a href="/admin-pending" aria-current="page">Orders</a>
+<a href="/admin-profile" th:text="${login}">My account</a>
+<a href="/logout-admin">Log out</a>
+</nav>
+</header>
+<main>
+<section class="order-detail-page">
+<a class="text-link" href="/admin-dispatch">&#8592; Back to dispatched orders</a>
+<div class="order-detail-heading">
+<div>
+<span class="eyebrow">Customer order</span>
+<h2 th:text="${order}">
+</h2>
+</div>
+<span class="status-pill">Dispatched</span>
+</div>
+<div class="order-detail-layout">
+<div class="order-summary">
+<div class="summary-heading">
+<h3>The chosen fabrics</h3>
+<span class="eyebrow" th:text="${#lists.size(items) + ' selections'}">
+</span>
+</div>
+<div class="order-line" th:each="item : ${items}">
+<div class="fabric-swatch" aria-hidden="true">&#10035;</div>
+<div class="order-line-name">
+<h4 th:text="${item.product}">
+</h4>
+<p>
+<span th:text="${item.category}">
+</span> &middot; Qty <span th:text="${item.count}">
+</span>
+</p>
+</div>
+<span class="receipt-price">
+<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">
+</span> SEK</span>
+</div>
+<p class="order-detail-total" th:text="${total}">
+</p>
+</div>
+<aside class="order-progress">
+<span class="eyebrow">Where things stand</span>
+<h3>Dispatched</h3>
+<p>A record of the orders you have dispatched.</p>
+<a class="text-link" href="/admin-dispatch">Return to the queue &#8599;</a>
+</aside>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store Admin</p>
+</footer>
 </body>
-
 </html>

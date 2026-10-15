@@ -1,107 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Web Shop</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The collection &middot; Fabric Store Admin</title>
+<link rel="stylesheet" href="/css/style.css?v=10">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store Admin</h1>
-        <nav>
-            <a href="/admin-profile" th:text="${login}"></a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/admin-add">Add Products</a>
-                    <a href="/admin-view">View Products</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Orders</a>
-                <div class="dropdown-content">
-                    <a href="/admin-pending">Confirm Orders</a>
-                    <a href="/admin-process">Process Orders</a>
-                    <a href="/admin-dispatch">Completed Orders</a>
-                    <a href="/admin-cancel">Canceled Orders</a>
-                </div>
-            </div>
-            <a href="/logout-admin">Logout</a></br>
-        </nav>
-        <p th:text="${message}"></p>
-    </header>
-    <main>
-        <section>
-            <article>
-                <h2 class="h2-top">Remove Product</h2>
-                <form action="/remove" method="post">
-                    <input class="id" type="number" name="id" placeholder="ID">
-                    <input type="hidden" name="text" th:value="${text}">
-                    <button class="btn" type="submit"><p>Remove</p></button>
-                </form></br>
-                <h2>Search products:</h2>
-                <form action="/admin-search" method="post">
-                    <input class="input" type="text" name="text" th:value="${text}" placeholder="Enter text">
-                    <button class="btn" type="submit"><p>Search</p></button>
-                </form>
-                <p th:text="${remove}"></p></br>
-                <h2>Products:</h2>
-                <div class="grid-product">
-                    <div th:each="item : ${products}">
-                        <span th:text="${item.getName()}"></span>
-                        <span th:text="${item.getCategory()}"></span>
-                        <span th:text="${item.getPrice()}"></span>
-                        <span th:text="|ID: ${item.getId()}|"></span>
-                        <form action="/remove" method="post">
-                            <input type="hidden" name="id" th:value="${item.getId()}">
-                            <input type="hidden" name="text" th:value="${text}">
-                            <button class="btn" type="submit"><p>Remove</button>
-                        </form>
-                    </div>
-                </div>
-                <p th:text="${message}"></p>
-            </article>
-            <article class="article-category"><img class="img-index" src="/images/folded_fabrics.jpeg">
-                <h2>Your everyday companion for weaving ideas into reality</h2>
-            </article>
-            <article class="article-category">
-                <div id="article-index">
-                    <p class="article-text">
-                        Step into a world of colour, texture, and endless possibility! Our store is filled with
-                        carefully
-                        chosen woven
-                        fabrics and vibrant threads, perfect for anyone who loves to create. Whether you’re a seasoned
-                        maker
-                        or just
-                        beginning your sewing journey, you’ll find materials here that spark your imagination and bring
-                        your
-                        projects
-                        to life.
-                        <br><br>
-                        Every fabric we offer is selected for its quality and feel, and every spool of thread is chosen
-                        to
-                        make stitching
-                        smoother, brighter, and more enjoyable. From soft cottons to richly textured weaves, our
-                        collection
-                        is designed to
-                        inspire and support you through every step of your creative process.
-                        <br><br>
-                        Whether you’re designing a new outfit, piecing together a quilt, or adding handmade touches to
-                        your
-                        home, we’re here
-                        to provide the tools and inspiration you need. Explore our shelves, find your favourites, and
-                        let
-                        your creativity
-                        unfold—one stitch at a time.
-                        <br><br>
-                        Welcome, and happy creating!
-                </div>
-            </article>
-            <article><img class="img-index" src="/images/pillows.jpg">
-        </section>
-    </main>
+<header class="admin-header">
+<h1>
+<a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span>
+</h1>
+<nav aria-label="Admin navigation">
+<a href="/admin-view" aria-current="page">Products</a>
+<a href="/admin-add">Add fabric</a>
+<a href="/admin-pending">Orders</a>
+<a href="/admin-profile" th:text="${login}">My account</a>
+<a href="/logout-admin">Log out</a>
+</nav>
+</header>
+<main>
+<section class="admin-workspace">
+<div class="orders-heading">
+<div>
+<span class="eyebrow">Curate the collection</span>
+<h2>Good materials. <br>Endless possibilities.</h2>
+<p>Your fabrics, ready for their next handmade chapter.</p>
+</div>
+<a class="button" href="/admin-add">Add a fabric &#8599;</a>
+</div>
+<form class="admin-search" action="/admin-search" method="post">
+<label for="admin-search">Find a fabric by name</label>
+<div>
+<input id="admin-search" type="search" name="text" th:value="${text}" placeholder="Search the collection...">
+<button class="btn" type="submit">Search &#8599;</button>
+<a class="text-link" href="/admin-view">View all</a>
+</div>
+</form>
+<p class="notice" role="status" th:if="${not #strings.isEmpty(remove)}" th:text="${remove}">
+</p>
+<p class="notice" role="status" th:if="${not #strings.isEmpty(message)}" th:text="${message}">
+</p>
+<div class="empty-state" th:if="${#lists.isEmpty(products)}">
+<h3>No fabrics found.</h3>
+<p>Try another search or add something new to the collection.</p>
+<a class="text-link" href="/admin-view">View the full collection</a>
+</div>
+<div class="admin-product-grid">
+<article class="admin-product-card" th:each="item : ${products}">
+<img th:src="${item.img}" th:alt="${item.name}" loading="lazy">
+<div>
+<span class="eyebrow" th:text="${item.category}">
+</span>
+<h3 th:text="${item.name}">
+</h3>
+<p>
+<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">
+</span> SEK <span class="admin-product-id" th:text="${'ID ' + item.id}">
+</span>
+</p>
+<form action="/remove" method="post">
+<input type="hidden" name="id" th:value="${item.id}">
+<input type="hidden" name="text" th:value="${text == null ? '' : text}">
+<button class="button secondary cancel-button" type="submit" th:aria-label="${'Remove ' + item.name}">Remove fabric</button>
+</form>
+</div>
+</article>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store Admin</p>
+</footer>
 </body>
-
 </html>

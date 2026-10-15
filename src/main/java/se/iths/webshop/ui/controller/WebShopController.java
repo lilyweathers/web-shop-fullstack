@@ -7,12 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.util.Comparator;
+import java.util.Locale;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.CustomerOrder;
 import se.iths.webshop.business.entity.Employee;
@@ -22,6 +25,10 @@ import se.iths.webshop.business.service.WebShopService;
 
 @Controller
 public class WebShopController {
+    private static final String PENDING_CART_ADDITION = "pendingCartAddition";
+
+    private record PendingCartAddition(long productId, int count, String query, String category, String sort)
+            implements java.io.Serializable {}
 
     @Autowired
     JavaMailSender javaMailSender;
@@ -71,7 +78,8 @@ public class WebShopController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, HttpSession session) {
+        model.addAttribute("pendingAddition", session.getAttribute(PENDING_CART_ADDITION) instanceof PendingCartAddition);
         return "login";
     }
 
@@ -86,15 +94,21 @@ public class WebShopController {
     }
 
     @PostMapping("/login")
-    public String loginUser(Model model, @RequestParam String email, @RequestParam String password) {
+    public String loginUser(Model model, @RequestParam String email, @RequestParam String password,
+            HttpSession session, RedirectAttributes redirect) {
         String login = webShopService.loginUser(email, password);
         model.addAttribute("login", login);
-        model.addAttribute("products", webShopService.getProducts());
-        if (login == "Wrong password or e-mail") {
+        if ("Wrong password or e-mail".equals(login) || !(webShopService.getUser() instanceof Customer)) {
+            model.addAttribute("pendingAddition", session.getAttribute(PENDING_CART_ADDITION) instanceof PendingCartAddition);
             return "login";
         }
-        model.addAttribute("categories", webShopService.getCategories());
-        return "shop/home";
+        if (session.getAttribute(PENDING_CART_ADDITION) instanceof PendingCartAddition pending) {
+            String message = webShopService.addProductToCart(pending.productId(), pending.count());
+            session.removeAttribute(PENDING_CART_ADDITION);
+            redirect.addFlashAttribute("message", message);
+            return browseLocation(pending.query(), pending.category(), pending.sort());
+        }
+        return "redirect:/home";
     }
 
     @PostMapping("/login-admin")
@@ -121,108 +135,85 @@ public class WebShopController {
         return "login";
     }
 
-    @GetMapping("/search")
-    public String searchView(Model model) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.getProducts());
-            return "shop/search";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
+    @GetMapping("/browse")
+    public String browse(Model model,
+            @RequestParam(defaultValue = "") String q,
+            @RequestParam(defaultValue = "") String category,
+            @RequestParam(defaultValue = "name") String sort) {
+        String query = q.trim();
+        String selectedCategory = category.trim();
+        String normalized = query.toLowerCase(Locale.ROOT);
+        Comparator<Product> ordering = switch (sort) {
+            case "price-asc" -> Comparator.comparing(Product::getPrice);
+            case "price-desc" -> Comparator.comparing(Product::getPrice).reversed();
+            default -> Comparator.comparing(Product::getName, String.CASE_INSENSITIVE_ORDER);
+        };
+        var products = webShopService.getProducts().stream()
+                .filter(product -> selectedCategory.isEmpty() || product.getCategory().equalsIgnoreCase(selectedCategory))
+                .filter(product -> normalized.isEmpty() || (product.getName() + " " + product.getCategory() + " "
+                        + java.util.Objects.toString(product.getDescription(), "")).toLowerCase(Locale.ROOT).contains(normalized))
+                .sorted(ordering).toList();
+        addStorefrontAccount(model);
+        model.addAttribute("categories", webShopService.getCategories());
+        model.addAttribute("products", products);
+        model.addAttribute("q", query);
+        model.addAttribute("category", selectedCategory);
+        model.addAttribute("sort", sort.equals("price-asc") || sort.equals("price-desc") ? sort : "name");
+        return "shop/browse";
     }
 
-    @PostMapping("/search")
-    public String search(Model model, @RequestParam String text, @RequestParam(value = "searchBy", required = true) String searchBy) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            if ("name".equals(searchBy)) {
-                model.addAttribute("products", webShopService.searchProductsByName(text));
-            } else if ("category".equals(searchBy)){
-                model.addAttribute("products", webShopService.searchProductsByCategory(text));
-            }
-            model.addAttribute("text", text);
-            return "shop/search";
+    @PostMapping("/browse/add")
+    public String addFromBrowse(@RequestParam long id, @RequestParam int count,
+            @RequestParam(defaultValue = "") String q,
+            @RequestParam(defaultValue = "") String category,
+            @RequestParam(defaultValue = "name") String sort, RedirectAttributes redirect, HttpSession session) {
+        if (count <= 0) {
+            redirect.addFlashAttribute("message", "Quantity must be greater than zero!");
+            return browseLocation(q, category, sort);
         }
-        model.addAttribute("login", "Please log in first");
-        return "login";
+        if (!(webShopService.getUser() instanceof Customer)) {
+            session.setAttribute(PENDING_CART_ADDITION, new PendingCartAddition(id, count, q, category, sort));
+            return "redirect:/login";
+        }
+        redirect.addFlashAttribute("message", webShopService.addProductToCart(id, count));
+        return browseLocation(q, category, sort);
+    }
+
+    private void addStorefrontAccount(Model model) {
+        boolean authenticated = webShopService.getUser() instanceof Customer;
+        model.addAttribute("authenticated", authenticated);
+        if (authenticated) {
+            model.addAttribute("login", webShopService.getUser().getName());
+        }
+    }
+
+    private String browseLocation(String q, String category, String sort) {
+        return "redirect:" + UriComponentsBuilder.fromPath("/browse").queryParam("q", q)
+                .queryParam("category", category).queryParam("sort", sort).build().encode().toUriString();
     }
 
     @PostMapping("/product")
     public String productView(Model model, @RequestParam long id) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("product", webShopService.getProduct(id));
-            return "shop/product-view";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
+        addStorefrontAccount(model);
+        model.addAttribute("categories", webShopService.getCategories());
+        model.addAttribute("product", webShopService.getProduct(id));
+        return "shop/product-view";
     }
     @PostMapping("/product-add")
-    public String productAdd(Model model, @RequestParam long id, @RequestParam int count) {
+    public String productAdd(Model model, @RequestParam long id, @RequestParam int count,
+            HttpSession session, RedirectAttributes redirect) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("product", webShopService.getProduct(id));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
+            addStorefrontAccount(model);
             return "shop/product-view";
         }
-        model.addAttribute("login", "Please log in first");
-        return "login";
+        return addFromBrowse(id, count, "", "", "name", redirect, session);
     }
 
 
-    @GetMapping("/category")
-    public String category(Model model) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.getProducts());
-            return "shop/category";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
-
-    @RequestMapping("/category/{category}")
-    public String category(Model model, @PathVariable("category") String category) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.searchProductsByCategory(category));
-            return "shop/category";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
-
-    @PostMapping("/add-item")
-    public String addToCart(Model model, @RequestParam long id, @RequestParam int count, @RequestParam String searched) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.searchProductsByName(searched));
-            model.addAttribute("message", webShopService.addProductToCart(id ,count));
-            return "shop/search";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
-
-    @PostMapping("/add-item-category")
-    public String addToCartFromCategory(Model model, @RequestParam long id, @RequestParam int count, @RequestParam String selected) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.searchProductsByCategory(selected));
-            model.addAttribute("message", webShopService.addProductToCart(id ,count));
-            return "shop/category";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
     @PostMapping("/update-cart")
     public String updateCartItem(Model model, @RequestParam String name, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
@@ -252,34 +243,37 @@ public class WebShopController {
     }
 
     @PostMapping("/place-order")
-    public String placeOrder(Model model) {
+    public String placeOrder(Model model, HttpSession session) {
         if (webShopService.getUser() instanceof Customer) {
-            CustomerOrder order = webShopService.checkout();
-            if (!order.getItems().isEmpty()) {
-                String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
-                    + "Order number: " + order.getId() + System.getProperty("line.separator")
-                    + order.getOrderItemsAsString() + System.getProperty("line.separator")
-                    + System.getProperty("line.separator") + order.getTotalPrice();
-                webShopService.clearCart();
-                //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
-                model.addAttribute("login", webShopService.getUser().getName());
-                model.addAttribute("items", order.getItems());
-                model.addAttribute("total", order.getTotalPrice());
-                model.addAttribute("categories", webShopService.getCategories());
-                model.addAttribute("message", "Order has been placed!");
-            } else {
-                webShopService.clearCart();
-                //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
-                model.addAttribute("login", webShopService.getUser().getName());
-                model.addAttribute("items", order.getItems());
-                model.addAttribute("total", order.getTotalPrice());
-                model.addAttribute("categories", webShopService.getCategories());
-                model.addAttribute("message", "Your cart is empty");
+            if (webShopService.getCartItems().isEmpty()) {
+                return "redirect:/cart";
             }
-            return "shop/confirmed";
+            CustomerOrder order = webShopService.checkout();
+            webShopService.clearCart();
+            session.setAttribute("placedOrderId", order.getId());
+            return "redirect:/order-confirmation";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
+    }
+
+    @GetMapping("/order-confirmation")
+    public String orderConfirmation(Model model, HttpSession session) {
+        if (!(webShopService.getUser() instanceof Customer customer)) {
+            return "redirect:/login";
+        }
+        Object placedOrderId = session.getAttribute("placedOrderId");
+        if (!(placedOrderId instanceof Long id)) {
+            return "redirect:/orders";
+        }
+        CustomerOrder order = webShopService.getOrder(id);
+        if (order == null || order.getCustomer() == null || customer.getId() == null
+                || !customer.getId().equals(order.getCustomer().getId())) {
+            return "redirect:/orders";
+        }
+        model.addAttribute("login", customer.getName());
+        model.addAttribute("order", order);
+        return "shop/confirmed";
     }
 
     @PostMapping("/checkout")
@@ -366,37 +360,6 @@ public class WebShopController {
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("email", webShopService.getUser().getEmail());
             return "shop/profile";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
-
-    @GetMapping("/edit-profile")
-    public String editProfile(Model model, @Valid @ModelAttribute("customer") Customer customer, BindingResult br) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("email", webShopService.getUser().getEmail());
-            model.addAttribute("edit-profile", "");
-            return "shop/edit-profile";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "login";
-    }
-
-    @PostMapping("/edit-profile")
-    public String updateProfile(Model model, @Valid @ModelAttribute("customer") Customer customer, BindingResult br) {
-        if (webShopService.getUser() instanceof Customer) {
-            model.addAttribute("login", customer.getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("email", webShopService.getUser().getEmail());
-        }
-        if (br.hasErrors()) {
-            model.addAttribute("regcheck", "Name must be between 2 and 30 characters, password must be between 5 and 20 characters");
-        } else {
-            String check =  webShopService.updateUser(customer);
-            model.addAttribute("edit-profile", check);
-            return "shop/edit-profile";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -525,37 +488,6 @@ public class WebShopController {
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("email", webShopService.getUser().getEmail());
             return "admin/admin-profile";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "admin/admin-login";
-    }
-
-    @GetMapping("/admin-edit-profile")
-    public String adminEditProfile(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
-        if (webShopService.getUser() instanceof Employee) {
-            model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("email", webShopService.getUser().getEmail());
-            model.addAttribute("edit-profile", "");
-            return "admin/admin-edit-profile";
-        }
-        model.addAttribute("login", "Please log in first");
-        return "admin/admin-login";
-    }
-
-    @PostMapping("/admin-edit-profile")
-    public String adminUpdateProfile(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
-        if (webShopService.getUser() instanceof Employee) {
-            model.addAttribute("login", employee.getName());
-            model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("email", webShopService.getUser().getEmail());
-        }
-        if (br.hasErrors()) {
-            model.addAttribute("regcheck", "Name must be between 2 and 30 characters, password must be between 5 and 20 characters");
-        } else {
-            String check =  webShopService.adminUpdateUser(employee);
-            model.addAttribute("edit-profile", check);
-            return "admin/admin-edit-profile";
         }
         model.addAttribute("login", "Please log in first");
         return "admin/admin-login";

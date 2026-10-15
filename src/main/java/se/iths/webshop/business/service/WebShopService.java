@@ -41,6 +41,7 @@ public class WebShopService {
     }
 
     public WebShopService(PersonRepository personRepository, ProductRepository productRepository, OrderRepository orderRepository) {
+        this();
         this.personRepository = personRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
@@ -86,10 +87,6 @@ public class WebShopService {
         return productRepository.findAll().stream().filter(product -> product.getName().toLowerCase().contains(text.toLowerCase())).toList();
     }
 
-    public List<Product> searchProductsByCategory(String category) {
-        return productRepository.findAll().stream().filter(product -> product.getCategory().toLowerCase().contains(category.toLowerCase())).toList();
-    }
-
     public Person getUser() {
         return user;
     }
@@ -116,17 +113,6 @@ public class WebShopService {
         } else return "Account already exists!";
     }
 
-        public String adminUpdateUser(Employee employee) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(employee.getEmail());
-        if (!optionalPerson.isEmpty()) {
-            optionalPerson.get().setName(employee.getName());
-            optionalPerson.get().setEmail(employee.getEmail());
-            optionalPerson.get().setPassword(employee.getPassword());
-            user = personRepository.save(optionalPerson.get());
-            return "Account updated!";
-
-        } else return "Failed to update";
-    }
     public String adminUpdateName(Employee employee, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
@@ -169,17 +155,6 @@ public class WebShopService {
         } else return "Failed to update";
     }
 
-    public String updateUser(Customer customer) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
-        if (!optionalPerson.isEmpty()) {
-            optionalPerson.get().setName(customer.getName());
-            optionalPerson.get().setEmail(customer.getEmail());
-            optionalPerson.get().setPassword(customer.getPassword());
-            user = personRepository.save(optionalPerson.get());
-            return "Account updated!";
-
-        } else return "Failed to update";
-    }
     public String updateName(Customer customer, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(user.getEmail());
         if (!optionalPerson.isEmpty()) {
@@ -245,7 +220,13 @@ public class WebShopService {
     }
 
     public String addProductToCart(long id, int count) {
+        if (count <= 0) {
+            return "Quantity must be greater than zero!";
+        }
         Product product = getProduct(id);
+        if (product == null) {
+            return "Product not found!";
+        }
         if (cart.addProduct(product, count).isPresent()) {
             return product.getName() + " added to cart!";
         }

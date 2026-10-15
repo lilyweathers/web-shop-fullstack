@@ -1,78 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your bag &middot; Fabric Store</title>
+<link rel="stylesheet" href="/css/style.css?v=8">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/home">Home</a>
-            <a href="/profile" th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/category">All</a>
-                    <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
-                                th:text="${category}"></span></a>
-                    </div>
-                </div>
-            </div>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article>
-                <h2 class="h2-top">Cart</h2>
-                <div th:if="${#lists.isEmpty(items)}">
-                    <p class="center-text">Cart is empty</p>
-                </div>
-                <div th:each="item : ${items}">
-                    <span th:text="${item.getCount()}"></span>
-                    <span th:text="${item.getProduct().getName()}"></span>
-                    <span th:text="${item.getProduct().getCategory()}"></span>
-                    <span th:text="${item.getProduct().getPrice()}"></span>
-                    <form action="/update-cart" method="post">
-                        <input type="hidden" name="name" th:value="${item.getProduct().getName()}">
-                        Qty <input class="quantity" type="number" name="count" th:value="${item.getCount()}">
-                        <button class="btn" type="submit">
-                            <p>Update</p>
-                        </button>
-                    </form>
-                </div>
-                <p class="center-text" th:text="${total}"></p>
-                <div th:if="${emptycart} == false">
-                    <form action="/clear-cart" method="get">
-                        <button class="btn" type="submit">
-                            <p>Empty</p>
-                            </button>
-                    </form>
-                    <form action="/checkout" method="post">
-                        <button class="btn" type="submit">
-                            <p>Checkout</p>
-                        </button>
-                    </form>
-                </div>
-                <p th:text="${order}"></p>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header>
+<h1>
+<a href="/home">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a href="/home">Home</a>
+<a href="/browse">Browse fabrics</a>
+<a href="/orders">Orders</a>
+<a href="/profile" th:text="${login}">My account</a>
+<a href="/cart" aria-current="page">Bag</a>
+<a href="/logout">Log out</a>
+</nav>
+</header>
+<main>
+<section class="bag-page">
+<div class="bag-heading">
+<div>
+<span class="eyebrow">A few lovely things</span>
+<h2>Good things<br>in the making.</h2>
+<p>Your chosen fabrics, ready for their next chapter.</p>
+</div>
+<a class="text-link" href="/browse">&#8592; Continue browsing</a>
+</div>
+<p class="notice" role="status" th:if="${not #strings.isEmpty(changes)}" th:text="${changes}">
+</p>
+<p class="notice" role="status" th:if="${not #strings.isEmpty(order)}" th:text="${order}">
+</p>
+<div class="bag-empty" th:if="${#lists.isEmpty(items)}">
+<div>
+<span class="eyebrow">A little room for possibility</span>
+<h3>Your next idea<br>starts here.</h3>
+<p>Your bag is empty for now. Find a texture you love and see what it becomes.</p>
+<a class="button" href="/browse">Explore the fabrics &#8599;</a>
+</div>
+<img src="/images/stacked_fabrics.jpg" alt="Soft layers of fabric in natural colours">
+</div>
+<div class="bag-layout" th:unless="${#lists.isEmpty(items)}">
+<div class="bag-items">
+<div class="bag-list-heading">
+<h3>Your shopping bag</h3>
+<span th:text="${#lists.size(items) + (#lists.size(items) == 1 ? ' selection' : ' selections')}">2 selections</span>
+</div>
+<article class="bag-item" th:each="item : ${items}">
+<form action="/product" method="post" class="bag-photo-form">
+<input type="hidden" name="id" th:value="${item.product.id}">
+<button type="submit" class="bag-photo-button" th:aria-label="${'View ' + item.product.name}">
+<img th:src="${item.product.img}" th:alt="${item.product.name}">
+</button>
+</form>
+<div class="bag-item-info">
+<span class="eyebrow" th:text="${item.product.category}">Linen</span>
+<h4 th:text="${item.product.name}">White linen</h4>
+<p class="bag-unit-price">
+<span th:text="${#numbers.formatDecimal(item.product.price, 1, 2)}">300.00</span> SEK/m&sup2;</p>
+<div class="bag-item-controls">
+<form action="/update-cart" method="post" class="bag-quantity-form">
+<input type="hidden" name="name" th:value="${item.product.name}">
+<label>Qty <input class="quantity" type="number" name="count" min="1" th:value="${item.count}" required th:aria-label="${'Quantity for ' + item.product.name}">
+</label>
+<button class="bag-text-button" type="submit">Update</button>
+</form>
+<form action="/update-cart" method="post" class="bag-remove-form">
+<input type="hidden" name="name" th:value="${item.product.name}">
+<input type="hidden" name="count" value="0">
+<button class="bag-text-button" type="submit" th:aria-label="${'Remove ' + item.product.name + ' from bag'}">Remove</button>
+</form>
+</div>
+</div>
+<div class="bag-line-price">
+<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">600.00</span> SEK</div>
+</article>
+<div class="bag-list-footer">
+<p>Changed a quantity? Select Update to save it.</p>
+<form action="/clear-cart" method="get">
+<button class="bag-text-button" type="submit">Empty bag</button>
+</form>
+</div>
+</div>
+<aside class="bag-summary" aria-labelledby="bag-summary-heading">
+<span class="eyebrow">One step closer to handmade</span>
+<h3 id="bag-summary-heading">Your lovely selection.</h3>
+<div class="bag-summary-total" th:text="${total}">Total: 600.0 SEK</div>
+<p>Take a moment to review your fabrics. You will confirm your order in the next step.</p>
+<form action="/checkout" method="post">
+<button class="btn" type="submit">Continue to checkout &#8599;</button>
+</form>
+<a class="text-link" href="/browse">A little more inspiration &#8599;</a>
+<div class="bag-summary-note">A little texture. Endless possibility.</div>
+</aside>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store</p>
+</footer>
 </body>
-
 </html>

@@ -3,6 +3,7 @@ package se.iths.webshop;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,22 @@ import se.iths.webshop.business.model.Cart;
 import se.iths.webshop.business.model.CartItem;
 
 public class CartTest {
+
+    @Test
+    public void shouldRejectInvalidAdditionsWithoutChangingTotal() {
+        assertTrue(cart.addProduct(products.get(0), -1).isEmpty());
+        assertTrue(cart.addProduct(products.get(0), 0).isEmpty());
+        assertTrue(cart.addProduct(null, 1).isEmpty());
+        assertEquals(2, cart.getItems().size());
+        assertEquals(59000.0, cart.getTotal());
+    }
+
+    @Test
+    public void shouldIgnoreNegativeQuantityUpdates() {
+        cart.updateCartItem("iPhone", -3);
+        assertEquals(1, cart.findByName("iPhone").orElseThrow().getCount());
+        assertEquals(59000.0, cart.getTotal());
+    }
 
     private List<Product> products = List.of(
             new Product("iPhone", "Phone", 11000.0, "The latest iPhone model",""),

@@ -1,57 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store</title>
-    <link rel="stylesheet" href="/css/style.css" />
-</head>
-
-<body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/home">Home</a>
-            <a href="/profile" th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/category">All</a>
-                    <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
-                                th:text="${category}"></span></a>
-                    </div>
-                </div>
-            </div>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article>
-                <h2 class="h2-top">Profile</h2>
-                <div class="profile-list">
-                    <span>Name: [(${login})]</span>
-                    <span>E-mail: [(${email})]</span>
-                    <span>Password: ********</span>
-                    </br>
-                    <form action="/edit-profile">
-                        <button class="btn" type="submit"><p>Edit</p></button>
-                    </form>
-                </div>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
-</body>
-
-</html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your profile &middot; Fabric Store</title><link rel="stylesheet" href="/css/style.css?v=6"></head>
+<body><header>
+<h1>
+<a href="/home">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a href="/home">Home</a>
+<a href="/browse">Browse fabrics</a>
+<a href="/orders">Orders</a>
+<a href="/profile" aria-current="page" th:text="${login}">My account</a>
+<a href="/cart">Bag</a>
+<a href="/logout">Log out</a>
+</nav>
+</header>
+<main><section class="account-page">
+    <div class="account-heading"><span class="eyebrow">Your creative corner</span><h2>A little space<br>of your own.</h2><p>Your details, your orders, and a little inspiration for what comes next.</p></div>
+    <div class="account-layout">
+        <div class="account-main">
+            <section class="account-details" aria-labelledby="account-details-heading">
+                <div class="account-identity"><span class="account-monogram" aria-hidden="true" th:text="${#strings.isEmpty(login) ? 'M' : #strings.toUpperCase(#strings.substring(login, 0, 1))}">M</span><div><span class="eyebrow">Lovely to see you</span><h3 th:text="${login}">Maker</h3></div></div>
+                <div class="account-card-heading"><h3 id="account-details-heading">The essentials</h3><span class="eyebrow">Account details</span></div>
+                <dl class="account-fields">
+                    <div><dt>Name</dt><dd th:text="${login}">Your name</dd><a class="text-link" href="/edit-name" aria-label="Edit your name">Edit &#8599;</a></div>
+                    <div><dt>Email address</dt><dd th:text="${email}">Your email address</dd><a class="text-link" href="/edit-email" aria-label="Edit your email address">Edit &#8599;</a></div>
+                    <div><dt>Password</dt><dd><span aria-hidden="true">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</span><span class="account-sr-only">Password hidden</span></dd><a class="text-link" href="/edit-password">Change password &#8599;</a></div>
+                </dl>
+            </section>
+            <div class="account-shortcuts"><a class="account-shortcut" href="/orders"><span class="eyebrow">Your handmade journey</span><h3>My orders <span aria-hidden="true">&#8599;</span></h3><p>See what you have chosen and follow its progress.</p></a><a class="account-shortcut" href="/cart"><span class="eyebrow">Saved for your next idea</span><h3>My bag <span aria-hidden="true">&#8599;</span></h3><p>Take another look at the fabrics in your bag.</p></a></div>
+            <div class="account-signout"><p>Done for now? Your next project will be here when you return.</p><a class="text-link" href="/logout">Log out &#8599;</a></div>
+        </div>
+        <aside class="account-inspiration"><img src="/images/stacked_fabrics.jpg" alt="Layers of soft fabrics in natural colours"><div><span class="eyebrow">Follow a little inspiration</span><h3>What will you<br>make next?</h3><p>A new texture. A favourite colour. Sometimes that is all an idea needs.</p><a class="button secondary" href="/browse">Browse fabrics &#8599;</a></div></aside>
+    </div>
+</section></main>
+<footer><p>&copy; 2026 Lily Clairevelle &middot; Fabric Store</p></footer>
+</body></html>

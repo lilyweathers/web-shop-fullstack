@@ -1,70 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order details &middot; Fabric Store</title>
+<link rel="stylesheet" href="/css/style.css?v=4">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/home">Home</a>
-            <a href="/profile" th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/category">All</a>
-                    <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
-                                th:text="${category}"></span></a>
-                    </div>
-                </div>
-            </div>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article class="article-order">
-                <h2 class="h2-top" th:text="${name}"></h2>
-                <div th:each="item : ${items}">
-                    <span th:text="${item.getName()}"></span>
-                </div>
-                <p class="center-text" th:text="${total}"></p>
-                <div class="order-status" th:if="${confirm} == false and ${process} == false and ${cancel} == false">
-                    Order has been placed.
-                </div>
-                <div class="order-status" th:if="${confirm} == true">
-                    Order has been confirmed.
-                </div>
-                <div class="order-status" th:if="${process} == true">
-                    Order has been sent.
-                </div>
-                <div class="order-status" th:if="${cancel} == true">
-                    Order has been canceled.
-                </div>
-                <div th:if="${cancel} == false and ${process} == false">
-                    <form action="/order-cancel" method="post">
-                        <input type="hidden" name="id" th:value="${id}">
-                        <button class="btn" type="submit"><p>Cancel</p></button>
-                    </form>
-                </div>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header>
+<h1>
+<a href="/home">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a href="/home">Home</a>
+<a href="/browse">Browse fabrics</a>
+<a href="/orders" aria-current="page">Orders</a>
+<a href="/profile" th:text="${login}">My account</a>
+<a href="/cart">Bag</a>
+<a href="/logout">Log out</a>
+</nav>
+</header>
+<main>
+<section class="order-detail-page">
+<a class="text-link" href="/orders">&#8592; Back to your orders</a>
+<div class="order-detail-heading">
+<div>
+<span class="eyebrow">A little closer to handmade</span>
+<h2 th:text="${'Order #' + id}">Order #42</h2>
+</div>
+<span class="status-pill status-cancelled" th:if="${cancel}">Cancelled</span>
+<span class="status-pill status-sent" th:if="${not cancel and process}">Dispatched</span>
+<span class="status-pill" th:if="${not cancel and not process and confirm}">Confirmed</span>
+<span class="status-pill status-pending" th:if="${not cancel and not process and not confirm}">Received</span>
+</div>
+<div class="order-detail-layout">
+<div class="order-summary">
+<div class="summary-heading">
+<h3>Your chosen fabrics</h3>
+<span class="eyebrow" th:text="${#lists.size(items) + (#lists.size(items) == 1 ? ' selection' : ' selections')}">2 selections</span>
+</div>
+<div class="order-line" th:each="item : ${items}">
+<div class="fabric-swatch" aria-hidden="true">&#10035;</div>
+<div class="order-line-name">
+<h4 th:text="${item.product}">White linen</h4>
+<p>
+<span th:text="${item.category}">Linen</span> &middot; Quantity <span th:text="${item.count}">2</span>
+</p>
+</div>
+<span class="receipt-price">
+<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">600.00</span> SEK</span>
+</div>
+<p class="order-detail-total" th:text="${total}">Total price: 600.0 SEK</p>
+</div>
+<aside class="order-progress">
+<span class="eyebrow">Where things stand</span>
+<h3 th:if="${cancel}">A change of plans.</h3>
+<h3 th:if="${not cancel and process}">On its way to you.</h3>
+<h3 th:if="${not cancel and not process}">Something lovely is coming.</h3>
+<p th:if="${cancel}">This order has been cancelled. There is always another idea waiting to take shape.</p>
+<p th:if="${not cancel and process}">Your order has been dispatched. You can find all your chosen fabrics in the summary here.</p>
+<p th:if="${not cancel and not process and confirm}">Your order has been confirmed and is waiting to be dispatched.</p>
+<p th:if="${not cancel and not process and not confirm}">We have received your order. Check back here to follow its progress.</p>
+<ol class="order-timeline" th:unless="${cancel}" aria-label="Order progress">
+<li class="complete">Order received</li>
+<li th:class="${confirm or process} ? 'complete' : ''">Confirmed</li>
+<li th:class="${process} ? 'complete' : ''">Dispatched</li>
+</ol>
+<a class="text-link" href="/browse">Find your next inspiration &#8599;</a>
+</aside>
+</div>
+<div class="order-cancel-panel" th:if="${not cancel and not process}">
+<div>
+<h3>A change of heart?</h3>
+<p>You can cancel this order before it is dispatched.</p>
+</div>
+<form action="/order-cancel" method="post">
+<input type="hidden" name="id" th:value="${id}">
+<button class="button secondary cancel-button" type="submit">Cancel this order</button>
+</form>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store</p>
+</footer>
 </body>
-
 </html>

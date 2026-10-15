@@ -1,60 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your orders &middot; Fabric Store</title>
+<link rel="stylesheet" href="/css/style.css?v=4">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store</h1>
-        <nav>
-            <a href="/home">Home</a>
-            <a href="/profile" th:text="${login}"></a>
-            <a href="/cart">Cart</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/category">All</a>
-                    <div th:each="category : ${categories}">
-                        <a th:href="@{'/category/' + ${category}}"><span class="dropdown-link"
-                                th:text="${category}"></span></a>
-                    </div>
-                </div>
-            </div>
-            <a href="/search">Search</a>
-            <a href="/orders">Orders</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <article class="article-order">
-                <h2 class="h2-top">Orders</h2>
-                <div th:if="${#lists.isEmpty(orders)}">
-                    <p>No orders found</p>
-                </div>
-                <div class="grid-order">
-                <div th:each="order : ${orders}">
-                    <span th:text="${order.getName()}"></span>
-                    <form action="/order" method="post">
-                        <input type="hidden" name="id" th:value="${order.getId()}">
-                        <button class="btn" type="submit"><p>View</p></button>
-                    </form>
-                </div>
-                </div>
-            </article>
-            <article>
-                <img class="img-orders" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
+<header>
+<h1>
+<a href="/home">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a href="/home">Home</a>
+<a href="/browse">Browse fabrics</a>
+<a href="/orders" aria-current="page">Orders</a>
+<a href="/profile" th:text="${login}">My account</a>
+<a href="/cart">Bag</a>
+<a href="/logout">Log out</a>
+</nav>
+</header>
+<main>
+<section class="orders-page">
+<div class="orders-heading">
+<div>
+<span class="eyebrow">Your creative journey</span>
+<h2>Little beginnings.<br>Lovely things to come.</h2>
+<p>All your orders, gathered in one place.</p>
+</div>
+<a class="button secondary" href="/browse">Explore the fabrics &#8599;</a>
+</div>
+<div class="empty-state" th:if="${#lists.isEmpty(orders)}">
+<span class="eyebrow">A fresh start</span>
+<h3>Your next project starts here.</h3>
+<p>You have not placed an order yet. Find a texture that speaks to you.</p>
+<a class="button" href="/browse">Find your fabric &#8599;</a>
+</div>
+<div class="order-card-list">
+<article class="order-card" th:each="order : ${orders}">
+<div class="order-card-top">
+<div>
+<span class="eyebrow">Your fabric selection</span>
+<h3 th:text="${'Order #' + order.id}">Order #42</h3>
+</div>
+<span class="status-pill status-cancelled" th:if="${order.canceled}">Cancelled</span>
+<span class="status-pill status-sent" th:if="${not order.canceled and order.processed}">Dispatched</span>
+<span class="status-pill" th:if="${not order.canceled and not order.processed and order.confirmed}">Confirmed</span>
+<span class="status-pill status-pending" th:if="${not order.canceled and not order.processed and not order.confirmed}">Received</span>
+</div>
+<div class="order-card-items">
+<p th:each="item : ${order.items}">
+<span th:text="${item.product}">White linen</span>
+<span class="order-quantity" th:text="${'Qty ' + item.count}">Qty 2</span>
+</p>
+<p th:if="${#lists.isEmpty(order.items)}">No items in this order.</p>
+</div>
+<div class="order-card-bottom">
+<span th:text="${order.totalPrice}">Total price: 600.0 SEK</span>
+<form action="/order" method="post">
+<input type="hidden" name="id" th:value="${order.id}">
+<button class="button secondary" type="submit" th:aria-label="${'View order ' + order.id}">View order &#8599;</button>
+</form>
+</div>
+</article>
+</div>
+<div class="orders-note">
+<span class="eyebrow">Made for your ideas</span>
+<p>A little texture today. Something beautiful tomorrow.</p>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store</p>
+</footer>
 </body>
-
 </html>

@@ -1,67 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fabric Store</title>
-    <link rel="stylesheet" href="/css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit email &middot; Fabric Store Admin</title>
+<link rel="stylesheet" href="/css/style.css?v=10">
 </head>
-
 <body>
-    <header>
-        <h1>Fabric Store Admin</h1>
-        <nav>
-            <a href="/admin-profile" th:text="${login}"></a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Categories</a>
-                <div class="dropdown-content">
-                    <a href="/admin-add">Add Products</a>
-                    <a href="/admin-view">View Products</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Orders</a>
-                <div class="dropdown-content">
-                    <a href="/admin-pending">Confirm Orders</a>
-                    <a href="/admin-process">Process Orders</a>
-                    <a href="/admin-dispatch">Completed Orders</a>
-                    <a href="/admin-cancel">Canceled Orders</a>
-                </div>
-            </div>
-            <a href="/logout-admin">Logout</a></br>
-        </nav>
-        <p th:text="${message}"></p>
-    </header>
-    <main>
-        <section>
-            <article class="article-profile">
-                <h2 class="h2-top">Update E-mail</h2>
-                <p>[(${email})]</p>
-                <form th:action="@{/admin-edit-email}" method="post" th:object="${employee}">
-                    <input class="hidden" type="name" th:value="${login}" th:name="name">
-                    <input class="input" type="email" th:field="*{email}" placeholder="Enter new e-mail"></br>
-                    <input class="hidden" type="password" th:value="abcdefgh" th:name="password">
-                    <input class="input" type="password" th:name="oldPassword" placeholder="Enter your password"></br>
-                    <button class="btn" type="submit">
-                        <p>Submit</p>
-                    </button>
-                </form>
-                <p th:text="${edit}"></p>
-                <form action="/admin-edit-profile">
-                    <button class="btn" type="submit">
-                        <p>Back</p>
-                    </button>
-                </form>
-            </article>
-            <article>
-                <img class="img-login" src="/images/stacked_fabrics.jpg">
-            </article>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Lily Sainte-Claire</p>
-    </footer>
-</body>
+<header class="admin-header"><h1><a href="/admin-view">Fabric Store</a> <span class="admin-badge">Admin</span></h1><nav aria-label="Admin navigation"><a href="/admin-view">Products</a><a href="/admin-add">Add fabric</a><a href="/admin-pending">Orders</a><a href="/admin-profile" th:text="${login}">My account</a><a href="/logout-admin">Log out</a></nav></header>
+<main>
+<section class="settings-page">
+<a class="text-link" href="/admin-profile" aria-current="page">&#8592; Back to your profile</a>
+<div class="settings-layout">
+<aside class="settings-sidebar">
+<span class="eyebrow">Your admin account</span>
+<h2>The little <br>details.</h2>
+<p>A few things that make your account yours.</p>
+<nav class="settings-tabs" aria-label="Account settings">
+<a href="/admin-edit-name">Name</a>
+<a href="/admin-edit-email" aria-current="page">Email address</a>
+<a href="/admin-edit-password">Password</a>
+</nav>
+<img src="/images/stacked_fabrics.jpg" alt="Soft fabrics in warm, natural colours">
+</aside>
+<div class="settings-card">
+<span class="eyebrow">Keep in touch</span>
+<h3>A new way to reach you.</h3>
+<p class="settings-intro">Update the email address you use to log in.</p>
+<div class="settings-current">
+<span>Your current email</span>
+<strong th:text="${email}">
+</strong>
+</div>
+<p class="notice settings-feedback" role="status" aria-live="polite" th:if="${not #strings.isEmpty(edit)}" th:text="${edit}">
+</p>
+<form th:action="@{/admin-edit-email}" method="post" th:object="${employee}" class="settings-form">
+<input type="hidden" name="name" th:value="${login}">
+<input type="hidden" name="password" value="abcdefgh">
+<div class="settings-field">
+<label for="email">New email address</label>
+<input id="email" type="email" th:field="*{email}" placeholder="you@example.com" autocomplete="email" required aria-describedby="field-hint">
+<small id="field-hint">Use an email address you can access.</small>
+</div>
 
+<div class="settings-field settings-verification">
+<label for="current-password">Current password</label>
+<input id="current-password" type="password" name="oldPassword" autocomplete="current-password" required placeholder="Enter your current password" aria-describedby="verification-hint">
+<small id="verification-hint">Enter your current password to confirm this change.</small>
+</div>
+<div class="settings-actions">
+<button class="btn" type="submit">Save email address &#8599;</button>
+<a class="text-link" href="/admin-profile">Cancel</a>
+</div>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle &middot; Fabric Store</p>
+</footer>
+</body>
 </html>

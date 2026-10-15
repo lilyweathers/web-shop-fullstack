@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse fabrics &middot; Fabric Store</title>
+<link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+<header>
+<h1>
+<a th:href="${authenticated} ? '/home' : '/'" href="/">Fabric Store</a>
+</h1>
+<nav aria-label="Main navigation">
+<a th:href="${authenticated} ? '/home' : '/'" href="/">Home</a>
+<a href="/browse" aria-current="page">Browse fabrics</a>
+<a th:if="${authenticated}" href="/orders">Orders</a>
+<a th:if="${authenticated}" href="/profile" th:text="${login}">My account</a>
+<a th:if="${authenticated}" href="/cart">Bag</a>
+<a th:if="${authenticated}" href="/logout">Log out</a>
+<a th:unless="${authenticated}" href="/login">Log in</a>
+<a th:unless="${authenticated}" class="button secondary" href="/register-user">Create account</a>
+</nav>
+</header>
+<main>
+<section>
+<div class="catalog-intro browse-intro">
+<span class="eyebrow">Colour, texture, possibility</span>
+<h2>Find your next beginning.</h2>
+<p>Your favourite fabrics, all in one place. Follow a feeling, or find exactly what you have in mind.</p>
+</div>
+<form class="browse-toolbar" action="/browse" method="get" role="search">
+<div class="browse-search">
+<label for="fabric-query">Find a fabric</label>
+<input id="fabric-query" type="search" name="q" th:value="${q}" placeholder="Try linen, blue, or a soft texture...">
+</div>
+<div>
+<label for="fabric-category">Material</label>
+<select id="fabric-category" name="category">
+<option value="">All materials</option>
+<option th:each="entry : ${categories}" th:value="${entry}" th:text="${entry}" th:selected="${entry == category}">
+</option>
+</select>
+</div>
+<div>
+<label for="fabric-sort">Sort by</label>
+<select id="fabric-sort" name="sort">
+<option value="name" th:selected="${sort == 'name'}">Name A to Z</option>
+<option value="price-asc" th:selected="${sort == 'price-asc'}">Price: low to high</option>
+<option value="price-desc" th:selected="${sort == 'price-desc'}">Price: high to low</option>
+</select>
+</div>
+<button class="btn" type="submit">Find fabrics &#8599;</button>
+</form>
+<div class="browse-results-bar">
+<p role="status" th:text="${#lists.size(products) + (#lists.size(products) == 1 ? ' fabric found' : ' fabrics found')}">
+</p>
+<a class="text-link" href="/browse" th:if="${not #strings.isEmpty(q) or not #strings.isEmpty(category) or sort != 'name'}">Clear filters</a>
+</div>
+<div class="category-chips browse-chips" aria-label="Browse by material">
+<a th:href="@{/browse(q=${q},sort=${sort})}" th:classappend="${#strings.isEmpty(category)} ? 'selected'" th:aria-current="${#strings.isEmpty(category)} ? 'page' : null">All fabrics</a>
+<a th:each="entry : ${categories}" th:href="@{/browse(q=${q},category=${entry},sort=${sort})}" th:text="${entry}" th:classappend="${entry == category} ? 'selected'" th:aria-current="${entry == category} ? 'page' : null">
+</a>
+</div>
+<p class="notice" role="status" th:if="${message}" th:text="${message}">
+</p>
+<div class="empty-state" th:if="${#lists.isEmpty(products)}">
+<h3>No matches, but plenty of possibilities.</h3>
+<p>Try another search or clear your filters to see the full collection.</p>
+<a class="button secondary" href="/browse">Browse all fabrics</a>
+</div>
+<div class="grid-product">
+<div class="grid-product-item" th:each="item : ${products}">
+<form action="/product" method="post">
+<input type="hidden" name="id" th:value="${item.id}">
+<button class="btn-image" type="submit" th:aria-label="${'View ' + item.name}">
+<img class="product-image-small" th:src="${item.img}" th:alt="${item.name}" loading="lazy">
+</button>
+</form>
+<span th:text="${item.name}">
+</span>
+<br>
+<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">
+</span> <span>SEK/m&sup2;</span>
+<form class="form-product" action="/browse/add" method="post">
+<label>Qty <input class="quantity" type="number" name="count" min="1" value="1" required>
+</label>
+<input type="hidden" name="category" th:value="${category}">
+<input type="hidden" name="q" th:value="${q}">
+<input type="hidden" name="sort" th:value="${sort}">
+<input type="hidden" name="id" th:value="${item.id}">
+<button class="btn" type="submit">Add to bag</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<p>&copy; 2026 Lily Clairevelle · Fabric Store</p>
+</footer>
+</body>
+</html>
